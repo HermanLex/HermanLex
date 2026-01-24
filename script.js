@@ -336,7 +336,7 @@ function initProjectsToggle() {
             }
         } else {
             grid.classList.add('expanded');
-            toggle.textContent = '- hide projects';
+            toggle.textContent = '+ hide projects';
         }
     });
 }

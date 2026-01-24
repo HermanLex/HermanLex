@@ -141,7 +141,7 @@ ul {
 
 .header-inner {
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
     width: 100%;
     max-width: 1200px;
@@ -324,7 +324,7 @@ ul {
    ======================================== */
 
 .tagline {
-    padding: calc(var(--space-xl) + var(--space-lg) - 40px) var(--space-md) var(--space-sm);
+    padding: calc(var(--space-xl) + var(--space-lg) - 40px) var(--space-md) 0;
     text-align: left;
     background-color: transparent;
     position: relative;
@@ -348,6 +348,7 @@ ul {
     font-size: clamp(1rem, 2.5vw, 1.25rem);
     color: var(--color-text-muted);
     margin: 0;
+    padding-bottom: 24px;
     opacity: 0;
     animation: fadeInUp 0.8s 0.4s forwards;
     width: fit-content;
@@ -458,7 +459,7 @@ h1.section-title,
 }
 
 .projects-toggle-wrapper {
-    text-align: left;
+    text-align: center;
     margin-top: var(--space-md);
 }
 
@@ -603,7 +604,7 @@ h1.section-title,
    ======================================== */
 
 .clients {
-    padding: var(--space-sm) var(--space-md) 0;
+    padding: 0 var(--space-md) 0;
     overflow: hidden;
 }
 
@@ -676,19 +677,19 @@ h1.section-title,
     border-radius: 0;
     border: none;
     flex-shrink: 0;
-    flex-basis: 200px;
-    width: 200px;
-    height: 150px;
+    flex-basis: 160px;
+    width: 160px;
+    height: 68px;
     transition: transform var(--transition-fast), box-shadow var(--transition-fast);
     position: relative;
 }
 
 .client-logo a {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: center;
     width: 100%;
-    height: 100%;
+    height: 60px;
     text-decoration: none;
     color: inherit;
     opacity: 1;
@@ -701,9 +702,9 @@ h1.section-title,
 .client-logo::before {
     content: attr(data-company);
     position: absolute;
-    bottom: 102px;
+    top: 0;
     left: 50%;
-    transform: translateX(-50%) translateY(4px);
+    transform: translateX(-50%);
     background-color: #1a1a1a;
     color: #faf9f7;
     padding: 8px 14px;
@@ -723,7 +724,7 @@ h1.section-title,
 .client-logo::after {
     content: '';
     position: absolute;
-    bottom: 96px;
+    top: 0;
     left: 50%;
     transform: translateX(-50%);
     border: 6px solid transparent;
@@ -1053,6 +1054,7 @@ h1.section-title,
 
 
 
+
 /* ========================================
    About Page
    ======================================== */
@@ -1243,8 +1245,8 @@ h1.section-title,
 
 @media (max-width: 1024px) {
     .client-logo {
-        width: 180px;
-        height: 135px;
+        width: 140px;
+        height: 68px;
     }
 }
 
@@ -1304,8 +1306,8 @@ h1.section-title,
     }
     
     .client-logo {
-        width: 150px;
-        height: 112px;
+        width: 120px;
+        height: 68px;
         padding: 0 var(--space-sm);
     }
     
@@ -1468,7 +1470,7 @@ h1.section-title,
     
     .client-logo {
         width: 120px;
-        height: 90px;
+        height: 68px;
         padding: 0 var(--space-xs);
     }
     
