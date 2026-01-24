@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initSmoothScroll();
     initVideoModal();
     initLogoModal();
+    initProjectsToggle();
 });
 
 /**
@@ -303,6 +304,39 @@ function initLogoModal() {
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && modal.classList.contains('active')) {
             closeModal();
+        }
+    });
+}
+
+/**
+ * Projects Toggle (Show/Hide More Projects)
+ */
+function initProjectsToggle() {
+    const toggle = document.getElementById('projectsToggle');
+    const grid = document.querySelector('.projects-grid');
+    
+    if (!toggle || !grid) return;
+    
+    toggle.addEventListener('click', () => {
+        const isExpanded = grid.classList.contains('expanded');
+        
+        if (isExpanded) {
+            grid.classList.remove('expanded');
+            toggle.textContent = '+ view more projects';
+            
+            // Scroll to projects section when collapsing
+            const projectsSection = document.getElementById('projects');
+            if (projectsSection) {
+                const headerHeight = document.querySelector('.header')?.offsetHeight || 0;
+                const targetPosition = projectsSection.getBoundingClientRect().top + window.pageYOffset - headerHeight - 20;
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        } else {
+            grid.classList.add('expanded');
+            toggle.textContent = '- hide projects';
         }
     });
 }
