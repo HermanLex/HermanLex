@@ -141,7 +141,7 @@ ul {
 
 .header-inner {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
     width: 100%;
     max-width: 1200px;
