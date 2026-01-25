@@ -1838,6 +1838,37 @@ h1.section-title,
     opacity: 0.7;
 }
 
+.project-link-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text);
+    background-color: transparent;
+    padding: calc(0.5rem + 4px) 1.25rem;
+    border: 1px solid var(--color-text);
+    border-radius: 50px;
+    text-decoration: none;
+    transition: all var(--transition-fast);
+    font-family: var(--font-primary);
+}
+
+.project-link-ghost:hover {
+    background-color: var(--color-text);
+    color: white;
+    opacity: 1;
+}
+
+.project-link-ghost .arrow {
+    display: inline-block;
+    transition: transform var(--transition-fast);
+}
+
+.project-link-ghost:hover .arrow {
+    transform: translateX(4px);
+}
+
 /* Logo Modal Styles */
 .logo-modal {
     position: fixed;
