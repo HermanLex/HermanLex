@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Process | Alex Wyrick</title>
+    <title>Vision | Alex Wyrick</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,9 +25,9 @@
                 </button>
                 <ul class="nav-list">
                     <li><a href="index.html" class="nav-link">work</a></li>
-                    <li><a href="process.html" class="nav-link current">process</a></li>
+                    <li><a href="process.html" class="nav-link">process</a></li>
                     <li><a href="mission.html" class="nav-link">mission</a></li>
-                    <li><a href="vision.html" class="nav-link">vision test</a></li>
+                    <li><a href="vision.html" class="nav-link current">vision test</a></li>
                     <li><a href="about.html" class="nav-link">about</a></li>
                 </ul>
             </nav>
@@ -38,21 +38,28 @@
         <!-- Tagline Section -->
         <section class="tagline">
             <div class="container">
-                <h1 class="tagline-title">Process</h1>
-                <p class="tagline-subtitle">I enjoy fast-paced environments where I can take on major responsibility and wear many hats. My end-to-end process can include research, exploration, testing, and even some development.</p>
-            </div>
-        </section>
-        
-        <section class="mission-page">
-            <div class="container">
-                <div class="mission-content">
-                    <div class="mission-image-wrapper">
-                        <img src="images/process-infographic.png" alt="Design process infographic" class="mission-image">
+                <h1 class="tagline-title">Visualize your mission</h1>
+                <p class="tagline-subtitle">Enter your team's mission statement and generate an image to help tell the story of your value.</p>
+                
+                <form id="vision-form" class="vision-form">
+                    <div class="vision-input-wrapper">
+                        <label for="mission-input" class="vision-input-label">Enter your mission</label>
+                        <textarea id="mission-input" class="vision-input" rows="2" placeholder="Example mission: to help people take care of their pets even when they need care themselves"></textarea>
+                        <button type="submit" class="vision-submit-btn" id="visionSubmitBtn" disabled>generate vison</button>
                     </div>
-                    
-                    <p class="mission-body">
-                        What's most unique about my process is the extra emphasis on user empathy.<br><br>Different projects may require different steps. This diagram is more like a menu to consider during different phases of your own product design.
-                    </p>
+                </form>
+                
+                <div id="vision-loading" class="vision-loading" style="display: none;">
+                    <p>Generating your vision...</p>
+                </div>
+                
+                <div id="vision-generated-wrapper" class="vision-generated-wrapper">
+                    <label class="vision-image-label" id="vision-image-label">Example image</label>
+                    <img id="vision-generated-image" src="images/chatGPT-mission-example.png" alt="Example vision" class="vision-generated-image">
+                </div>
+                
+                <div class="vision-description">
+                    <p>This vision page was a fun afternoon test project I created to demonstrate AI-integrated development. The theme reflects my appreciation for using visual storytelling as a powerful tool for aligning minds.</p>
                 </div>
             </div>
         </section>

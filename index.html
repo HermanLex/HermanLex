@@ -27,6 +27,7 @@
                     <li><a href="index.html" class="nav-link current">work</a></li>
                     <li><a href="process.html" class="nav-link">process</a></li>
                     <li><a href="mission.html" class="nav-link">mission</a></li>
+                    <li><a href="vision.html" class="nav-link">vision test</a></li>
                     <li><a href="about.html" class="nav-link">about</a></li>
                 </ul>
             </nav>
@@ -146,7 +147,10 @@
                         <div class="project-content">
                             <h3 class="project-title">Mastercard offers platform</h3>
                             <p class="project-description">Led end-to-end UX design for an enterprise offers platform, driving merchant onboarding flows that connect 1,000+ businesses to 350M+ cardholders worldwide.</p>
-                            <button class="project-link video-trigger" data-video="video/mcm.mp4">view project</button>
+                            <div class="project-buttons">
+                                <button class="project-link password-trigger" data-password="letmein" data-url="consumer-portal.html" data-newtab="true">view projects</button>
+                                <a href="https://www.mastercard.com" target="_blank" rel="noopener noreferrer" class="project-link-website">visit website</a>
+                            </div>
                         </div>
                     </article>
 
@@ -157,7 +161,10 @@
                         <div class="project-content">
                             <h3 class="project-title">Hitachi data catalog</h3>
                             <p class="project-description">Owned the UX strategy and design system for an AI-powered data management platform, simplifying complex workflows for Fortune 100 enterprise clients.</p>
-                            <button class="project-link video-trigger" data-video="video/hv-data.mp4">view project</button>
+                            <div class="project-buttons">
+                                <button class="project-link password-trigger" data-password="mastercard2024" data-url="consumer-portal.html">view projects</button>
+                                <a href="https://www.hitachivantara.com" target="_blank" rel="noopener noreferrer" class="project-link-website">visit website</a>
+                            </div>
                         </div>
                     </article>
 
@@ -168,7 +175,7 @@
                         <div class="project-content">
                             <h3 class="project-title">Accessibility champions</h3>
                             <p class="project-description">Founded and scaled an enterprise-wide accessibility program, establishing WCAG standards and training designers across global product teams.</p>
-                            <a href="#" class="project-link">view project</a>
+                            <button class="project-link password-trigger" data-password="letmein" data-url="https://alexwyrick.com/accessibility.html" data-external="true">view projects</button>
                         </div>
                     </article>
 
@@ -351,6 +358,26 @@
                     <source id="videoSource" src="" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
+            </div>
+        </div>
+    </div>
+
+    <!-- Password Modal -->
+    <div class="password-modal" id="passwordModal">
+        <div class="password-modal-overlay"></div>
+        <div class="password-modal-content">
+            <button class="password-modal-close" aria-label="Close password modal">&times;</button>
+            <div class="password-modal-body">
+                <h2 class="password-modal-title">Password Required</h2>
+                <p class="password-modal-description">Please enter the password to view projects.</p>
+                <form class="password-form" id="passwordForm">
+                    <div class="form-group">
+                        <label for="password-input">Password:</label>
+                        <input type="password" id="password-input" name="password" required autocomplete="off">
+                    </div>
+                    <button type="submit" class="submit-btn">Submit</button>
+                    <p class="password-error" id="passwordError" style="display: none; color: #d32f2f; margin-top: var(--space-sm); font-size: 0.875rem;">Incorrect password. Please try again.</p>
+                </form>
             </div>
         </div>
     </div>

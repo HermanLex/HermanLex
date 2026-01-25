@@ -12,6 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initVideoModal();
     initLogoModal();
     initProjectsToggle();
+    initVisionInput();
+    initPasswordModal();
 });
 
 /**
@@ -369,3 +371,255 @@ document.querySelector('.contact-form')?.addEventListener('submit', function(e) 
     }, 1500);
 });
 
+/**
+ * Vision Input Validation and Image Generation
+ */
+function initVisionInput() {
+    const missionInput = document.getElementById('mission-input');
+    const submitBtn = document.getElementById('visionSubmitBtn');
+    const visionForm = document.getElementById('vision-form');
+    const loadingDiv = document.getElementById('vision-loading');
+    const generatedWrapper = document.getElementById('vision-generated-wrapper');
+    const generatedImage = document.getElementById('vision-generated-image');
+    
+    if (!missionInput || !submitBtn || !visionForm) return;
+    
+    function checkWordCount() {
+        const text = missionInput.value.trim();
+        const words = text.split(/\s+/).filter(word => word.length > 0);
+        const wordCount = words.length;
+        
+        if (wordCount >= 8) {
+            submitBtn.disabled = false;
+        } else {
+            submitBtn.disabled = true;
+        }
+    }
+    
+    // Check on input
+    missionInput.addEventListener('input', checkWordCount);
+    
+    // Initial check
+    checkWordCount();
+    
+    // Form submission handler
+    visionForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const missionText = missionInput.value.trim();
+        if (missionText.split(/\s+/).filter(word => word.length > 0).length < 8) {
+            return;
+        }
+        
+        // Show loading state
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Generating...';
+        loadingDiv.style.display = 'block';
+        generatedWrapper.style.display = 'block';
+        
+        const imageLabel = document.getElementById('vision-image-label');
+        
+        try {
+            // Construct the prompt
+            const prompt = `1. generate an image (without text in the image) that reflects the mission statement: "${missionText}". 
+2. image needs aspect ratio of 16:9
+3. use contemporary flat illustration with soft gradients aesthetic style`;
+            
+            // Call OpenAI DALL-E API
+            const imageUrl = await generateImage(prompt);
+            
+            // Display the generated image and update label
+            generatedImage.src = imageUrl;
+            generatedImage.alt = 'Generated vision';
+            if (imageLabel) {
+                imageLabel.textContent = 'Generated image';
+            }
+            
+            // Scroll to the generated image
+            generatedWrapper.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            
+        } catch (error) {
+            console.error('Error generating image:', error);
+            console.error('Error details:', {
+                message: error.message,
+                name: error.name,
+                stack: error.stack
+            });
+            
+            // Show detailed error message
+            let errorMessage = 'Failed to generate image. ';
+            if (error.message) {
+                errorMessage += error.message;
+            } else {
+                errorMessage += 'Please check the console for details and try again.';
+            }
+            alert(errorMessage);
+        } finally {
+            // Reset button state
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'generate vison';
+            loadingDiv.style.display = 'none';
+            checkWordCount(); // Re-check word count to maintain disabled state if needed
+        }
+    });
+}
+
+/**
+ * Generate image using OpenAI DALL-E API
+ * Note: In production, this should be done through a backend proxy to keep API keys secure
+ */
+async function generateImage(prompt) {
+    // IMPORTANT: Replace with your OpenAI API key or use a backend proxy
+    // For security, API keys should never be exposed in client-side code
+    // This is a placeholder - you should set up a backend endpoint
+    const API_KEY = 'YOUR_OPENAI_API_KEY_HERE'; // Replace with your OpenAI API key
+    
+    console.log('Generating image with prompt:', prompt);
+    console.log('API Key present:', API_KEY ? 'Yes (length: ' + API_KEY.length + ')' : 'No');
+    
+    try {
+        const response = await fetch('https://api.openai.com/v1/images/generations', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${API_KEY}`
+            },
+            body: JSON.stringify({
+                model: 'dall-e-3',
+                prompt: prompt,
+                n: 1,
+                size: '1792x1024',
+                quality: 'standard'
+            })
+        });
+        
+        console.log('Response status:', response.status, response.statusText);
+        
+        const responseText = await response.text();
+        console.log('Response body:', responseText);
+        
+        if (!response.ok) {
+            let errorData;
+            try {
+                errorData = JSON.parse(responseText);
+            } catch (e) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}. Response: ${responseText.substring(0, 200)}`);
+            }
+            
+            const errorMessage = errorData.error?.message || errorData.error?.code || 'Unknown error';
+            const errorType = errorData.error?.type || 'API Error';
+            const errorCode = errorData.error?.code || 'NO_CODE';
+            const fullError = `${errorType} (${errorCode}): ${errorMessage}`;
+            
+            console.error('API Error Details:', {
+                status: response.status,
+                statusText: response.statusText,
+                error: errorData.error,
+                fullResponse: errorData
+            });
+            
+            throw new Error(fullError);
+        }
+        
+        const data = JSON.parse(responseText);
+        console.log('Success! Image URL:', data.data?.[0]?.url);
+        
+        if (!data.data || !data.data[0] || !data.data[0].url) {
+            console.error('Invalid response structure:', data);
+            throw new Error('Invalid response format: Missing image URL in response');
+        }
+        
+        return data.data[0].url;
+        
+    } catch (error) {
+        // Re-throw with more context if it's a network error
+        if (error.name === 'TypeError' && error.message.includes('fetch')) {
+            throw new Error(`Network error: Unable to connect to OpenAI API. Check your internet connection. Original error: ${error.message}`);
+        }
+        // Re-throw other errors as-is (they already have descriptive messages)
+        throw error;
+    }
+}
+
+/**
+ * Password Modal Handler
+ */
+function initPasswordModal() {
+    const modal = document.getElementById('passwordModal');
+    const triggers = document.querySelectorAll('.password-trigger');
+    const closeBtn = document.querySelector('.password-modal-close');
+    const overlay = document.querySelector('.password-modal-overlay');
+    const form = document.getElementById('passwordForm');
+    const passwordInput = document.getElementById('password-input');
+    const errorMessage = document.getElementById('passwordError');
+    
+    if (!modal || triggers.length === 0) return;
+    
+    let currentTrigger = null;
+    
+    function openModal(trigger) {
+        currentTrigger = trigger;
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        passwordInput.focus();
+    }
+    
+    function closeModal() {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+        form.reset();
+        errorMessage.style.display = 'none';
+        currentTrigger = null;
+    }
+    
+    // Trigger clicks
+    triggers.forEach(trigger => {
+        trigger.addEventListener('click', (e) => {
+            e.preventDefault();
+            openModal(trigger);
+        });
+    });
+    
+    // Close button
+    closeBtn?.addEventListener('click', closeModal);
+    
+    // Click overlay to close
+    overlay?.addEventListener('click', closeModal);
+    
+    // Escape key to close
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            closeModal();
+        }
+    });
+    
+    // Form submission
+    form?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const enteredPassword = passwordInput.value.trim();
+        
+        if (!currentTrigger) return;
+        
+        const requiredPassword = currentTrigger.dataset.password || 'mastercard2024';
+        const targetUrl = currentTrigger.dataset.url || 'consumer-portal.html';
+        
+        if (enteredPassword === requiredPassword) {
+            // Check if it should open in new tab (external URL or data-newtab="true")
+            const openInNewTab = targetUrl.startsWith('http') || currentTrigger.dataset.newtab === 'true';
+            
+            if (openInNewTab) {
+                // Open in new tab
+                window.open(targetUrl, '_blank', 'noopener,noreferrer');
+            } else {
+                // Redirect to internal page
+                window.location.href = targetUrl;
+            }
+            closeModal();
+        } else {
+            // Show error message
+            errorMessage.style.display = 'block';
+            passwordInput.value = '';
+            passwordInput.focus();
+        }
+    });
+}
