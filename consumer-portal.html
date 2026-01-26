@@ -8,37 +8,44 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #fff;
+        }
+        .back-arrow::after {
+            display: none;
+        }
+        .back-nav-link {
+            padding: 24px;
+            border-radius: 24px;
+            background-color: rgba(255, 255, 255, 0.93);
+        }
+        .presentation-images img {
+            width: 80%;
+            max-width: 800px;
+        }
+        @media (max-width: 800px) {
+            .presentation-images img {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
     <a href="#main" class="skip-link">skip to main content</a>
     
-    <header class="header">
-        <div class="header-inner">
-            <a href="index.html" class="logo" aria-label="Alex Wyrick Home">
-                <img src="images/aw-dark.svg" alt="AW" class="logo-svg">
-            </a>
-            
-            <nav class="nav" role="navigation">
-                <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
-                    <span class="nav-toggle-line"></span>
-                    <span class="nav-toggle-line"></span>
-                </button>
-                <ul class="nav-list">
-                    <li><a href="index.html" class="nav-link">work</a></li>
-                    <li><a href="process.html" class="nav-link">process</a></li>
-                    <li><a href="mission.html" class="nav-link">mission</a></li>
-                    <li><a href="vision.html" class="nav-link">vision test</a></li>
-                    <li><a href="about.html" class="nav-link">about</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+    <nav class="back-nav">
+        <a href="mc-offers.html" class="back-nav-link">
+            <span class="back-arrow">←</span>
+            <span class="back-text">back to all projects</span>
+        </a>
+    </nav>
 
     <main id="main">
         <!-- Tagline Section -->
         <section class="tagline">
             <div class="container">
-                <h1 class="tagline-title">Mastercard offers platform</h1>
+                <h1 class="tagline-title">Consumer portal</h1>
                 <p class="tagline-subtitle">In 2022 I was tapped by a fortune 100 fintech client to design a white label offers platform. Intended for the Chinese market (where 99% of traffic is on smart-phones) this project required a mobile first design and support for 3 languages. Below are select slides I presented to the engineering team to kick-off development.</p>
             </div>
         </section>
@@ -46,52 +53,13 @@
         <!-- Content Section -->
         <section class="projects">
             <div class="container">
-                <h2 class="section-title">select projects</h2>
-                
-                <div class="projects-grid">
-                    <article class="project-card">
-                        <div class="project-image">
-                            <img src="images/images-mc/mc-portal2-favorites.gif" alt="Design Demo - Consumer Portal" class="project-photo">
-                        </div>
-                        <div class="project-content">
-                            <h3 class="project-title">Consumer Portal</h3>
-                            <p class="project-description">A white-labeled partner rewards platform.</p>
-                            <a href="https://alexwyrick.com/branded-offers.html" target="_blank" rel="noopener noreferrer" class="project-link-ghost">see project <span class="arrow">→</span></a>
-                        </div>
-                    </article>
-
-                    <article class="project-card">
-                        <div class="project-image">
-                            <img src="images/images-mc/mcm-card.png" alt="Client reporting" class="project-photo">
-                        </div>
-                        <div class="project-content">
-                            <h3 class="project-title">Client reporting</h3>
-                            <p class="project-description">A self-service tool for campaign tracking</p>
-                            <a href="#" class="project-link-ghost">see project <span class="arrow">→</span></a>
-                        </div>
-                    </article>
-
-                    <article class="project-card">
-                        <div class="project-image">
-                            <img src="images/images-mc/mc-table-card.png" alt="Table component" class="project-photo">
-                        </div>
-                        <div class="project-content">
-                            <h3 class="project-title">Table component</h3>
-                            <p class="project-description">An advanced and re-usable table component</p>
-                            <a href="#" class="project-link-ghost">see project <span class="arrow">→</span></a>
-                        </div>
-                    </article>
-
-                    <article class="project-card">
-                        <div class="project-image">
-                            <img src="images/images-mc/4-brands.gif" alt="Brands View" class="project-photo">
-                        </div>
-                        <div class="project-content">
-                            <h3 class="project-title">Brands View</h3>
-                            <p class="project-description">Browse and explore partner brands.</p>
-                            <a href="#" class="project-link-ghost">see project <span class="arrow">→</span></a>
-                        </div>
-                    </article>
+                <h2 class="section-title">UX Research & Design Presentation</h2>
+                <img src="images/mc-portal1-cover.png" alt="Consumer Portal Cover" class="presentation-image-full">
+                <div class="presentation-images">
+                    <img src="images/mc-portal2-context.png" alt="Project Context">
+                    <img src="images/mc-portal3-favorites.gif" alt="Favorites Feature">
+                    <img src="images/mc-portal4-activation.png" alt="Auto Activation">
+                    <img src="images/mc-portal5-brands.gif" alt="Brands View">
                 </div>
             </div>
         </section>

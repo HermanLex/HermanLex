@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initProjectsToggle();
     initVisionInput();
     initPasswordModal();
+    initClickableCards();
 });
 
 /**
@@ -542,6 +543,48 @@ async function generateImage(prompt) {
 }
 
 /**
+ * Make Project Cards Clickable
+ */
+function initClickableCards() {
+    const projectCards = document.querySelectorAll('.project-card');
+    
+    projectCards.forEach(card => {
+        // Find the "view project" button/link within the card (exclude "visit website" links)
+        const viewProjectBtn = card.querySelector('.password-trigger, .video-trigger, .project-link:not(.project-link-website)');
+        
+        if (!viewProjectBtn) return;
+        
+        // Make card clickable
+        card.style.cursor = 'pointer';
+        
+        // Add click handler to card
+        card.addEventListener('click', (e) => {
+            // Don't trigger if clicking on "visit website" link
+            const visitWebsiteLink = card.querySelector('.project-link-website');
+            if (visitWebsiteLink && (visitWebsiteLink.contains(e.target) || e.target === visitWebsiteLink)) {
+                return; // Let the link handle its own click
+            }
+            
+            // Don't trigger if clicking directly on the view project button/link (it will handle itself)
+            if (viewProjectBtn.contains(e.target) || e.target === viewProjectBtn) {
+                return;
+            }
+            
+            // Trigger the view project button/link click
+            viewProjectBtn.click();
+        });
+        
+        // Prevent card click when clicking on "visit website" link
+        const visitWebsiteLink = card.querySelector('.project-link-website');
+        if (visitWebsiteLink) {
+            visitWebsiteLink.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent card click from firing
+            });
+        }
+    });
+}
+
+/**
  * Password Modal Handler
  */
 function initPasswordModal() {
@@ -601,7 +644,7 @@ function initPasswordModal() {
         if (!currentTrigger) return;
         
         const requiredPassword = currentTrigger.dataset.password || 'mastercard2024';
-        const targetUrl = currentTrigger.dataset.url || 'consumer-portal.html';
+        const targetUrl = currentTrigger.dataset.url || 'mc-offers.html';
         
         if (enteredPassword === requiredPassword) {
             // Check if it should open in new tab (external URL or data-newtab="true")
