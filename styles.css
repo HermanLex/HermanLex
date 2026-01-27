@@ -594,7 +594,8 @@ ul {
    ======================================== */
 
 .projects {
-    padding: var(--space-md) var(--space-md) var(--space-xl);
+    padding: var(--space-md) var(--space-md) 40px;
+    padding-bottom: 40px !important;
 }
 
 .projects .section-title {
@@ -1512,7 +1513,8 @@ h1.section-title,
     }
     
     .projects {
-        padding: var(--space-md) var(--space-xs) var(--space-xl);
+        padding: var(--space-md) var(--space-xs) 40px;
+        padding-bottom: 40px !important;
     }
     
     .skills {

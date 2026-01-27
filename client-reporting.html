@@ -20,9 +20,25 @@
             border-radius: 24px;
             background-color: rgba(255, 255, 255, 0.93);
         }
+        .presentation-image-full {
+            margin-bottom: 40px;
+        }
         .presentation-images img {
             width: 80%;
             max-width: 800px;
+            margin-bottom: 40px;
+        }
+        .story {
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            color: var(--color-text-muted);
+            font-weight: 600;
+            margin: 0;
+        }
+        .story-subtitle {
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            color: var(--color-text-muted);
+            font-weight: 400;
+            margin: 0;
         }
         @media (max-width: 800px) {
             .presentation-images img {
@@ -46,21 +62,30 @@
         <section class="tagline">
             <div class="container">
                 <h1 class="tagline-title">Client reporting</h1>
-                <p class="tagline-subtitle">A self-service tool for campaign tracking. This reporting dashboard enables clients to monitor their offer performance, track key metrics, and gain insights into campaign effectiveness. Below are select slides I presented to the engineering team to kick-off development.</p>
+                <p class="tagline-subtitle">A self-service tool for campaign tracking. This reporting dashboard enables clients to monitor their offer performance, track key metrics, and gain insights into campaign effectiveness.</p>
             </div>
         </section>
 
         <!-- Content Section -->
         <section class="projects">
             <div class="container">
-                <h2 class="section-title">UX Research & Design Presentation</h2>
-                <img src="images/mpm1.png" alt="Client Reporting Cover" class="presentation-image-full">
+                <h2 class="section-title">Mastercard performance marketing platform (aka MPM) is the most client-facing piece of the Mastercard offers ecosystem, intended primarily for merchants and internal client sales managers.</h2>
+                <p class="story">The new reporting dashboard provides clients with comprehensive campaign insights and performance tracking.</p>
+                <p class="story-subtitle">This redesign addresses key pain points identified through user interviews and usability testing with existing clients.</p>
+                <img src="images/mpm-hero.png" alt="Client Reporting Cover" class="presentation-image-full">
                 <div class="presentation-images">
-                    <img src="images/mpm2.png" alt="Client Reporting Slide 2">
-                    <img src="images/mpm3.png" alt="Client Reporting Slide 3">
-                    <img src="images/mpm4.png" alt="Client Reporting Slide 4">
-                    <img src="images/mpm5.png" alt="Client Reporting Slide 5">
-                    <img src="images/mpm6.png" alt="Client Reporting Slide 6">
+                    <p class="story">The previous reporting interface lacked clarity and made it difficult for clients to understand their campaign performance.</p>
+                    <p class="story-subtitle">Users struggled with dense data tables and inconsistent visual patterns that obscured important metrics.</p>
+                    <img src="images/reporting-old.png" alt="Client Reporting Slide 2">
+                    <p class="story">The redesigned dashboard offers a cleaner, more intuitive interface with better visual hierarchy and data organization.</p>
+                    <p class="story-subtitle">Key improvements include simplified navigation, clearer data visualization, and more prominent call-to-action buttons.</p>
+                    <img src="images/reporting-new.png" alt="Client Reporting Slide 3">
+                    <p class="story">Advanced filtering capabilities allow clients to quickly drill down into specific campaign metrics and time periods.</p>
+                    <p class="story-subtitle">The filter system supports multiple criteria simultaneously, enabling users to create custom views tailored to their reporting needs.</p>
+                    <img src="images/reporting-new-filter2.png" alt="Client Reporting Slide 4">
+                    <p class="story">Interactive graphs and visualizations help clients understand trends and make data-driven decisions about their campaigns.</p>
+                    <p class="story-subtitle">Real-time data updates and exportable reports ensure clients always have access to the latest performance metrics.</p>
+                    <img src="images/reporting-graphs.png" alt="Client Reporting Slide 5">
                 </div>
             </div>
         </section>

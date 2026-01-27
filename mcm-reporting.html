@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consumer Portal | Alex Wyrick</title>
+    <title>Client Reporting | Alex Wyrick</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,15 +20,24 @@
             border-radius: 24px;
             background-color: rgba(255, 255, 255, 0.93);
         }
+        .presentation-images img {
+            width: 80%;
+            max-width: 800px;
+        }
+        @media (max-width: 800px) {
+            .presentation-images img {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
     <a href="#main" class="skip-link">skip to main content</a>
     
     <nav class="back-nav">
-        <a href="index.html" class="back-nav-link">
+        <a href="mc-offers.html" class="back-nav-link">
             <span class="back-arrow">←</span>
-            <span class="back-text">Back to all work</span>
+            <span class="back-text">back to all projects</span>
         </a>
     </nav>
 
@@ -36,66 +45,18 @@
         <!-- Tagline Section -->
         <section class="tagline">
             <div class="container">
-                <h1 class="tagline-title">Mastercard offers platform</h1>
-                <p class="tagline-subtitle">In 2022 I was tapped by a fortune 100 fintech client to design a white label offers platform. Intended for the Chinese market (where 99% of traffic is on smart-phones) this project required a mobile first design and support for 3 languages. Below are select slides I presented to the engineering team to kick-off development.</p>
+                <h1 class="tagline-title">Client reporting</h1>
+                <p class="tagline-subtitle">A self-service tool for campaign tracking. This reporting dashboard enables clients to monitor their offer performance, track key metrics, and gain insights into campaign effectiveness. Below are select slides I presented to the engineering team to kick-off development.</p>
             </div>
         </section>
 
         <!-- Content Section -->
         <section class="projects">
             <div class="container">
-                <h2 class="section-title">select projects</h2>
-                
-                <div class="projects-grid expanded">
-                    <article class="project-card">
-                        <a href="consumer-portal.html" style="text-decoration: none; color: inherit; display: block;">
-                            <div class="project-image">
-                                <img src="images/mc-portal-card.gif" alt="Design Demo - Consumer Portal" class="project-photo">
-                            </div>
-                            <div class="project-content">
-                                <h3 class="project-title">Consumer Portal</h3>
-                                <p class="project-description">A white-labeled partner rewards platform.</p>
-                                <span class="project-link-ghost">see project <span class="arrow">→</span></span>
-                            </div>
-                        </a>
-                    </article>
-
-                    <article class="project-card">
-                        <a href="client-reporting.html" style="text-decoration: none; color: inherit; display: block;">
-                            <div class="project-image">
-                                <img src="images/mcm-card.png" alt="Client reporting" class="project-photo">
-                            </div>
-                            <div class="project-content">
-                                <h3 class="project-title">Client reporting</h3>
-                                <p class="project-description">A self-service tool for campaign tracking</p>
-                                <span class="project-link-ghost">see project <span class="arrow">→</span></span>
-                            </div>
-                        </a>
-                    </article>
-
-                    <article class="project-card">
-                        <a href="table-component.html" style="text-decoration: none; color: inherit; display: block;">
-                            <div class="project-image">
-                                <img src="images/mc-table-card.png" alt="Table component" class="project-photo">
-                            </div>
-                            <div class="project-content">
-                                <h3 class="project-title">Table component</h3>
-                                <p class="project-description">An advanced and re-usable table component</p>
-                                <span class="project-link-ghost">see project <span class="arrow">→</span></span>
-                            </div>
-                        </a>
-                    </article>
-
-                    <article class="project-card">
-                        <div class="project-image">
-                            <img src="images/card-navigation.png" alt="Navigation Overhaul" class="project-photo">
-                        </div>
-                        <div class="project-content">
-                            <h3 class="project-title">Navigation Overhaul</h3>
-                            <p class="project-description">A redesigned navigation experience.</p>
-                            <a href="EOP-navigation.html" class="project-link-ghost">see project <span class="arrow">→</span></a>
-                        </div>
-                    </article>
+                <h2 class="section-title">UX Research & Design Presentation</h2>
+                <img src="images/mcm-card.png" alt="Client Reporting Cover" class="presentation-image-full">
+                <div class="presentation-images">
+                    <img src="images/mcm-card.png" alt="Client Reporting Overview">
                 </div>
             </div>
         </section>
