@@ -57,13 +57,22 @@
                     <label class="vision-image-label" id="vision-image-label">Example image</label>
                     <img id="vision-generated-image" src="images/chatGPT-mission-example.png" alt="Example vision" class="vision-generated-image">
                 </div>
-                
-                <div class="vision-description">
-                    <p>This vision page was a fun afternoon test project I created to demonstrate AI-integrated development. The theme reflects my appreciation for using visual storytelling as a powerful tool for aligning minds.</p>
-                </div>
             </div>
         </section>
     </main>
+
+    <!-- Toaster Notification -->
+    <div id="vision-toaster" class="vision-toaster" role="alert" aria-live="polite">
+        <div class="vision-toaster-content">
+            <img src="images/sparkling-line.svg" alt="" class="vision-toaster-icon" aria-hidden="true">
+            <p class="vision-toaster-text">This vision tab was a fun vibe-coding project created in under 30 min to demonstrate the kind of AI-integrated development recently unlocked for many designers.<br><br> The theme reflects my appreciation for using visual storytelling as a tool to align minds.</p>
+            <button class="vision-toaster-close" aria-label="Dismiss notification" type="button">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 4L4 12M4 4L12 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+        </div>
+    </div>
 
     <footer class="footer">
         <div class="container">

@@ -13,8 +13,10 @@ document.addEventListener('DOMContentLoaded', () => {
     initLogoModal();
     initProjectsToggle();
     initVisionInput();
+    initVisionToaster();
     initPasswordModal();
     initClickableCards();
+    initDisabledLinks();
 });
 
 /**
@@ -37,7 +39,13 @@ function initMobileNav() {
     
     // Close menu when clicking a link
     navList.querySelectorAll('.nav-link').forEach(link => {
-        link.addEventListener('click', () => {
+        link.addEventListener('click', (e) => {
+            // Prevent navigation if link is disabled
+            if (link.classList.contains('disabled')) {
+                e.preventDefault();
+                return;
+            }
+            
             toggle.setAttribute('aria-expanded', 'false');
             navList.classList.remove('open');
             document.body.style.overflow = '';
@@ -373,6 +381,37 @@ document.querySelector('.contact-form')?.addEventListener('submit', function(e) 
 });
 
 /**
+ * Vision Toaster Notification
+ */
+function initVisionToaster() {
+    const toaster = document.getElementById('vision-toaster');
+    const closeBtn = toaster?.querySelector('.vision-toaster-close');
+    
+    if (!toaster || !closeBtn) return;
+    
+    // Show toaster after a short delay
+    setTimeout(() => {
+        toaster.classList.add('show');
+    }, 500);
+    
+    // Handle close button click
+    closeBtn.addEventListener('click', () => {
+        toaster.classList.remove('show');
+        // Remove from DOM after animation
+        setTimeout(() => {
+            toaster.remove();
+        }, 500);
+    });
+    
+    // Handle escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && toaster.classList.contains('show')) {
+            closeBtn.click();
+        }
+    });
+}
+
+/**
  * Vision Input Validation and Image Generation
  */
 function initVisionInput() {
@@ -581,6 +620,20 @@ function initClickableCards() {
                 e.stopPropagation(); // Prevent card click from firing
             });
         }
+    });
+}
+
+/**
+ * Disabled Links Handler
+ */
+function initDisabledLinks() {
+    // Prevent navigation on disabled links
+    document.querySelectorAll('.nav-link.disabled').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        });
     });
 }
 

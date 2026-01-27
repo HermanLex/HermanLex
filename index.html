@@ -27,7 +27,7 @@
                     <li><a href="index.html" class="nav-link current">work</a></li>
                     <li><a href="process.html" class="nav-link">process</a></li>
                     <li><a href="mission.html" class="nav-link">mission</a></li>
-                    <li><a href="vision.html" class="nav-link">vision test</a></li>
+                    <li><a href="vision.html" class="nav-link disabled" aria-disabled="true">vision test</a></li>
                     <li><a href="about.html" class="nav-link">about</a></li>
                 </ul>
             </nav>
@@ -48,6 +48,11 @@
             <div class="container">
                 <div class="clients-carousel-wrapper">
                     <div class="clients-carousel">
+                        <div class="client-logo" data-company="Metronaut iOS">
+                            <a href="https://metronautapp.com/" target="_blank" rel="noopener noreferrer">
+                                <img src="images/logo-metronaut.png" alt="Metronaut" class="client-image">
+                            </a>
+                        </div>
                         <div class="client-logo" data-company="Waterline Data Catalog">
                             <a href="https://www.waterlinedata.com/" target="_blank" rel="noopener noreferrer">
                                 <img src="images/logo-waterline.png" alt="Waterline" class="client-image">
@@ -83,12 +88,13 @@
                                 <img src="images/logo-hitachi.png" alt="Hitachi Vantara" class="client-image">
                             </a>
                         </div>
-                        <div class="client-logo" data-company="Metronaut iOS">
-                            <a href="https://metronautapp.com/" target="_blank" rel="noopener noreferrer">
-                                <img src="images/logo-metronaut.png" alt="Metronaut" class="client-image">
-                            </a>
-                        </div>
+                        
                         <!-- Duplicate logos for seamless loop -->
+                        <div class="client-logo" data-company="Metronaut iOS">
+                            <a href="https://metronautapp.com/" target="_blank" rel="noopener noreferrer">
+                                <img src="images/logo-metronaut.png" alt="Metronaut" class="client-image">
+                            </a>
+                        </div>
                         <div class="client-logo" data-company="Waterline Data Catalog">
                             <a href="https://www.waterlinedata.com/" target="_blank" rel="noopener noreferrer">
                                 <img src="images/logo-waterline.png" alt="Waterline" class="client-image">
@@ -124,11 +130,7 @@
                                 <img src="images/logo-hitachi.png" alt="Hitachi Vantara" class="client-image">
                             </a>
                         </div>
-                        <div class="client-logo" data-company="Metronaut iOS">
-                            <a href="https://metronautapp.com/" target="_blank" rel="noopener noreferrer">
-                                <img src="images/logo-metronaut.png" alt="Metronaut" class="client-image">
-                            </a>
-                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -186,7 +188,10 @@
                         <div class="project-content">
                             <h3 class="project-title">CareerJump.ai</h3>
                             <p class="project-description">Designed an AI-powered career development platform helping professionals set goals, track progress, and accelerate their career growth.</p>
-                            <button class="project-link video-trigger" data-video="video/cj.mp4">view project</button>
+                            <div class="project-buttons">
+                                <button class="project-link video-trigger" data-video="video/cj.mp4">view project</button>
+                                <a href="https://careerjump.ai/" target="_blank" rel="noopener noreferrer" class="project-link-website">visit website</a>
+                            </div>
                         </div>
                     </article>
 
@@ -197,7 +202,7 @@
                         <div class="project-content">
                             <h3 class="project-title">Waterline Data Catalog</h3>
                             <p class="project-description">Served as a principal designer collaborating with PMs and Engineers for an enterprise data catalog serving fortune 100 clients and government agencies.</p>
-                            <a href="#" class="project-link">view project</a>
+                            <button type="button" class="project-link" disabled>coming soon...</button>
                         </div>
                     </article>
 
@@ -207,7 +212,7 @@
                         </div>
                         <div class="project-content">
                             <h3 class="project-title">Blanket The Web</h3>
-                            <p class="project-description">Founded a successful boutique digital advertising agency to run programmatic media buying services for house hold name brands</p>
+                            <p class="project-description">10 years ago I founded a successful boutique digital advertising agency to run programmatic media buying services for house hold name brands</p>
                             <a href="https://alexwyrick.com/btw-agency.html" class="project-link" target="_blank" rel="noopener noreferrer">view project</a>
                         </div>
                     </article>
