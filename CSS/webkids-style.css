@@ -108,7 +108,7 @@ a{
 
 .page1{
 	height: 275px;
-    background-image: url("http://alexwyrick.com/sbwebkids/Images/WebKids.Mobile.BG1.jpg");
+    background-image: url("../sbwebkids/Images/WebKids.Mobile.BG1.jpg");
     background-repeat: no-repeat;
     background-size: 100% auto;
 }
@@ -149,7 +149,7 @@ a{
 
 .donate1{
 	height: 450px;
-	background-image: url("http://alexwyrick.com/sbwebkids/Images/WebKids.about.BG.jpg");
+	background-image: url("../sbwebkids/Images/WebKids.about.BG.jpg");
     background-repeat: no-repeat;
     background-size: 100% auto;
 }
@@ -157,19 +157,19 @@ a{
 @media (max-width: 700px) {
 .donate1{
 	background-height: 600px;
-	background-image: url("http://alexwyrick.com/sbwebkids/Images/WebKids.donate1.mobileBG.jpg");
+	background-image: url("../sbwebkids/Images/WebKids.donate1.mobileBG.jpg");
 }}
 
 .about1{
 	height: 450px;
-	background-image: url("http://alexwyrick.com/sbwebkids/Images/WebKids.BG1.jpg");
+	background-image: url("../sbwebkids/Images/WebKids.BG1.jpg");
     background-repeat: no-repeat;
     background-size: 100% auto;
 }
 
 @media (max-width: 700px) {
 .about1{
-	background-image: url("http://alexwyrick.com/sbwebkids/Images/WebKids.about.mobileBG.jpg");
+	background-image: url("../sbwebkids/Images/WebKids.about.mobileBG.jpg");
 	height: 340px;
 }}
 
@@ -929,7 +929,7 @@ a{
 .page5{
 	height: 680px;
 	margin-top: 80px;
-    background-image: url("http://alexwyrick.com/sbwebkids/Images/WebKids-bg2.1.jpg");
+    background-image: url("../sbwebkids/Images/WebKids-bg2.1.jpg");
     background-repeat: no-repeat;
     background-size: 100% auto;
 }
@@ -937,7 +937,7 @@ a{
 @media (max-width: 700px) {
 .page5{
 	height: 650px;
-    background-image: url("http://alexwyrick.com/sbwebkids/Images/WebKids.Mobile.BG2.jpg");
+    background-image: url("../sbwebkids/Images/WebKids.Mobile.BG2.jpg");
     background-repeat: no-repeat;
     background-size: 100% auto;
 }}
@@ -996,7 +996,7 @@ a{
 
 .page6{
 	height: 450px;
-    background-image: url("http://alexwyrick.com/sbwebkids/Images/SB-webkids-map.jpg");
+    background-image: url("../sbwebkids/Images/SB-webkids-map.jpg");
     background-repeat: no-repeat;
     background-size: 100% auto;
 }
@@ -1252,7 +1252,7 @@ a{
 
 .contact1{
 	height: 550px;
-    background-image: url(http://alexwyrick.com/sbwebkids/Images/kid-hands1.jpg);
+    background-image: url(../sbwebkids/Images/kid-hands1.jpg);
     background-repeat: no-repeat;
     padding-top: 90px;
 }
@@ -1260,7 +1260,7 @@ a{
 @media (max-width: 950px) {
 	.contact1{
 	height: 452px;
-	background-image: url("http://alexwyrick.com/sbwebkids/Images/webkids-hands-mobile-bg.gif");
+	background-image: url("../sbwebkids/Images/webkids-hands-mobile-bg.gif");
     background-repeat: no-repeat;
     background-size: 100% auto;
     padding-top: 80px;
@@ -1269,7 +1269,7 @@ a{
 
 .contact2{
 	height: 450px;
-	background-image: url("http://alexwyrick.com/sbwebkids/Images/WebKids.contact.BG.jpg");
+	background-image: url("../sbwebkids/Images/WebKids.contact.BG.jpg");
     background-repeat: no-repeat;
 }
 
