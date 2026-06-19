@@ -653,6 +653,10 @@ ul {
     display: block;
 }
 
+.about-tagline .tagline-title {
+    font-size: 3.5rem;
+}
+
 .about-tagline .tagline-subtitle {
     width: 66.67%;
     padding-top: var(--space-sm);
