@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Redirecting…</title>
+    <script>
+        const path = location.pathname;
+        if (path && !path.includes('.')) {
+            location.replace(path.replace(/\/$/, '') + '.html' + location.search + location.hash);
+        }
+    </script>
+</head>
+<body></body>
+</html>

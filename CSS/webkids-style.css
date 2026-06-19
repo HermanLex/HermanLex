@@ -1,0 +1,1711 @@
+body{
+	font-family: 'Montserrat', sans-serif;
+	font-weight: 300;
+	margin: 0;
+	
+}
+	
+@media (max-width: 700px) {
+html, body{
+	overflow-x: hidden;
+	position: relative;
+}}
+
+a{
+	text-decoration: none;
+	color: #fff;
+}
+
+.navbar {
+	height: 70px;
+	background-color: rgba(0,0,0,.9);
+	display: inline-block;
+	width: 100%;
+	overflow: hidden;
+	margin-bottom: -5px;
+	z-index: 100;
+}
+
+@media (max-width: 700px) {
+  .navbar {
+  	margin-bottom: 0;
+}}
+
+#navLeft{
+	width: 20%;
+	margin-left: 1%;
+	margin-top: -6px;
+}
+
+.logo{
+	width: 31px;
+	margin-top: 26px;
+	margin-left: 15px;
+	display: inline;
+}
+
+.logoTextHead{
+	display: inline-block;
+    font-size: 1.15em;
+    letter-spacing: 1.5px;
+    word-spacing: -5px;
+    color: #fff;
+    position: absolute;
+    margin-top: 30px;
+    margin-left: 18px;
+    font-weight: 200;
+}
+
+.bolded{
+	font-weight: 600;
+}
+
+#navRight{
+	float: right;
+	text-align: right;
+	width: 80%;
+	margin-top: -22px;
+	margin-right: 2%;
+	display: inline;
+}
+@media (max-width: 700px) {
+  #navRight {
+  	display: none;
+}}
+
+
+.navLink{
+	display: inline;
+	color: #fff;
+	margin: -40px -3px;
+	padding-left: 22px;
+	padding-right: 22px;
+	z-index: 3;
+	font-size: .8em;
+	letter-spacing: .12em;
+	padding-bottom: 10px;
+	padding-top: 30px;
+}
+.navLink:hover{
+	border-bottom: 2px solid RGBA(0, 157, 231, 1.00);
+	font-weight: 300;
+	color: RGBA(150, 209, 216, 1.00);
+/*	transition: all 0.2s ease;*/
+	background-color: RGBA(108, 109, 110, .30);
+}
+
+.active{
+	border-bottom: 2px solid RGBA(0, 157, 231, 1.00);
+}
+
+.donated {
+	border-bottom: 2px solid RGBA(0, 178, 78, 1);
+}
+
+.donate:hover{
+	border-bottom: 2px solid RGBA(0, 178, 78, 1);
+}
+
+.page1{
+	height: 275px;
+    background-image: url("http://alexwyrick.com/sbwebkids/Images/WebKids.Mobile.BG1.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+}
+
+@media (min-width: 700px) {
+.page1{
+	height: 300px;
+	background-image: url("");
+    background-repeat: no-repeat;
+}}
+
+#video-wrapper{
+	width:100%;
+    height:500px;
+    overflow: hidden;
+    margin-bottom: -400px;
+}
+
+#video-background {
+    width: 100%;
+	height: auto;
+	z-index: -100;
+	margin-bottom: -400px;
+}
+
+
+@media (max-width: 1470px) {
+#video-background {
+	height: 500px;
+    width: auto;
+    overflow: hidden;
+}}
+
+@media (max-width: 700px) {
+#video-wrapper {
+	display: none;
+}}
+
+.donate1{
+	height: 450px;
+	background-image: url("http://alexwyrick.com/sbwebkids/Images/WebKids.about.BG.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+}
+
+@media (max-width: 700px) {
+.donate1{
+	background-height: 600px;
+	background-image: url("http://alexwyrick.com/sbwebkids/Images/WebKids.donate1.mobileBG.jpg");
+}}
+
+.about1{
+	height: 450px;
+	background-image: url("http://alexwyrick.com/sbwebkids/Images/WebKids.BG1.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+}
+
+@media (max-width: 700px) {
+.about1{
+	background-image: url("http://alexwyrick.com/sbwebkids/Images/WebKids.about.mobileBG.jpg");
+	height: 340px;
+}}
+
+.mobilePage2{
+	height: 375px;
+    background-color: #009DE7;
+    color: #fff;
+    padding: 30px 5%;
+    line-height: 1.5em;
+    font-size: 1.45em;
+}
+
+@media (min-width: 700px) {
+.mobilePage2 {
+	display: none;
+}}
+
+.mobileButton1{
+	color: #fff;
+    font-weight: 600;
+    text-align: center;
+    width: 70%;
+    padding: 8px 30px;
+    background-color: RGBA(220, 75, 57, 1.00);
+    letter-spacing: 2.25px;
+    word-spacing: 0.3em;
+    margin: auto;
+    margin-bottom: 25px;
+    margin-top: 25px;
+    font-size: .75em;
+}
+
+@media (min-width: 700px) {
+.mobileButton1{
+	display: none;
+}}
+
+
+.mobileButton2{
+	color: #1A1A1A;
+    font-weight: 600;
+    text-align: center;
+    width: 70%;
+    padding: 8px 30px;
+    background-color: #E3E3E3;
+    letter-spacing: 2.25px;
+    word-spacing: 0.3em;
+    margin: auto;
+    font-size: .75em;
+}
+
+@media (min-width: 700px) {
+.mobileButton2{
+	display: none;
+}}
+
+.mobileButton3{
+	color: #fff;
+    font-weight: 600;
+    text-align: center;
+    padding: 15px 30px;
+    background-color: RGBA(220, 75, 57, 1.00);
+    letter-spacing: 2.25px;
+    word-spacing: 0.3em;
+    margin-bottom: 25px;
+    margin-top: 45px;
+    font-size: 1em;
+    width: 30%;
+}
+
+.mobileButton3:hover{
+	color: RGBA(220, 75, 57, 1.00);
+	background-color: #fff;
+	transition: all 0.2s ease;
+}
+
+@media (max-width: 800px) {
+.mobileButton3{
+	width: 70%;
+	margin-left: 5%;
+}}
+
+
+.mobileButton4{
+	color: #fff;
+    font-weight: 600;
+    text-align: center;
+    padding: 15px 30px;
+    background-color: RGBA(220, 75, 57, 1.00);
+    letter-spacing: 2.25px;
+    word-spacing: 0.3em;
+    margin-bottom: 25px;
+    margin-top: 45px;
+    font-size: 1em;
+    width: 30%;
+    margin: auto;
+}
+
+.mobileButton4:hover{
+	color: RGBA(220, 75, 57, 1.00);
+	background-color: #E3E3E3;
+	transition: all 0.2s ease;
+}
+
+@media (max-width: 800px) {
+.mobileButton4{
+	width: 70%;
+	margin-left: 5%;
+}}
+
+.page2{
+	margin-top: 340px;
+}
+
+@media (max-width: 700px) {
+	.page2{
+	margin-top: -40px;
+
+}}
+
+.donate2{
+	margin-top: 40px;
+}
+
+.classOf17{
+	margin-top: 50px;
+	width: 100%;
+}
+
+.headline{
+    font-size: 3.5em;
+    font-weight: 300;
+    color: #fff;
+    margin-top: 80px;
+    margin-left: 12%;
+    position: absolute;
+    letter-spacing: 0.1em;
+}
+
+@media (max-width: 700px) {
+	.headline{
+	    font-size: 2em;
+	    margin-top: 80px;
+	    margin-left: 8%;
+	    line-height: 1.25em;
+}}
+
+.headlineForm{
+	font-size: 2.5em;
+    font-weight: 300;
+    color: #fff;
+    margin-left: 40px;
+    position: absolute;
+    letter-spacing: 0.1em;
+    z-index: 10;
+}
+
+@media (max-width: 700px) {
+	.headline{
+	font-size: 2em;
+    margin-top: 80px;
+    margin-left: 8%;
+    line-height: 1.25em;
+}}
+
+#offers{
+	display: inline-block;
+    position: absolute;
+    width: 87%;
+    margin-top: -55px;
+    margin-left: 5%;
+}
+
+@media (max-width: 700px) {
+#offers{
+	display: none;
+}}
+
+.offer{
+	width: 42%;
+	max-width 440px;
+    height: 275px;
+    color: #333;
+    background-color: #fff;
+    display: inline-block;
+    border-radius: 40px;
+    margin-left: 6%;
+    -webkit-box-shadow: 0px 7px 37px -6px rgba(0,0,0,0.15);
+    -moz-box-shadow: 0px 7px 37px -6px rgba(0,0,0,0.15);
+    box-shadow: 0px 7px 37px -6px rgba(0,0,0,0.15);
+}
+
+.offerTitle{
+	color: RGBA(0, 157, 231, 1.00);
+	font-size: 1.75em;
+	font-weight: 600;
+	padding: 40px 40px 20px 40px;
+}
+
+.offering{
+	padding: 0px 40px;
+	line-height: 1.5em;
+	font-weight: 400;
+	word-spacing: 0.2em;
+}
+
+.offerButton{
+	color: #fff;
+	font-weight: 600;
+	text-align: center;
+	width: 200px;
+	padding: 15px 30px;
+	background-color: RGBA(220, 75, 57, 1.00);
+	letter-spacing: 2.25px;
+	word-spacing: 0.3em;
+	margin: 20px 40px 0 40px;
+	border: 1px solid #fff;
+}
+
+.offerButton:hover{
+	color: RGBA(220, 75, 57, 1.00);
+	background-color: #fff;
+	border: 1px solid RGBA(220, 75, 57, 1.00);
+	transition: all 0.2s ease;
+}
+
+.bloomerangButton{
+	margin-bottom: -50px;
+}
+
+.haveQs{
+	color: RGBA(0, 157, 231, 1.00);
+	font-size: .9em;
+	width: 200px;
+	margin-top: 50px;
+	margin-left: 20px;
+	margin-bottom: -50px;
+}
+
+.donateButton{
+	color: #fff;
+	font-weight: 600;
+	text-align: center;
+	width: 200px;
+	padding: 15px 30px;
+	background-color: RGBA(220, 75, 57, 1.00);
+	letter-spacing: 2.25px;
+	word-spacing: 0.3em;
+	margin-left: 18%;
+    margin-bottom: 100px;
+	border: 1px solid #fff;
+}
+
+.donateButton:hover{
+	color: RGBA(220, 75, 57, 1.00);
+	background-color: #fff;
+	border: 1px solid RGBA(220, 75, 57, 1.00);
+	transition: all 0.2s ease;
+}
+
+@media (max-width: 700px) {
+.donateButton{
+	margin-left: 5%;
+}}
+
+
+.buttonTopper{
+	position: absolute;
+	margin-top: 450px;
+	margin-left: 18%;
+	border: none; 
+}
+
+.buttonTopper:hover{
+	border: none; 
+}
+
+.lightButton{
+	color: RGBA(220, 75, 57, 1.00);
+	font-weight: 600;
+	text-align: center;
+	width: 200px;
+	padding: 15px 30px;
+	background-color: #fff;
+	letter-spacing: 2.25px;
+	word-spacing: 0.3em;
+	margin-left: 11%;
+
+	border: 1px solid #fff;
+}
+.lightButton:hover{
+	color: #fff;
+	background-color: RGBA(220, 75, 57, 1.00);
+	border: 1px solid RGBA(220, 75, 57, 1.00);
+	transition: all 0.2s ease;
+}
+
+.message{
+	color: #fff;
+	font-weight: 600;
+	text-align: center;
+	width: 200px;
+	padding: 15px 30px;
+	background-color: RGBA(220, 75, 57, 1.00);
+	letter-spacing: 2.25px;
+	word-spacing: 0.3em;
+	border: 1px solid #fff;
+}
+
+.message:hover{
+	color: RGBA(220, 75, 57, 1.00);
+	background-color: #fff;
+	border: 1px solid RGBA(220, 75, 57, 1.00);
+	transition: all 0.2s ease;
+}
+
+.why{
+	margin-top: 105px;
+	font-size: 2.5em;
+	margin-left: 18%;
+	color: RGBA(42, 42, 41, 1.00);
+	text-align: left;
+}
+
+@media (max-width: 700px) {
+.why{
+	margin-top: 90px;
+    margin-left: 5%;
+    color: RGBA(42, 42, 41, 1.00);
+    text-align: left;
+}}
+
+.quoted{
+	margin-top: 30px;
+	font-size: 2em;
+	color: RGBA(42, 42, 41, 1.00);
+	text-align: left;
+	line-height: 1.4em
+}
+
+@media (max-width: 700px) {
+.quoted{
+    font-size: 1.25em;
+    color: RGBA(42, 42, 41, 1.00);
+    text-align: left;
+    font-weight: 400;
+}}
+
+.aboutWhy{
+	margin-top: 75px;
+	font-size: 2.5em;
+	margin-left: 18%;
+	color: RGBA(42, 42, 41, 1.00);
+	text-align: left;
+}
+
+@media (max-width: 700px) {
+.aboutWhy {
+    margin-left: 5%;
+}}
+
+.page3{
+	height: 500px;
+	background-color: RGBA(0, 157, 231, 1.00);
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+    clip-path: polygon(0 5%, 100% 0, 100% 95%, 0 100%);
+}
+
+@media (max-width: 700px) {
+.page3{
+	height: 900px;
+	-webkit-clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}}
+
+.page3-1{
+	margin-top: -35px;
+	height: 550px;
+	background-color: RGBA(0, 157, 231, 1.00);
+}
+
+.why-light{
+	margin-top: 120px;
+	padding-top: 100px;
+	font-size: 2.5em;
+	margin-left: 18%;
+	color: #ffffff;
+}
+
+@media (max-width: 700px) {
+.why-light{
+	margin-top: 60px;
+	margin-left: 0;
+	padding-top: 20px;
+	margin-left: 8%;
+}}
+
+.why-light2{
+	margin-top: 35px;
+	padding-top: 100px;
+	font-size: 2.5em;
+	margin-left: 11%;
+	color: #ffffff;
+}
+
+.team{
+	margin-top: 105px;
+	font-size: 2.5em;
+	margin-left: 12%;
+	text-align: left;
+}
+
+@media (max-width: 700px) {
+.team{
+	margin-top: 60px;
+    font-size: 2.5em;
+    margin-left: 8%;
+    text-align: left;
+}}
+
+.teamPics{
+	margin-left: 9%;
+	margin-top: 30px;
+}
+
+.bio{
+	width: 25%;
+    margin-left: 3%;
+	margin-top: 50px;
+	display: inline-block;
+	vertical-align: top;
+}
+
+@media (max-width: 700px) {
+.bio{
+	width: 90%;
+	margin-top: 50px;
+	display: block;
+    margin-left: 0;
+}}
+
+.teamPic{
+	width: 70%;
+}
+
+@media (max-width: 700px) {
+.teamPic{
+	width: 70%;
+}}
+
+.teamTitle{
+	color: #000;
+	font-size: 1.5em;
+	margin: 10px 0;
+}
+
+.bioText{
+	font-size: .9em;
+	line-height: 1.5em;
+	font-weight: 200;
+	margin: 10px 0;
+}
+
+@media (max-width: 700px) {
+.bioText{
+	font-size: 1.25em;
+}}
+
+.bioLink{
+	width: 30px;
+	border: 2px solid RGBA(108, 109, 110, .0);
+	color: #009DE7;
+	display: inline-block;
+	font-size: 1.25em;
+	vertical-align: middle;
+	font-weight: 400;
+}
+
+.bioLink:hover{
+	width: 40px;
+	font-size: 1.75em;
+	margin-left: -5px;
+	margin-top: -5px;
+	margin-right: -5px;
+	margin-bottom: -10px;
+	transition: all 0.2s ease;
+}
+
+.small{
+	font-size: 1em;
+    margin-top: 40px;
+    margin-left: 18%;
+    font-weight: 300;
+    word-spacing: 0.2em;
+    line-height: 1.5em;
+    width: 65%;
+}
+
+@media (max-width: 700px) {
+.small{
+	font-size: 1.25em;
+    margin-top: 40px;
+     margin-left: 5%; 
+    font-weight: 300;
+    word-spacing: 0.2em;
+    line-height: 1.5em;
+    width: 90%;
+}}
+
+.small-light{
+	color: #ffffff;
+	font-size: 1em;
+    margin-top: 40px;
+    margin-left: 18%;
+    font-weight: 300;
+    word-spacing: 0.2em;
+    line-height: 1.5em;
+    width: 65%;
+}
+
+@media (max-width: 700px) {
+.small-light{
+	margin-left: 8%;
+	width: 90%;
+	font-size: 1.25em;	
+}}
+
+.small-light2{
+	font-size: 1em;
+	position: absolute;
+	color: #ffffff;
+	margin-top: 350px;
+	margin-left: 18%;
+	font-weight: 300;
+	word-spacing: 0.2em;
+	line-height: 1.5em;
+	width: 55%;
+}
+
+@media (max-width: 700px) {
+.small-light2{
+	margin-top: 320px;
+	margin-left: 8%;
+	width: 90%;
+	font-size: 1.25em;	
+}}
+
+.teaser{
+	margin-top: 63px;
+    margin-left: 23%;
+}
+
+@media (max-width: 700px) {
+.teaser{
+	margin: 20px 0;
+	width: 100%
+}}
+
+@media (max-width: 700px) {
+.vimeo{
+	width: 100%;
+	height: auto;
+}}
+
+.frame{
+	z-index: -10;
+}
+
+.tomatoe{
+	color: #009DE7;
+	text-decoration: none;
+}
+
+.azul{
+	color: RGBA(0, 157, 231, 1.00);
+	font-weight: 400;
+}
+
+.name{
+	font-size: 1.25em;
+	margin-top: 5px;
+	margin-bottom: 25px;
+	color: RGBA(108, 109, 110, 1.00);
+}
+
+@media (max-width: 700px) {
+.name{
+	margin-top: 15px;
+	margin-left: 10px;
+	width: 100%;
+}}
+
+.bold{
+	font-weight: 600;
+}
+
+.page4{
+	height: 750px;
+    text-align: center;
+}
+
+@media (max-width: 700px) {
+	.page4{
+	height: 1580px;
+}}
+
+.sponsors-page{
+	height: 800px;
+	text-align: center;
+	padding-top: 5px;
+}
+
+@media (max-width: 700px) {
+	.sponsors-page{
+	height: 950px;
+}}
+
+.thanks{
+	margin-top: 70px;
+	font-size: 2.5em;
+	font-weight: 600;
+	color: RGBA(42, 42, 41, 1.00);
+	text-align: center;
+}
+
+@media (max-width: 700px) {
+.thanks{
+	margin-top: 60px;
+}}
+
+.sponsors{
+	display: inline-block;
+}
+
+.sponsor-box{
+	width: 24%;
+	margin-bottom: 20px;
+	display: inline-block;
+}
+
+@media (max-width: 700px) {
+.sponsor-box{
+	display: block;
+	width: 80%;
+	margin-left: 10%;
+}}
+
+.support-box{
+	width: 34%;
+	display: inline-block;
+}
+
+.sponsor-logo{
+	width: 200px;
+	margin: 30px 0;
+	vertical-align: middle;
+}
+
+.support-logo{
+	width: 130px;
+	margin: 30px;
+	vertical-align: middle;
+}
+
+.support-text{
+	font-weight: 300;
+	word-spacing: 0.2em;
+	line-height: 1.5em;
+}
+
+.p1{
+	display: inline-block;
+	width: 90%;
+	vertical-align: top;
+}
+
+@media (min-width: 700px) {
+.p1{
+	width: 26%;
+    display: inline;
+}}
+
+.point{
+    margin-top: 50px;
+    width: 90%;
+    text-align: left;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+@media (min-width: 700px) {
+.point{
+	width: 24%;
+    margin-right: 3%;
+	margin-bottom: 30px;
+}}
+
+.pointTitle{
+	margin-top: 231px;
+	font-size: 1.5em;
+	display: block;
+    font-weight: 600;
+}
+
+@media (max-width: 700px) {
+.pointTitle{
+	font-size: 2em;
+	margin-top: 180px;
+}}
+
+.thePoint{
+	margin-top: 30px;
+	word-spacing: 0.2em;
+	width: 100%;
+	line-height: 1.5em;
+}
+
+.pointPic{
+	position: absolute;
+	text-align: center;
+    display: inline-block;
+    width: 13%;
+}
+
+@media (max-width: 700px) {
+.pointPic{
+	width: 40%;
+}}
+
+.see{
+	margin-left: 11%;
+	margin-top: 100px;
+	color: #fff;
+	font-weight: 600;
+	text-align: center;
+	width: 300px;
+	padding: 15px 30px;
+	background-color: RGBA(220, 75, 57, 1.00);
+	letter-spacing: 2.25px;
+	word-spacing: 0.3em;
+	border: 1px solid #fff;
+}
+.see:hover{
+	color: RGBA(220, 75, 57, 1.00);
+	background-color: #fff;
+	border: 1px solid RGBA(220, 75, 57, 1.00);
+	transition: all 0.2s ease;
+}
+
+@media (max-width: 700px) {
+	.see{
+		width: 65%;
+	    margin-left: 5%;
+	    margin-bottom: 70px;
+}}
+
+.page5{
+	height: 680px;
+	margin-top: 80px;
+    background-image: url("http://alexwyrick.com/sbwebkids/Images/WebKids-bg2.1.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+}
+
+@media (max-width: 700px) {
+.page5{
+	height: 650px;
+    background-image: url("http://alexwyrick.com/sbwebkids/Images/WebKids.Mobile.BG2.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+}}
+
+.headline2{
+	font-size: 3.5em;
+    font-weight: 300;
+    color: #fff;
+    margin-top: 150px;
+    margin-left: 18%;
+    letter-spacing: 0.1em;
+    width: 65%;
+    position: absolute;
+}
+
+@media (max-width: 700px) {
+.headline2{
+	font-size: 2.75em;
+    font-weight: 300;
+    color: #fff;
+    margin-left: 8%;
+    margin-top: 50px;
+    letter-spacing: 0.1em;
+    width: 85%;
+}}
+
+.contactButton{
+	color: #fff;
+    font-weight: 600;
+    text-align: center;
+    padding: 15px 30px;
+    background-color: RGB(220, 75, 57);
+    letter-spacing: 2.25px;
+    word-spacing: 0.3em;
+    font-size: 1em;
+    width: 20%;
+    margin-left: 18%;
+    margin-top: -200px;
+    margin-bottom: 180px;
+}
+
+.contactButton:hover{
+	color: #1A1A1A;
+	background-color: #E3E3E3;
+	transition: all 0.2s ease;
+}
+
+@media (max-width: 700px) {
+.contactButton{
+	width: 60%;
+	margin-top: -150px;
+	margin-left: 5%;
+	margin-bottom: 130px;
+}}
+
+
+.page6{
+	height: 450px;
+    background-image: url("http://alexwyrick.com/sbwebkids/Images/SB-webkids-map.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+}
+
+.mapFloat{
+	background-color: RGBA(26, 26, 26, .60);
+	width: 200px;
+	margin-left: 60%;
+	height: 140px;
+	margin-top: -370px;
+	z-index: 10;
+	position:absolute;
+	color: #fff;
+	padding: 50px;
+	border-radius: 40px;
+	font-size: 1.25em;
+	line-height: 1.5em;
+	font-weight: 200;
+}
+
+@media (max-width: 700px) {
+	.mapFloat{
+    margin-left: 10%;
+}}
+
+.SB-link{
+	color: RGBA(227, 227, 227, 1.00);
+	text-decoration: underline;
+	font-weight: 400;
+	letter-spacing: 2px;
+}
+
+.sunny{
+	width: 30px;
+	display: inline-block;
+	margin-bottom: -10px;
+}
+
+.page9{
+	height: 400px;
+    width: 500px;
+    margin-left: 22%;
+    padding: 50px;
+    background-color: RGBA(51, 51, 51, .75);
+    position: absolute;
+    margin-top: 75px;
+}
+
+@media (max-width: 700px) {
+.page9{
+	height: 500px;
+	padding: 50px 20px;
+	margin-bottom: -120px;
+}}
+
+.page7{
+	height: 250px;
+	padding: 50px;
+	background-color: RGBA(51, 51, 51, 1.0);
+}
+
+@media (max-width: 700px) {
+.page7{
+	height: 500px;
+	padding: 50px 20px;
+	margin-bottom: -120px;
+}}
+
+
+.footLeft{
+	color: #fff;
+	display: inline-block;
+	width: 30%;
+	margin-left: 8%;
+	letter-spacing: .2em;
+}
+
+@media (max-width: 700px) {
+	.footLeft{
+		display: block;
+		margin-bottom: 50px;
+		margin-left: 0;
+}}
+
+.getUpdates{
+	font-size: .8em;
+	margin-bottom: 10px;
+	letter-spacing: .12em;
+	width: 200px;
+	display: inline-block;
+}
+
+@media (max-width: 700px) {
+.getUpdates{
+	font-size: 1.15em;
+}}
+
+.capture{
+	width: 300px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.emailInput{
+	width: 180px;
+    font-size: .9rem;
+    background-color: #555;
+    border: 1px solid #999;
+    padding-left: 10px;
+    letter-spacing: .2em;
+    display: inline-block;
+    margin-right: 0;
+    height: 35px;
+}
+
+#enter{
+	display: inline-block;
+	width: 400px;
+	background-color: RGBA(211, 209, 208, .50);
+	color: #fff;
+	font-weight: 100;
+	margin-left: -6px;
+	padding-top: -4px;
+	border-radius: 1px;
+}
+
+.emailInput::-webkit-input-placeholder { /* Chrome */
+		color: #999;}
+	:-ms-input-placeholder { /* IE 10+ */
+		color: #999;}
+	::-moz-placeholder { /* Firefox 19+ */
+		color: #999;
+		opacity: 1;}
+	:-moz-placeholder { /* Firefox 4 - 18 */
+	  color: #999;
+	  opacity: 1;
+}
+
+.logoTextFoot{
+	display: inline-block;
+	font-size: 1.5em;
+	letter-spacing: 1.5px;
+	word-spacing: -5px;
+	color: #fff;
+	position: absolute;
+	margin-top: 28px;
+	margin-left: 13px;
+	font-weight: 200;
+}
+@media (max-width: 700px) {
+.logoTextFoot{
+	margin-top: 27px;
+    font-size: 1.25em;
+    margin-left: 12px;
+	float:right;
+}}
+
+.footMiddle{
+	letter-spacing: .2em;
+	color: #fff;
+	display: inline-block;
+	width: 30%;
+	vertical-align: top;
+	letter-spacing: .12em;
+	margin-left: 47px;
+}
+
+@media (max-width: 700px) {
+.footMiddle{
+	width: 100%;
+	margin-bottom: 50px;
+	margin-left: 0;
+}}
+
+.socialIcons{
+	display: inline-block;
+	width: 100%;
+}
+
+.iconic{
+	width: 50px;
+	margin-right: 8px;
+	border: 2px solid RGBA(108, 109, 110, .0);
+	border-radius: 30px;
+}
+
+.iconic:hover{
+	border: 2px solid RGBA(108, 109, 110, 1);
+	transition: all 0.2s ease;
+}
+
+.getIn{
+	margin-top: 45px;
+	font-size: .8em;
+	margin-bottom: 10px;
+}
+
+@media (max-width: 700px) {
+.getIn{
+	font-size: 1.15em;
+}}
+
+#info a{
+	margin-top: 15px;
+	color: RGBA(0, 157, 231, .70);
+	font-size: .8em;
+	line-height: 2em;
+}
+
+@media (max-width: 700px) {
+#info a{
+	font-size: 1.15em;
+	}}
+
+.footright{
+	color: #fff;
+	display: inline-block;
+	margin-right: 15%;
+	vertical-align: top;
+}
+
+@media (max-width: 700px) {
+.footRight{
+	display: none;
+}}
+
+.NavH{
+	display: inline-block;
+	width: 10%;
+	float: right;
+	margin-right: 13%;
+	margin-top: -190px;
+}
+
+.bNavLink{
+	font-size: .8em;
+	padding-bottom: 30px;
+	width: 140px;
+}
+
+#toTop{
+	text-align: right;
+	margin-top: -40px;
+	width: 90%;
+}
+
+@media (max-width: 767px) {
+	#toTop{
+		display: block;
+		margin-top: 90px;
+}}
+
+
+.contact1{
+	height: 550px;
+    background-image: url(http://alexwyrick.com/sbwebkids/Images/kid-hands1.jpg);
+    background-repeat: no-repeat;
+    padding-top: 90px;
+}
+
+@media (max-width: 950px) {
+	.contact1{
+	height: 452px;
+	background-image: url("http://alexwyrick.com/sbwebkids/Images/webkids-hands-mobile-bg.gif");
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    padding-top: 80px;
+}}
+
+
+.contact2{
+	height: 450px;
+	background-image: url("http://alexwyrick.com/sbwebkids/Images/WebKids.contact.BG.jpg");
+    background-repeat: no-repeat;
+}
+
+
+@media (max-width: 950px) {
+	.contact2{
+	background-height: 700px;
+}}
+
+#why-contact{
+	color: #fff;
+	font-size: 1.25em;
+	margin-left: 30%;
+	position: absolute;
+	margin-top: 150px;
+	line-height: 2em;
+}
+
+@media (max-width: 950px) {
+#why-contact{
+	margin-left: 10%;
+}}
+
+/***     C O N T A C T   F O R M    S T A R T     ***/
+/***     C O N T A C T   F O R M    S T A R T     ***/
+
+
+#page-wrap {
+  width: 600px;
+  margin: 20px auto;
+  margin-bottom: 200px;
+  min-height: 350px height: auto !important;
+}
+
+@media (max-width: 880px) {
+  #page-wrap {
+  width: 300px;
+}}
+
+#contact-area {
+  width: 600px;
+  margin-top: 25px;
+}
+
+@media (max-width: 880px) {
+  #contact-area {
+  width: 300px;
+}}
+
+#contact-area input, #contact-area textarea {
+  width: 80%;
+  font-family: Helvetica, sans-serif;
+  font-size: .85em;
+  margin: 0px 0px 10px 0px;
+  border: 2px solid #ccc;
+}
+
+@media (max-width: 880px) {
+textarea{
+width:40px;
+}}
+
+#contact-area textarea {
+  height: 80px;
+}
+
+#contact-area textarea:focus, #contact-area input:focus {
+  border: 2px solid #900;
+}
+
+#contact-area input.submit-button {
+    width: 200px;
+    padding: 5px;
+    height: 40px;
+    margin-top: 15px;
+    background-color: rgba(0,0,0, .3);
+    color: #fff;
+    border: 1px solid #fff;
+    font-size: 1.25em;
+    font-weight: lighter;
+}
+
+#contact-area input.submit-button:hover {
+  background-color: rgba(0,0,0, .5);
+  border: 1px solid #c1c1c1;
+  color: RGBA(211, 209, 208, 1.00);
+  transition: .2s;
+}
+
+label {
+    float: left;
+    text-align: left;
+    margin-right: 15px;
+    width: 150px;
+    padding-top: 5px;
+    color: #fff;
+    font-size: 1.25em;
+}
+
+/*-----  C O N T A C T   F O R M    E N D     -----*/
+/*-----  C O N T A C T   F O R M    E N D     -----*/
+
+
+/**************** CONTACT2 start *****************/
+/**************** CONTACT2 start *****************/
+
+body section {
+  background: white;
+  margin: 60px auto 120px;
+  text-align: center;
+  padding: 50px 0 110px;
+  width: 80%;
+  max-width: 1100px;
+}
+@media (max-width: 767px) {
+body section {
+	width: 100%;
+	margin-left: 0;
+}}
+
+input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+  color: #aca49c;
+  font-size: 0.875em;
+}
+
+input:focus::-webkit-input-placeholder, textarea:focus::-webkit-input-placeholder {
+  color: #bbb5af;
+}
+
+input::-moz-placeholder, textarea::-moz-placeholder {
+  color: #aca49c;
+  font-size: 0.875em;
+}
+
+input:focus::-moz-placeholder, textarea:focus::-moz-placeholder {
+  color: #bbb5af;
+}
+
+input::placeholder, textarea::placeholder {
+  color: #aca49c;
+  font-size: 0.875em;
+}
+
+input:focus::placeholder, textarea::focus:placeholder {
+  color: #bbb5af;
+}
+
+input::-ms-placeholder, textarea::-ms-placeholder {
+  color: #aca49c;
+  font-size: 0.875em;
+}
+
+input:focus::-ms-placeholder, textarea:focus::-ms-placeholder {
+  color: #bbb5af;
+}
+
+/* on hover placeholder */
+
+input:hover::-webkit-input-placeholder, textarea:hover::-webkit-input-placeholder {
+  color: #e2dedb;
+  font-size: 0.875em;
+}
+
+input:hover:focus::-webkit-input-placeholder, textarea:hover:focus::-webkit-input-placeholder {
+  color: #cbc6c1;
+}
+
+input:hover::-moz-placeholder, textarea:hover::-moz-placeholder {
+  color: #e2dedb;
+  font-size: 0.875em;
+}
+
+input:hover:focus::-moz-placeholder, textarea:hover:focus::-moz-placeholder {
+  color: #cbc6c1;
+}
+
+input:hover::placeholder, textarea:hover::placeholder {
+  color: #e2dedb;
+  font-size: 0.875em;
+}
+
+input:hover:focus::placeholder, textarea:hover:focus::placeholder {
+  color: #cbc6c1;
+}
+
+input:hover::placeholder, textarea:hover::placeholder {
+  color: #e2dedb;
+  font-size: 0.875em;
+}
+
+input:hover:focus::-ms-placeholder, textarea:hover::focus:-ms-placeholder {
+  color: #cbc6c1;
+}
+
+#form {
+  position: relative;
+  width: 500px;
+  margin: 50px auto 100px auto;
+}
+
+@media (max-width: 767px) {
+	#form {
+		width: 98%;
+		margin: 50px 0 100px 0;
+}}
+
+input {
+  font-family: 'Lato', sans-serif;
+  font-size: 0.875em;
+  width: 470px;
+  height: 50px;
+  padding: 0px 15px 0px 15px;
+  margin-bottom: 15px;
+  outline: none;
+  color: #726659;
+  border: solid 1px #b3aca7;
+  border-bottom: none;
+  transition: all 0.3s ease-in-out;
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -ms-transition: all 0.3s ease-in-out;
+}
+
+@media (max-width: 767px) {
+	input{
+		width: 90%;
+}}
+
+input:hover {
+  background: #fff;
+}
+
+textarea {
+  width: 470px;
+  max-width: 470px;
+  height: 110px;
+  max-height: 110px;
+  padding: 15px;
+  outline: none;
+  color: #726659;
+  font-family: 'Lato', sans-serif;
+  font-size: 0.875em;
+  border: solid 1px #b3aca7;
+  transition: all 0.3s ease-in-out;
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -ms-transition: all 0.3s ease-in-out;
+}
+@media (max-width: 767px) {
+	textarea{
+		width: 90%;
+}}
+
+textarea:hover {
+  background: #fff;
+  color: #000;
+}
+
+#submit {
+  width: 152px;
+  padding: 0;
+  margin: 15px 0px 0px 0px;
+  font-family: 'Lato', sans-serif;
+  font-size: 0.875em;
+  color: #e2dedb;
+  background: transparent;
+  outline:none;
+  cursor: pointer;
+  border: solid 2px RGBA(0, 157, 231, 1.00);
+}
+@media (max-width: 767px) {
+	#submit{
+		width: 90%;
+}}
+
+#submit:hover {
+  background-color: #009de7;
+}
+
+/**************** CONTACT end *****************/
+/**************** CONTACT end *****************/
+
+
+/* * * *   H A M B U R G E R    M E N U   S T A R T  * * * */
+/* * * *   H A M B U R G E R    M E N U   S T A R T  * * * */
+/*
+ * Made by Erik Terwan
+ * 24th of November 2015
+ * All rights reserved
+ *
+ *
+ * If you are thinking of using this in
+ * production code, beware of the browser
+ * prefixes.
+ */
+
+#menuToggle
+{
+  display: block;
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  z-index: 1;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+@media (min-width: 900px) {
+	#menuToggle{
+		display: none;
+}}
+
+#menuToggle input
+{
+  display: block;
+  width: 40px;
+  height: 32px;
+  position: absolute;
+  top: -8px;
+  left: -7px;
+  
+  cursor: pointer;
+  
+  opacity: 0; /* hide this */
+  z-index: 2; /* and place it over the hamburger */
+  
+  -webkit-touch-callout: none;
+}
+
+/*
+
+ * Just a quick hamburger
+ */
+#menuToggle span
+{
+  display: block;
+  width: 33px;
+  height: 4px;
+  margin-bottom: 5px;
+  position: relative;
+  
+  background: #cdcdcd;
+  border-radius: 3px;
+  
+  z-index: 1;
+  
+  transform-origin: 4px 0px;
+  
+  transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+              background 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+              opacity 0.55s ease;
+}
+
+#menuToggle span:first-child
+{
+  transform-origin: 0% 0%;
+}
+
+#menuToggle span:nth-last-child(2)
+{
+  transform-origin: 0% 100%;
+}
+
+/* 
+ * Transform all the slices of hamburger
+ * into a crossmark.
+ */
+#menuToggle input:checked ~ span
+{
+  opacity: 1;
+  transform: rotate(45deg) translate(-2px, -1px);
+  background: #232323;
+}
+
+/*
+ * But let's hide the middle one.
+ */
+#menuToggle input:checked ~ span:nth-last-child(3)
+{
+  opacity: 0;
+  transform: rotate(0deg) scale(0.2, 0.2);
+}
+
+/*
+ * Ohyeah and the last one should go the other direction
+ */
+#menuToggle input:checked ~ span:nth-last-child(2)
+{
+  opacity: 1;
+  transform: rotate(-45deg) translate(0, -1px);
+}
+
+/*
+ * Make this absolute positioned
+ * at the top left of the screen
+ */
+#menu
+{
+  position: absolute;
+  width: 220px;
+  margin: -100px 0 0 0;
+  padding: 50px;
+  padding-top: 125px;
+  padding-bottom: 400px;
+  right: -100px;
+  
+  background: #ededed;
+  list-style-type: none;
+  -webkit-font-smoothing: antialiased;
+  /* to stop flickering of text in safari */
+  
+  transform-origin: 0% 0%;
+  transform: translate(100%, 0);
+  
+  transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
+}
+
+#menu li
+{
+  padding: 15px 0;
+  font-size: 22px;
+  color: #009DE7;
+}
+
+/*
+ * And let's fade it in from the left
+ */
+#menuToggle input:checked ~ ul
+{
+  transform: scale(1.0, 1.0);
+  opacity: 1;
+}
+/* * * *   H A M B U R G E R    M E N U   E N D  * * * */
+/* * * *   H A M B U R G E R    M E N U   E N D  * * * */
+
+
+.cf:after {
+    clear: both;
+}

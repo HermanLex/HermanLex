@@ -1,0 +1,30 @@
+# Bluehost / Apache — extensionless URLs for static HTML
+# Upload this file to the same folder as index.html (usually public_html).
+#
+# If your site lives in a subfolder (e.g. public_html/portfolio/), change:
+#   RewriteBase /
+# to:
+#   RewriteBase /portfolio/
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # Optional: force HTTPS (uncomment if you have SSL and want all traffic on https)
+    # RewriteCond %{HTTPS} !=on
+    # RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+    # /index.html -> /
+    RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+index\.html[\s?] [NC]
+    RewriteRule ^index\.html$ / [R=301,L]
+
+    # /page.html -> /page (clean address bar; keeps query string by default)
+    RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/+(.+?)\.html[\s?] [NC]
+    RewriteRule ^ /%1 [R=301,L,NE]
+
+    # /page -> serve page.html when that file exists (internal rewrite)
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME}.html -f
+    RewriteRule ^(.*)$ $1.html [L]
+</IfModule>

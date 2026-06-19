@@ -12,7 +12,7 @@
     --color-border: #e0ddd8;
     
     /* Typography */
-    --font-primary: 'Gotham', 'Montserrat', system-ui, sans-serif;
+    --font-primary: 'Inter', system-ui, sans-serif;
     
     /* Spacing */
     --space-xs: 0.5rem;
@@ -1401,8 +1401,8 @@ h1.section-title,
 }
 
 .about-profile-image {
-    width: 66.66%;
-    max-width: 332px;
+    width: 83.33%;
+    max-width: 415px;
     height: auto;
     border-radius: 20px;
     margin-top: var(--space-md);
@@ -1428,10 +1428,10 @@ h1.section-title,
     font-weight: 500;
     color: white;
     background-color: #1a1a1a;
-    padding: 0.625rem 1.5rem;
+    padding: calc(0.625rem + 4px) 1.5rem;
     border: none;
     border-radius: 50px;
-    margin-top: var(--space-sm);
+    margin-top: calc(var(--space-sm) + 20px);
     transition: all var(--transition-fast);
     width: calc(66.66% * 2 / 3);
     max-width: calc(332px * 2 / 3);

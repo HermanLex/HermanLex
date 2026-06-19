@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EOP Navigation | Alex Wyrick</title>
+    <link rel="icon" type="image/png" href="images/A-favi.png">
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
             background-color: #fff;
@@ -71,7 +72,7 @@
             height: 100%;
             overflow: hidden;
             z-index: 2;
-            clip-path: inset(0 50% 0 0);
+            clip-path: inset(0 75% 0 0);
         }
         
         .slider-image {
@@ -92,7 +93,7 @@
         .slider-handle {
             position: absolute;
             top: 0;
-            left: 50%;
+            left: 25%;
             width: 4px;
             height: 100%;
             background-color: #fff;
@@ -127,6 +128,7 @@
         .slider-button svg {
             width: 20px;
             height: 20px;
+            transform: rotate(90deg);
         }
         
         .slider-input {
@@ -188,8 +190,7 @@
         <section class="tagline">
             <div class="container">
                 <h1 class="tagline-title">Navigation Overhaul</h1>
-                <p class="tagline-subtitle">The most glaring UX issue when I joined Mastercard Offers was the 1980s grade navigation (yes, I'm used to seeing better stuff from the 1990s). 
-                Without getting too detailed, both the light blue links (and buttons) and the orange and white primary button were failing color contrast standards for WCAG 2.1 AA compliance.</p>
+                <p class="tagline-subtitle">The most glaring UX issue when I joined Mastercard Offers was the top level navigation. I worked with 2 different internal design systems to bring this up to Mastercard standards.</p>
             </div>
         </section>
 
@@ -216,7 +217,7 @@
                                     </svg>
                                 </div>
                             </div>
-                            <input type="range" min="0" max="100" value="50" class="slider-input" aria-label="Adjust before and after comparison">
+                            <input type="range" min="0" max="100" value="25" class="slider-input" aria-label="Adjust before and after comparison">
                         </div>
                         <div class="slider-labels">
                             <span class="slider-label">Before</span>
@@ -320,8 +321,8 @@
                 isDragging = false;
             });
             
-            // Initialize slider at 50%
-            updateSlider(50);
+            // Initialize slider at 25% (favor before state on load)
+            updateSlider(25);
         });
     </script>
 </body>
