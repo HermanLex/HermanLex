@@ -17,7 +17,7 @@
             --tables-text: #1a1a1a;
             --tables-muted: #5c5c5c;
             --tables-border: #e8e8e8;
-            --tables-panel-bg: #f3f3f3;
+            --tables-panel-bg: #f8f8f8;
             --tables-accent: #e85d4c;
         }
 
@@ -84,6 +84,53 @@
             max-height: calc(100vh - var(--tables-header-height) - 48px);
             overflow-y: auto;
             padding-right: 8px;
+        }
+
+        .tables-doc .sidebar-head {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-bottom: 4px;
+        }
+
+        .tables-doc .sidebar-head .sidebar-link {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .tables-doc .sidebar-collapse-btn {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            padding: 0;
+            border: none;
+            border-radius: 6px;
+            background: transparent;
+            color: var(--tables-muted);
+            cursor: pointer;
+            transition: background-color 0.15s ease, color 0.15s ease;
+        }
+
+        .tables-doc .sidebar-collapse-btn:hover {
+            background: rgba(0, 0, 0, 0.04);
+            color: var(--tables-text);
+        }
+
+        .tables-doc .sidebar-collapse-btn svg {
+            width: 16px;
+            height: 16px;
+            transition: transform 0.2s ease;
+        }
+
+        .tables-doc .sidebar.is-collapsed .sidebar-collapse-btn svg {
+            transform: rotate(-90deg);
+        }
+
+        .tables-doc .sidebar.is-collapsed .sidebar-nav {
+            display: none;
         }
 
         .tables-doc .sidebar-nav {
@@ -180,6 +227,7 @@
             height: auto;
             display: block;
             border-radius: 12px;
+            border: 1px solid #e5e5e5;
         }
 
         .tables-doc .figure-image {
@@ -198,6 +246,10 @@
             border-radius: 16px;
             padding: 32px;
             margin-top: 24px;
+        }
+
+        .tables-doc .panel[id] {
+            scroll-margin-top: calc(var(--tables-header-height) + 24px - 32px);
         }
 
         .tables-doc .panel-title {
@@ -223,6 +275,12 @@
             color: var(--tables-muted);
             font-style: italic;
             margin: 0;
+        }
+
+        @media (max-width: 899px) {
+            .tables-doc {
+                --tables-sidebar-width: 160px;
+            }
         }
 
         @media (max-width: 700px) {
@@ -255,8 +313,15 @@
 
     <div class="layout">
         <aside class="sidebar" aria-label="Page sections">
-            <ul class="sidebar-nav">
-                <li><a class="sidebar-link is-parent" href="#data-tables">Data tables</a></li>
+            <div class="sidebar-head">
+                <a class="sidebar-link is-parent" href="#data-tables">Data tables</a>
+                <button type="button" class="sidebar-collapse-btn" aria-expanded="true" aria-controls="sidebar-nav" aria-label="Toggle section navigation">
+                    <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                        <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+            <ul id="sidebar-nav" class="sidebar-nav">
                 <li>
                     <a class="sidebar-link is-parent" href="#overview">Overview</a>
                     <ul class="sidebar-group">
@@ -353,8 +418,18 @@
 
     <script>
         (function () {
+            const sidebar = document.querySelector('.sidebar');
+            const collapseBtn = document.querySelector('.sidebar-collapse-btn');
             const links = document.querySelectorAll('.sidebar-link[href^="#"]');
             const sections = [...document.querySelectorAll('.content .section, .content .panel[id]')];
+
+            if (collapseBtn && sidebar) {
+                collapseBtn.addEventListener('click', () => {
+                    const isExpanded = collapseBtn.getAttribute('aria-expanded') === 'true';
+                    collapseBtn.setAttribute('aria-expanded', String(!isExpanded));
+                    sidebar.classList.toggle('is-collapsed', isExpanded);
+                });
+            }
 
             function setActiveLink() {
                 let current = sections[0]?.id;
