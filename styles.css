@@ -2055,6 +2055,22 @@ button.project-link-ghost {
     cursor: pointer;
 }
 
+.project-link-ghost--disabled,
+.project-link-ghost--disabled:disabled {
+    background-color: #f8f8f8;
+    border-color: #e5e5e5;
+    color: #9e9e9e;
+    cursor: not-allowed;
+    opacity: 1;
+}
+
+.project-link-ghost--disabled:hover,
+.project-link-ghost--disabled:disabled:hover {
+    background-color: #f8f8f8;
+    border-color: #e5e5e5;
+    color: #9e9e9e;
+}
+
 /* Logo Modal Styles */
 .logo-modal {
     position: fixed;
