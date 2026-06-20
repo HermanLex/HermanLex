@@ -14,6 +14,8 @@
             --tables-header-bg: #f8f8f8;
             --tables-header-height: 92px;
             --tables-sidebar-width: 200px;
+            --tables-sidebar-collapsed-width: 36px;
+            --tables-layout-gap: 48px;
             --tables-text: #1a1a1a;
             --tables-muted: #5c5c5c;
             --tables-border: #e8e8e8;
@@ -73,8 +75,14 @@
             max-width: 1440px;
             display: grid;
             grid-template-columns: var(--tables-sidebar-width) minmax(0, 1fr);
-            gap: 48px;
+            gap: var(--tables-layout-gap);
             padding: 40px 32px 80px;
+            transition: grid-template-columns 0.25s ease, gap 0.25s ease;
+        }
+
+        .tables-doc .layout.is-sidebar-collapsed {
+            grid-template-columns: var(--tables-sidebar-collapsed-width) minmax(0, 1fr);
+            gap: 16px;
         }
 
         .tables-doc .sidebar {
@@ -82,8 +90,16 @@
             top: calc(var(--tables-header-height) + 24px);
             align-self: start;
             max-height: calc(100vh - var(--tables-header-height) - 48px);
+            overflow-x: hidden;
             overflow-y: auto;
             padding-right: 8px;
+            min-width: 0;
+            transition: padding 0.25s ease;
+        }
+
+        .tables-doc .layout.is-sidebar-collapsed .sidebar {
+            padding-right: 0;
+            overflow: hidden;
         }
 
         .tables-doc .sidebar-head {
@@ -122,15 +138,22 @@
         .tables-doc .sidebar-collapse-btn svg {
             width: 16px;
             height: 16px;
+            transform: rotate(90deg);
             transition: transform 0.2s ease;
         }
 
-        .tables-doc .sidebar.is-collapsed .sidebar-collapse-btn svg {
+        .tables-doc .layout.is-sidebar-collapsed .sidebar-collapse-btn svg {
             transform: rotate(-90deg);
         }
 
-        .tables-doc .sidebar.is-collapsed .sidebar-nav {
+        .tables-doc .layout.is-sidebar-collapsed .sidebar-head .sidebar-link,
+        .tables-doc .layout.is-sidebar-collapsed .sidebar-nav {
             display: none;
+        }
+
+        .tables-doc .layout.is-sidebar-collapsed .sidebar-head {
+            justify-content: center;
+            margin-bottom: 0;
         }
 
         .tables-doc .sidebar-nav {
@@ -290,11 +313,26 @@
                 padding: 24px 20px 64px;
             }
 
+            .tables-doc .layout.is-sidebar-collapsed {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+
             .tables-doc .sidebar {
                 position: static;
                 max-height: none;
                 border-bottom: 1px solid var(--tables-border);
                 padding-bottom: 24px;
+                overflow: visible;
+            }
+
+            .tables-doc .sidebar-collapse-btn {
+                display: none;
+            }
+
+            .tables-doc .layout.is-sidebar-collapsed .sidebar-head .sidebar-link,
+            .tables-doc .layout.is-sidebar-collapsed .sidebar-nav {
+                display: block;
             }
         }
     </style>
@@ -312,16 +350,16 @@
     </header>
 
     <div class="layout">
-        <aside class="sidebar" aria-label="Page sections">
+        <aside class="sidebar" id="sidebar-nav" aria-label="Page sections">
             <div class="sidebar-head">
                 <a class="sidebar-link is-parent" href="#data-tables">Data tables</a>
-                <button type="button" class="sidebar-collapse-btn" aria-expanded="true" aria-controls="sidebar-nav" aria-label="Toggle section navigation">
+                <button type="button" class="sidebar-collapse-btn" aria-expanded="true" aria-controls="sidebar-nav" aria-label="Collapse section navigation">
                     <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
                         <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                 </button>
             </div>
-            <ul id="sidebar-nav" class="sidebar-nav">
+            <ul class="sidebar-nav">
                 <li>
                     <a class="sidebar-link is-parent" href="#overview">Overview</a>
                     <ul class="sidebar-group">
@@ -418,16 +456,33 @@
 
     <script>
         (function () {
-            const sidebar = document.querySelector('.sidebar');
+            const layout = document.querySelector('.layout');
             const collapseBtn = document.querySelector('.sidebar-collapse-btn');
             const links = document.querySelectorAll('.sidebar-link[href^="#"]');
             const sections = [...document.querySelectorAll('.content .section, .content .panel[id]')];
+            const mobileQuery = window.matchMedia('(max-width: 700px)');
 
-            if (collapseBtn && sidebar) {
+            function setSidebarExpanded(expanded) {
+                if (!layout || !collapseBtn) return;
+
+                layout.classList.toggle('is-sidebar-collapsed', !expanded);
+                collapseBtn.setAttribute('aria-expanded', String(expanded));
+                collapseBtn.setAttribute(
+                    'aria-label',
+                    expanded ? 'Collapse section navigation' : 'Expand section navigation'
+                );
+            }
+
+            if (collapseBtn && layout) {
                 collapseBtn.addEventListener('click', () => {
                     const isExpanded = collapseBtn.getAttribute('aria-expanded') === 'true';
-                    collapseBtn.setAttribute('aria-expanded', String(!isExpanded));
-                    sidebar.classList.toggle('is-collapsed', isExpanded);
+                    setSidebarExpanded(!isExpanded);
+                });
+
+                mobileQuery.addEventListener('change', (event) => {
+                    if (event.matches) {
+                        setSidebarExpanded(true);
+                    }
                 });
             }
 
