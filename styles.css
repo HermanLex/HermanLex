@@ -2050,6 +2050,11 @@ h1.section-title,
     transform: translateX(4px);
 }
 
+button.project-link-ghost {
+    font-family: inherit;
+    cursor: pointer;
+}
+
 /* Logo Modal Styles */
 .logo-modal {
     position: fixed;

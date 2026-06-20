@@ -589,7 +589,7 @@ function initClickableCards() {
     
     projectCards.forEach(card => {
         // Find the "view project" button/link within the card (exclude "visit website" links)
-        const viewProjectBtn = card.querySelector('.password-trigger, .video-trigger, .project-link:not(.project-link-website)');
+        const viewProjectBtn = card.querySelector('.password-trigger, .video-trigger, .project-link:not(.project-link-website), .project-link-ghost');
         
         if (!viewProjectBtn) return;
         
