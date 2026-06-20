@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data tables | HermanLex | UX/UI Design</title>
+    <link rel="icon" type="image/png" href="images/H-favi.png">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --tables-header-bg: #f8f8f8;
+            --tables-header-height: 92px;
+            --tables-sidebar-width: 280px;
+            --tables-text: #1a1a1a;
+            --tables-muted: #5c5c5c;
+            --tables-border: #e8e8e8;
+            --tables-panel-bg: #f3f3f3;
+            --tables-accent: #e85d4c;
+        }
+
+        body.tables-doc {
+            margin: 0;
+            background: #fff;
+            color: var(--tables-text);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .tables-doc .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            height: var(--tables-header-height);
+            background: var(--tables-header-bg);
+            border-bottom: 1px solid var(--tables-border);
+        }
+
+        .tables-doc .header-inner {
+            max-width: 1440px;
+            height: 100%;
+            margin: 0 auto;
+            padding: 0 32px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .tables-doc .header-logo {
+            width: 50px;
+            height: 50px;
+            flex-shrink: 0;
+        }
+
+        .tables-doc .header-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            margin: 0;
+        }
+
+        .tables-doc .layout {
+            max-width: 1440px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: var(--tables-sidebar-width) minmax(0, 1fr);
+            gap: 48px;
+            padding: 40px 32px 80px;
+        }
+
+        .tables-doc .sidebar {
+            position: sticky;
+            top: calc(var(--tables-header-height) + 24px);
+            align-self: start;
+            max-height: calc(100vh - var(--tables-header-height) - 48px);
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+
+        .tables-doc .sidebar-nav {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .tables-doc .sidebar-nav > li {
+            margin-bottom: 4px;
+        }
+
+        .tables-doc .sidebar-link {
+            display: block;
+            padding: 8px 12px;
+            border-radius: 8px;
+            color: var(--tables-text);
+            text-decoration: none;
+            font-size: 0.9375rem;
+            line-height: 1.4;
+            transition: background-color 0.15s ease;
+        }
+
+        .tables-doc .sidebar-link:hover {
+            background: rgba(0, 0, 0, 0.04);
+        }
+
+        .tables-doc .sidebar-link.is-parent {
+            font-weight: 600;
+        }
+
+        .tables-doc .sidebar-link.is-active {
+            background: #ececec;
+            font-weight: 600;
+        }
+
+        .tables-doc .sidebar-group {
+            list-style: none;
+            margin: 0 0 8px;
+            padding: 0 0 0 16px;
+        }
+
+        .tables-doc .sidebar-group .sidebar-link {
+            font-size: 0.875rem;
+            color: var(--tables-muted);
+        }
+
+        .tables-doc .sidebar-group .sidebar-link.is-parent {
+            font-weight: 600;
+            color: var(--tables-text);
+            padding-left: 12px;
+        }
+
+        .tables-doc .content {
+            min-width: 0;
+        }
+
+        .tables-doc .section {
+            margin-bottom: 64px;
+            scroll-margin-top: calc(var(--tables-header-height) + 24px);
+        }
+
+        .tables-doc .section-title {
+            font-size: clamp(2rem, 4vw, 2.75rem);
+            font-weight: 700;
+            letter-spacing: -0.04em;
+            line-height: 1.1;
+            margin: 0 0 24px;
+        }
+
+        .tables-doc .section-subtitle {
+            font-size: 1.375rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin: 0 0 12px;
+        }
+
+        .tables-doc .section-lead {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin: 0 0 8px;
+        }
+
+        .tables-doc .section-text {
+            font-size: 1rem;
+            line-height: 1.65;
+            color: var(--tables-muted);
+            margin: 0 0 16px;
+            max-width: 720px;
+        }
+
+        .tables-doc .hero-card {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(280px, 420px);
+            gap: 32px;
+            align-items: start;
+            margin-bottom: 8px;
+        }
+
+        .tables-doc .hero-copy {
+            padding-top: 8px;
+        }
+
+        .tables-doc .hero-kicker {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin: 0 0 8px;
+        }
+
+        .tables-doc .hero-description {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--tables-muted);
+            margin: 0;
+            max-width: 420px;
+        }
+
+        .tables-doc .hero-image,
+        .tables-doc .figure-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 12px;
+        }
+
+        .tables-doc .figure {
+            margin: 24px 0 0;
+        }
+
+        .tables-doc .panel {
+            background: var(--tables-panel-bg);
+            border-radius: 16px;
+            padding: 32px;
+            margin-top: 24px;
+        }
+
+        .tables-doc .panel-title {
+            font-size: 1.125rem;
+            font-weight: 700;
+            margin: 0 0 20px;
+        }
+
+        .tables-doc .panel-stack {
+            display: grid;
+            gap: 20px;
+        }
+
+        .tables-doc .task-list {
+            margin: 0;
+            padding-left: 1.25rem;
+            color: var(--tables-muted);
+            line-height: 1.8;
+        }
+
+        .tables-doc .coming-soon {
+            font-size: 0.9375rem;
+            color: var(--tables-muted);
+            font-style: italic;
+            margin: 0;
+        }
+
+        @media (max-width: 960px) {
+            .tables-doc .layout {
+                grid-template-columns: 1fr;
+                gap: 32px;
+                padding: 24px 20px 64px;
+            }
+
+            .tables-doc .sidebar {
+                position: static;
+                max-height: none;
+                border-bottom: 1px solid var(--tables-border);
+                padding-bottom: 24px;
+            }
+
+            .tables-doc .hero-card {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body class="tables-doc">
+    <a href="#main" class="skip-link">skip to main content</a>
+
+    <header class="header">
+        <div class="header-inner">
+            <a href="index.html" aria-label="HermanLex Home">
+                <img src="images/H.logo.svg" alt="H" class="header-logo">
+            </a>
+            <h1 class="header-title">Data tables</h1>
+        </div>
+    </header>
+
+    <div class="layout">
+        <aside class="sidebar" aria-label="Page sections">
+            <ul class="sidebar-nav">
+                <li><a class="sidebar-link is-parent" href="#data-tables">Data tables..</a></li>
+                <li>
+                    <a class="sidebar-link is-parent" href="#overview">Overview</a>
+                    <ul class="sidebar-group">
+                        <li><a class="sidebar-link" href="#what-is-a-table">What is a table?</a></li>
+                        <li><a class="sidebar-link" href="#use-cases">Use cases</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="sidebar-link is-parent" href="#anatomy">Anatomy</a>
+                    <ul class="sidebar-group">
+                        <li><a class="sidebar-link" href="#essential">Essential</a></li>
+                        <li><a class="sidebar-link" href="#optional">Optional</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="sidebar-link is-parent" href="#table-features">Table features</a>
+                    <ul class="sidebar-group">
+                        <li><a class="sidebar-link" href="#table-features">Title header</a></li>
+                        <li><a class="sidebar-link" href="#table-features">Primary action</a></li>
+                        <li><a class="sidebar-link" href="#table-features">Filters</a></li>
+                        <li><a class="sidebar-link" href="#table-features">Search</a></li>
+                        <li><a class="sidebar-link" href="#table-features">Sorting</a></li>
+                        <li><a class="sidebar-link" href="#table-features">Row selection</a></li>
+                        <li><a class="sidebar-link" href="#table-features">Bulk selectors</a></li>
+                        <li><a class="sidebar-link" href="#table-features">Single selectors</a></li>
+                        <li><a class="sidebar-link" href="#table-features">Action bar</a></li>
+                        <li><a class="sidebar-link" href="#table-features">Table action</a></li>
+                        <li><a class="sidebar-link" href="#table-features">Selection action</a></li>
+                        <li><a class="sidebar-link" href="#table-features">Table settings</a></li>
+                        <li><a class="sidebar-link" href="#table-features">Pagination</a></li>
+                        <li><a class="sidebar-link" href="#table-features">Navigation</a></li>
+                        <li><a class="sidebar-link" href="#table-features">Items per page</a></li>
+                        <li><a class="sidebar-link" href="#table-features">Totals (bottom) row</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </aside>
+
+        <main id="main" class="content">
+            <section id="data-tables" class="section">
+                <h2 class="section-title">Data tables</h2>
+                <div class="hero-card">
+                    <div class="hero-copy">
+                        <p class="hero-kicker">Data table design guide</p>
+                        <p class="hero-description">A robust data table design guide and reusable Figma component.</p>
+                    </div>
+                    <img src="images/data-tables.png" alt="Data table design guide preview" class="hero-image">
+                </div>
+            </section>
+
+            <section id="overview" class="section">
+                <h2 class="section-title">Overview</h2>
+                <p class="section-text">Data tables are everywhere. They are our primary tool for organizing information in the digital world, from spreadsheets and databases to enterprise applications and consumer products.</p>
+            </section>
+
+            <section id="what-is-a-table" class="section">
+                <h3 class="section-subtitle">What is a table?</h3>
+                <p class="section-text">A table is a collection of records or values presented in rows and columns. Each row represents a record, and each column represents a field or attribute of that record.</p>
+                <p class="section-text">Tables are often complex UI components that must balance density, scannability, and interaction. Good table design helps users find, compare, and act on data quickly.</p>
+            </section>
+
+            <section id="use-cases" class="section">
+                <h3 class="section-subtitle">Use cases</h3>
+                <p class="section-text">Most tables are designed to support 4 common user tasks:</p>
+                <ul class="task-list">
+                    <li>find records</li>
+                    <li>compare data</li>
+                    <li>view/edit/add new records data</li>
+                    <li>and take actions on records (eg change status)</li>
+                </ul>
+            </section>
+
+            <section id="anatomy" class="section">
+                <h2 class="section-title">Anatomy</h2>
+                <p class="section-text">Here's a breakdown of functional features commonly found in tables:</p>
+
+                <div id="essential" class="panel">
+                    <h3 class="panel-title">Essential elements</h3>
+                    <div class="panel-stack">
+                        <img src="images/essential-call-outs.png" alt="Essential table elements: column header, rows, and columns" class="figure-image">
+                        <img src="images/essential-table.png" alt="Simple essential data table example" class="figure-image">
+                    </div>
+                </div>
+
+                <div id="optional" class="panel">
+                    <h3 class="panel-title">Optional elements</h3>
+                    <div class="panel-stack">
+                        <img src="images/optional-call-outs.png" alt="Optional table elements including filters, search, sorting, and pagination" class="figure-image">
+                        <img src="images/optional-table.png" alt="Full-featured optional data table example" class="figure-image">
+                    </div>
+                </div>
+            </section>
+
+            <section id="table-features" class="section">
+                <h2 class="section-title">Table features</h2>
+                <p class="coming-soon">Detailed feature documentation coming soon.</p>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        (function () {
+            const links = document.querySelectorAll('.sidebar-link[href^="#"]');
+            const sections = [...document.querySelectorAll('.content .section, .content .panel[id]')];
+
+            function setActiveLink() {
+                let current = sections[0]?.id;
+                const offset = 120;
+
+                sections.forEach((section) => {
+                    if (section.getBoundingClientRect().top - offset <= 0) {
+                        current = section.id;
+                    }
+                });
+
+                links.forEach((link) => {
+                    const href = link.getAttribute('href');
+                    link.classList.toggle('is-active', href === `#${current}`);
+                });
+            }
+
+            window.addEventListener('scroll', setActiveLink, { passive: true });
+            setActiveLink();
+        })();
+    </script>
+</body>
+</html>
