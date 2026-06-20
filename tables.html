@@ -71,7 +71,6 @@
 
         .tables-doc .layout {
             max-width: 1440px;
-            margin: 0 auto;
             display: grid;
             grid-template-columns: var(--tables-sidebar-width) minmax(0, 1fr);
             gap: 48px;
@@ -226,7 +225,7 @@
             margin: 0;
         }
 
-        @media (max-width: 960px) {
+        @media (max-width: 700px) {
             .tables-doc .layout {
                 grid-template-columns: 1fr;
                 gap: 32px;
@@ -257,7 +256,7 @@
     <div class="layout">
         <aside class="sidebar" aria-label="Page sections">
             <ul class="sidebar-nav">
-                <li><a class="sidebar-link is-parent" href="#data-tables">Data tables..</a></li>
+                <li><a class="sidebar-link is-parent" href="#data-tables">Data tables</a></li>
                 <li>
                     <a class="sidebar-link is-parent" href="#overview">Overview</a>
                     <ul class="sidebar-group">
