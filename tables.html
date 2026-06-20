@@ -298,6 +298,20 @@
             padding-left: 1.25rem;
         }
 
+        .tables-doc .use-case-list {
+            list-style: disc;
+            font-weight: 600;
+            color: var(--tables-text);
+        }
+
+        .tables-doc .use-case-list li {
+            margin-bottom: 4px;
+        }
+
+        .tables-doc .use-case-list li::marker {
+            color: var(--tables-text);
+        }
+
         .tables-doc .section-text a {
             color: var(--tables-text);
             text-decoration: underline;
@@ -485,7 +499,7 @@
             <section id="use-cases" class="section">
                 <h3 class="section-subtitle">Use cases</h3>
                 <p class="section-text">Most tables are designed to support 4 common user tasks:</p>
-                <ul class="task-list">
+                <ul class="task-list use-case-list">
                     <li>find records</li>
                     <li>compare data</li>
                     <li>view/edit/add new records data</li>
