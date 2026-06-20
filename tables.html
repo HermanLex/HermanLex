@@ -13,7 +13,7 @@
         :root {
             --tables-header-bg: #f8f8f8;
             --tables-header-height: 92px;
-            --tables-sidebar-width: 280px;
+            --tables-sidebar-width: 200px;
             --tables-text: #1a1a1a;
             --tables-muted: #5c5c5c;
             --tables-border: #e8e8e8;
@@ -31,20 +31,29 @@
         .tables-doc .header {
             position: sticky;
             top: 0;
+            left: 0;
+            right: 0;
             z-index: 100;
             height: var(--tables-header-height);
             background: var(--tables-header-bg);
             border-bottom: 1px solid var(--tables-border);
+            padding: 0;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+            transform: none;
         }
 
         .tables-doc .header-inner {
-            max-width: 1440px;
+            width: 100%;
+            max-width: none;
             height: 100%;
-            margin: 0 auto;
+            margin: 0;
             padding: 0 32px;
             display: flex;
             align-items: center;
+            justify-content: flex-start;
             gap: 16px;
+            position: static;
         }
 
         .tables-doc .header-logo {
@@ -167,33 +176,13 @@
             max-width: 720px;
         }
 
-        .tables-doc .hero-card {
-            display: grid;
-            grid-template-columns: minmax(0, 1fr) minmax(280px, 420px);
-            gap: 32px;
-            align-items: start;
-            margin-bottom: 8px;
+        .tables-doc .hero-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 12px;
         }
 
-        .tables-doc .hero-copy {
-            padding-top: 8px;
-        }
-
-        .tables-doc .hero-kicker {
-            font-size: 1.125rem;
-            font-weight: 600;
-            margin: 0 0 8px;
-        }
-
-        .tables-doc .hero-description {
-            font-size: 1rem;
-            line-height: 1.6;
-            color: var(--tables-muted);
-            margin: 0;
-            max-width: 420px;
-        }
-
-        .tables-doc .hero-image,
         .tables-doc .figure-image {
             width: 100%;
             height: auto;
@@ -249,10 +238,6 @@
                 max-height: none;
                 border-bottom: 1px solid var(--tables-border);
                 padding-bottom: 24px;
-            }
-
-            .tables-doc .hero-card {
-                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -314,13 +299,7 @@
         <main id="main" class="content">
             <section id="data-tables" class="section">
                 <h2 class="section-title">Data tables</h2>
-                <div class="hero-card">
-                    <div class="hero-copy">
-                        <p class="hero-kicker">Data table design guide</p>
-                        <p class="hero-description">A robust data table design guide and reusable Figma component.</p>
-                    </div>
-                    <img src="images/data-tables.png" alt="Data table design guide preview" class="hero-image">
-                </div>
+                <img src="images/data-tables.png" alt="Data table design guide preview" class="hero-image">
             </section>
 
             <section id="overview" class="section">
