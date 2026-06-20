@@ -287,7 +287,7 @@
         }
 
         .tables-doc .task-list {
-            margin: 0;
+            margin: 0 0 16px;
             padding-left: 1.25rem;
             color: var(--tables-muted);
             line-height: 1.8;
@@ -377,30 +377,41 @@
                 <li>
                     <a class="sidebar-link is-parent" href="#table-features">Table features</a>
                     <ul class="sidebar-group">
-                        <li><a class="sidebar-link" href="#table-features">Title header</a></li>
-                        <li><a class="sidebar-link" href="#table-features">Primary action</a></li>
-                        <li><a class="sidebar-link" href="#table-features">Filters</a></li>
-                        <li><a class="sidebar-link" href="#table-features">Search</a></li>
-                        <li><a class="sidebar-link" href="#table-features">Sorting</a></li>
-                        <li><a class="sidebar-link" href="#table-features">Row selection</a></li>
-                        <li><a class="sidebar-link" href="#table-features">Bulk selectors</a></li>
-                        <li><a class="sidebar-link" href="#table-features">Single selectors</a></li>
-                        <li><a class="sidebar-link" href="#table-features">Action bar</a></li>
-                        <li><a class="sidebar-link" href="#table-features">Table action</a></li>
-                        <li><a class="sidebar-link" href="#table-features">Selection action</a></li>
-                        <li><a class="sidebar-link" href="#table-features">Table settings</a></li>
-                        <li><a class="sidebar-link" href="#table-features">Pagination</a></li>
-                        <li><a class="sidebar-link" href="#table-features">Navigation</a></li>
-                        <li><a class="sidebar-link" href="#table-features">Items per page</a></li>
-                        <li><a class="sidebar-link" href="#table-features">Totals (bottom) row</a></li>
+                        <li><a class="sidebar-link" href="#title-header">Title header</a></li>
+                        <li><a class="sidebar-link" href="#primary-action">Primary action</a></li>
+                        <li><a class="sidebar-link" href="#filters">Filters</a></li>
+                        <li><a class="sidebar-link" href="#search">Search</a></li>
+                        <li><a class="sidebar-link" href="#sorting">Sorting</a></li>
+                        <li><a class="sidebar-link" href="#row-selection">Row selection</a></li>
+                        <li><a class="sidebar-link" href="#bulk-selectors">Bulk selectors</a></li>
+                        <li><a class="sidebar-link" href="#single-selectors">Single selectors</a></li>
+                        <li><a class="sidebar-link" href="#action-bar">Action bar</a></li>
+                        <li><a class="sidebar-link" href="#table-action">Table action</a></li>
+                        <li><a class="sidebar-link" href="#selection-action">Selection action</a></li>
+                        <li><a class="sidebar-link" href="#table-settings">Table settings</a></li>
+                        <li><a class="sidebar-link" href="#pagination">Pagination</a></li>
+                        <li><a class="sidebar-link" href="#navigation">Navigation</a></li>
+                        <li><a class="sidebar-link" href="#items-per-page">Items per page</a></li>
+                        <li><a class="sidebar-link" href="#totals-row">Totals (bottom) row</a></li>
                     </ul>
                 </li>
+                <li>
+                    <a class="sidebar-link is-parent" href="#best-practices">Best practices</a>
+                    <ul class="sidebar-group">
+                        <li><a class="sidebar-link" href="#keep-it-simple">Keep it simple</a></li>
+                        <li><a class="sidebar-link" href="#clear-labels">Use clear labels</a></li>
+                        <li><a class="sidebar-link" href="#visual-cues">Provide visual cues</a></li>
+                    </ul>
+                </li>
+                <li><a class="sidebar-link is-parent" href="#accessibility">Accessibility</a></li>
             </ul>
         </aside>
 
         <main id="main" class="content">
             <section id="data-tables" class="section">
                 <h2 class="section-title">Data tables</h2>
+                <p class="section-lead">Displaying large amounts of data and information</p>
+                <p class="section-text">Data tables display information in a grid of rows and columns. They organize data in a way that is easy to scan, compare, and analyze so users can look for patterns and insights.</p>
                 <img src="images/data-tables.png" alt="Data table design guide preview" class="hero-image">
             </section>
 
@@ -432,6 +443,12 @@
 
                 <div id="essential" class="panel">
                     <h3 class="panel-title">Essential elements</h3>
+                    <p class="section-text">These are the core components required for a data table to function correctly.</p>
+                    <ul class="task-list">
+                        <li>Column headers</li>
+                        <li>Rows</li>
+                        <li>Cells</li>
+                    </ul>
                     <div class="panel-stack">
                         <img src="images/essential-call-outs.png" alt="Essential table elements: column header, rows, and columns" class="figure-image">
                         <img src="images/essential-table.png" alt="Simple essential data table example" class="figure-image">
@@ -440,6 +457,14 @@
 
                 <div id="optional" class="panel">
                     <h3 class="panel-title">Optional elements</h3>
+                    <p class="section-text">These are additional components that extend a table with extra functionality or information.</p>
+                    <ul class="task-list">
+                        <li>Checkboxes</li>
+                        <li>Pagination</li>
+                        <li>Search</li>
+                        <li>Filtering</li>
+                        <li>Sorting</li>
+                    </ul>
                     <div class="panel-stack">
                         <img src="images/optional-call-outs.png" alt="Optional table elements including filters, search, sorting, and pagination" class="figure-image">
                         <img src="images/optional-table.png" alt="Full-featured optional data table example" class="figure-image">
@@ -449,7 +474,113 @@
 
             <section id="table-features" class="section">
                 <h2 class="section-title">Table features</h2>
-                <p class="coming-soon">Detailed feature documentation coming soon.</p>
+                <p class="section-text">Optional features extend the basic table structure to help users find, organize, and act on data. Not every table needs every feature — include only what your use case requires.</p>
+            </section>
+
+            <section id="title-header" class="section">
+                <h3 class="section-subtitle">Title header</h3>
+                <p class="section-text">The title header identifies the dataset and gives users context about what they are viewing. Use a clear, concise title and optional description or metadata when the table needs additional framing.</p>
+            </section>
+
+            <section id="primary-action" class="section">
+                <h3 class="section-subtitle">Primary action</h3>
+                <p class="section-text">The primary action is the most important task associated with the table, such as creating a new record. Place it in a consistent, prominent location — typically top-right — so users can act without searching.</p>
+            </section>
+
+            <section id="filters" class="section">
+                <h3 class="section-subtitle">Filters</h3>
+                <p class="section-text">Filters help users narrow the visible rows based on column values or predefined criteria. Use filters when datasets are large enough that scanning every row is impractical.</p>
+            </section>
+
+            <section id="search" class="section">
+                <h3 class="section-subtitle">Search</h3>
+                <p class="section-text">Search allows users to find specific records by typing keywords. It works well when users know what they are looking for but not where it appears in the table.</p>
+            </section>
+
+            <section id="sorting" class="section">
+                <h3 class="section-subtitle">Sorting</h3>
+                <p class="section-text">Sorting lets users organize rows in ascending or descending order based on a column. Indicate sortable columns clearly and show the active sort direction in the column header.</p>
+            </section>
+
+            <section id="row-selection" class="section">
+                <h3 class="section-subtitle">Row selection</h3>
+                <p class="section-text">Row selection allows users to choose one or more rows before performing an action. Selection is essential when users need to compare, edit, or act on records in bulk.</p>
+            </section>
+
+            <section id="bulk-selectors" class="section">
+                <h3 class="section-subtitle">Bulk selectors</h3>
+                <p class="section-text">Bulk selectors use checkboxes in the column header and each row so users can select all or multiple rows at once. The header checkbox should reflect whether all visible rows are selected, partially selected, or none.</p>
+            </section>
+
+            <section id="single-selectors" class="section">
+                <h3 class="section-subtitle">Single selectors</h3>
+                <p class="section-text">Single selectors use radio buttons to limit selection to one row at a time. Use this pattern when actions apply to a single record, such as choosing a default item or viewing detail for one entry.</p>
+            </section>
+
+            <section id="action-bar" class="section">
+                <h3 class="section-subtitle">Action bar</h3>
+                <p class="section-text">The action bar appears when one or more rows are selected and surfaces actions relevant to the current selection. Keep the bar contextual and dismiss it when selection is cleared.</p>
+            </section>
+
+            <section id="table-action" class="section">
+                <h3 class="section-subtitle">Table action</h3>
+                <p class="section-text">Table actions apply to the entire dataset rather than individual rows, such as export, refresh, or import. Group secondary table actions in a menu to avoid cluttering the toolbar.</p>
+            </section>
+
+            <section id="selection-action" class="section">
+                <h3 class="section-subtitle">Selection action</h3>
+                <p class="section-text">Selection actions are performed on the currently selected row or rows, such as delete, archive, or change status. Label actions clearly and confirm destructive operations.</p>
+            </section>
+
+            <section id="table-settings" class="section">
+                <h3 class="section-subtitle">Table settings</h3>
+                <p class="section-text">Table settings let users customize how data is displayed, including column visibility, column order, and density. Persist settings when users are likely to return to the same view.</p>
+            </section>
+
+            <section id="pagination" class="section">
+                <h3 class="section-subtitle">Pagination</h3>
+                <p class="section-text">Pagination breaks large datasets into smaller pages so users are not overwhelmed by too many rows at once. Show the current range and total count so users understand where they are in the dataset.</p>
+            </section>
+
+            <section id="navigation" class="section">
+                <h3 class="section-subtitle">Navigation</h3>
+                <p class="section-text">Navigation controls let users move between pages using previous, next, and direct page selection. Disable controls at the first and last page to prevent dead-end interactions.</p>
+            </section>
+
+            <section id="items-per-page" class="section">
+                <h3 class="section-subtitle">Items per page</h3>
+                <p class="section-text">Items per page lets users choose how many rows appear on each page. Offer sensible defaults and a small set of options that balance scanability with performance.</p>
+            </section>
+
+            <section id="totals-row" class="section">
+                <h3 class="section-subtitle">Totals (bottom) row</h3>
+                <p class="section-text">A totals row summarizes numeric columns at the bottom of the table, such as sums or averages. Use it when users need aggregate values without leaving the table view.</p>
+            </section>
+
+            <section id="best-practices" class="section">
+                <h2 class="section-title">Best practices</h2>
+                <p class="section-text">Follow these guidelines to create effective, scannable data tables.</p>
+            </section>
+
+            <section id="keep-it-simple" class="section">
+                <h3 class="section-subtitle">Keep it simple</h3>
+                <p class="section-text">Avoid cluttering the table with too much information. Display only the columns users need and remove features that do not support their task.</p>
+            </section>
+
+            <section id="clear-labels" class="section">
+                <h3 class="section-subtitle">Use clear labels</h3>
+                <p class="section-text">Column headers should be short, specific, and easy to understand. Avoid jargon unless your audience expects it, and use consistent naming across similar tables.</p>
+            </section>
+
+            <section id="visual-cues" class="section">
+                <h3 class="section-subtitle">Provide visual cues</h3>
+                <p class="section-text">Use alternating row colors, alignment, and spacing to help users scan data. Align text left, numbers right, and actions consistently so patterns are easy to follow.</p>
+            </section>
+
+            <section id="accessibility" class="section">
+                <h2 class="section-title">Accessibility</h2>
+                <p class="section-text">Data tables should be accessible to all users, including those using assistive technologies. Use proper table markup, associate headers with cells, and provide text alternatives for icons and visual states.</p>
+                <p class="section-text">Ensure keyboard users can navigate rows, sort columns, and activate actions. Visible focus states and clear labels for selection controls are essential for usable, inclusive table design.</p>
             </section>
         </main>
     </div>
