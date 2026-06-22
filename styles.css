@@ -1427,7 +1427,10 @@ h1.section-title,
 }
 
 .connect-link {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
     font-size: 0.875rem;
     font-weight: 500;
     color: white;
@@ -1440,6 +1443,12 @@ h1.section-title,
     width: calc(66.66% * 2 / 3);
     max-width: calc(332px * 2 / 3);
     text-align: center;
+}
+
+.about-btn-icon {
+    width: 0.875rem;
+    height: 0.875rem;
+    flex-shrink: 0;
 }
 
 .about-actions {
@@ -1467,9 +1476,17 @@ h1.section-title,
     background-color: white;
 }
 
+.about-actions .project-link-ghost:hover {
+    background-color: #f8f8f8;
+    color: var(--color-text);
+    text-decoration: underline;
+    opacity: 1;
+}
+
 .connect-link:hover {
     opacity: 0.85;
     background-color: #1a1a1a;
+    text-decoration: underline;
 }
 
 .about-footer-note {
