@@ -1442,6 +1442,31 @@ h1.section-title,
     text-align: center;
 }
 
+.about-actions {
+    display: flex;
+    gap: var(--space-sm);
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: calc(var(--space-sm) + 20px);
+    width: 83.33%;
+    max-width: 415px;
+}
+
+.about-actions .connect-link {
+    margin-top: 0;
+    width: auto;
+    max-width: none;
+    flex: 1;
+    min-width: fit-content;
+}
+
+.about-actions .project-link-ghost {
+    flex: 1;
+    justify-content: center;
+    min-width: fit-content;
+    background-color: white;
+}
+
 .connect-link:hover {
     opacity: 0.85;
     background-color: #1a1a1a;
