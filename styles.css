@@ -1451,6 +1451,26 @@ h1.section-title,
     flex-shrink: 0;
 }
 
+.about-btn-icon-wrap--linkedin {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.125rem;
+    height: 1.125rem;
+    border: 1px solid currentColor;
+    border-radius: 6px;
+    flex-shrink: 0;
+}
+
+.about-btn-icon-wrap--linkedin .about-btn-icon {
+    width: 0.625rem;
+    height: 0.625rem;
+}
+
+.about-btn-icon--line {
+    fill: none;
+}
+
 .about-actions {
     display: flex;
     gap: var(--space-sm);
