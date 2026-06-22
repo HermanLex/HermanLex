@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initSmoothScroll();
     initVideoModal();
     initLogoModal();
-    initProjectsToggle();
+    initProjectsCarousel();
     initVisionInput();
     initVisionToaster();
     initPasswordModal();
@@ -320,36 +320,101 @@ function initLogoModal() {
 }
 
 /**
- * Projects Toggle (Show/Hide More Projects)
+ * Projects Carousel
  */
-function initProjectsToggle() {
-    const toggle = document.getElementById('projectsToggle');
-    const grid = document.querySelector('.projects-grid');
-    
-    if (!toggle || !grid) return;
-    
-    toggle.addEventListener('click', () => {
-        const isExpanded = grid.classList.contains('expanded');
-        
-        if (isExpanded) {
-            grid.classList.remove('expanded');
-            toggle.textContent = '+ view more projects';
-            
-            // Scroll to projects section when collapsing
-            const projectsSection = document.getElementById('projects');
-            if (projectsSection) {
-                const headerHeight = document.querySelector('.header')?.offsetHeight || 0;
-                const targetPosition = projectsSection.getBoundingClientRect().top + window.pageYOffset - headerHeight - 20;
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
-                });
+function initProjectsCarousel() {
+    const carousel = document.getElementById('projectsCarousel');
+    if (!carousel) return;
+
+    const track = carousel.querySelector('.projects-carousel-track');
+    const cards = carousel.querySelectorAll('.project-card');
+    const prevBtn = carousel.querySelector('.projects-carousel-btn--prev');
+    const nextBtn = carousel.querySelector('.projects-carousel-btn--next');
+    const viewport = carousel.querySelector('.projects-carousel-viewport');
+
+    if (!track || cards.length === 0) return;
+
+    let currentIndex = 0;
+    let autoPlayInterval;
+    const intervalMs = 7000;
+    const transitionMs = 700;
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function goTo(index, animate = true) {
+        currentIndex = ((index % cards.length) + cards.length) % cards.length;
+        track.style.transition = animate && !prefersReducedMotion
+            ? `transform ${transitionMs}ms ease`
+            : 'none';
+        track.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+        cards.forEach((card, i) => {
+            card.setAttribute('aria-hidden', i !== currentIndex ? 'true' : 'false');
+        });
+    }
+
+    function next() {
+        goTo(currentIndex + 1);
+    }
+
+    function prev() {
+        goTo(currentIndex - 1);
+    }
+
+    function startAutoPlay() {
+        stopAutoPlay();
+        autoPlayInterval = setInterval(next, intervalMs);
+    }
+
+    function stopAutoPlay() {
+        clearInterval(autoPlayInterval);
+    }
+
+    prevBtn?.addEventListener('click', () => {
+        stopAutoPlay();
+        prev();
+        startAutoPlay();
+    });
+
+    nextBtn?.addEventListener('click', () => {
+        stopAutoPlay();
+        next();
+        startAutoPlay();
+    });
+
+    let touchStartX = 0;
+
+    viewport?.addEventListener('touchstart', (e) => {
+        touchStartX = e.touches[0].clientX;
+        stopAutoPlay();
+    }, { passive: true });
+
+    viewport?.addEventListener('touchend', (e) => {
+        const touchEndX = e.changedTouches[0].clientX;
+        const diff = touchStartX - touchEndX;
+
+        if (Math.abs(diff) > 50) {
+            if (diff > 0) {
+                next();
+            } else {
+                prev();
             }
-        } else {
-            grid.classList.add('expanded');
-            toggle.textContent = '- hide projects';
+        }
+
+        startAutoPlay();
+    }, { passive: true });
+
+    carousel.addEventListener('mouseenter', stopAutoPlay);
+    carousel.addEventListener('mouseleave', startAutoPlay);
+
+    carousel.addEventListener('focusin', stopAutoPlay);
+    carousel.addEventListener('focusout', (e) => {
+        if (!carousel.contains(e.relatedTarget)) {
+            startAutoPlay();
         }
     });
+
+    goTo(0, false);
+    startAutoPlay();
 }
 
 /**

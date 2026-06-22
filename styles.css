@@ -772,34 +772,65 @@ h1.section-title,
     gap: clamp(24px, 2.5vw, 40px);
 }
 
-.projects-grid .project-card:nth-child(n+4) {
-    display: none;
-}
-
-.projects-grid.expanded .project-card:nth-child(n+4) {
+.projects-carousel {
+    position: relative;
     display: flex;
+    align-items: center;
+    gap: clamp(12px, 2vw, 24px);
 }
 
-.projects-toggle-wrapper {
-    text-align: center;
-    margin-top: var(--space-md);
+.projects-carousel-viewport {
+    flex: 1;
+    overflow: hidden;
+    touch-action: pan-y;
 }
 
-.projects-toggle {
-    background: none;
-    border: none;
+.projects-carousel-track {
+    display: flex;
+    transition: transform 700ms ease;
+    will-change: transform;
+}
+
+.projects-carousel-track .project-card {
+    flex: 0 0 100%;
+    min-width: 100%;
+}
+
+.projects-carousel-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    border: 1px solid var(--color-text);
+    border-radius: 50%;
+    background: white;
     color: var(--color-text);
-    font-family: var(--font-primary);
-    font-size: 0.875rem;
-    font-weight: 500;
     cursor: pointer;
-    padding: var(--space-xs) var(--space-sm);
-    transition: opacity var(--transition-fast);
-    text-decoration: underline;
+    transition: background-color var(--transition-fast), color var(--transition-fast), opacity var(--transition-fast);
 }
 
-.projects-toggle:hover {
-    opacity: 0.7;
+.projects-carousel-btn svg {
+    width: 1.125rem;
+    height: 1.125rem;
+}
+
+.projects-carousel-btn:hover {
+    background-color: var(--color-text);
+    color: white;
+}
+
+.projects-carousel-btn:focus-visible {
+    outline: 2px solid var(--color-text);
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .projects-carousel-track {
+        transition: none;
+    }
 }
 
 /* Project Image */
@@ -1638,6 +1669,15 @@ h1.section-title,
     .projects-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: var(--space-sm);
+    }
+
+    .projects-carousel {
+        gap: var(--space-xs);
+    }
+
+    .projects-carousel-btn {
+        width: 2.25rem;
+        height: 2.25rem;
     }
     
     .project-card {

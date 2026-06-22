@@ -142,7 +142,12 @@
             <div class="container">
                 <h2 class="section-title">Project examples <span class="section-note">(case studies upon request)</span></h2>
                 
-                <div class="projects-grid">
+                <div class="projects-carousel" id="projectsCarousel" aria-roledescription="carousel" aria-label="Project examples">
+                    <button type="button" class="projects-carousel-btn projects-carousel-btn--prev" aria-label="Previous project">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    </button>
+                    <div class="projects-carousel-viewport">
+                        <div class="projects-carousel-track">
                     <article class="project-card">
                         <div class="project-image">
                             <img src="images/card-mastercard.png" alt="Shopper paying a merchant with her Mastercard" class="project-photo">
@@ -177,7 +182,7 @@
                         </div>
                         <div class="project-content">
                             <h3 class="project-title">OKRmate.com AI</h3>
-                            <p class="project-description">Designed, then vibe-coded and shipped a functional MVP, serving as a full-stack design-to-production shop and compressing app development from months into weeks.</p>
+                            <p class="project-description">Designed (Figma) then vibe-coded (Cursor) and shipped a functional enterprise-grade MVP, compressing a full-stack design-to-production workflow from months into weeks.</p>
                             <div class="project-buttons">
                                 <a href="okrmate.html" target="_blank" rel="noopener noreferrer" class="project-link-ghost">see project <span class="arrow">→</span></a>
                                 <a href="https://careerjump.ai/" target="_blank" rel="noopener noreferrer" class="project-link-website">visit website</a>
@@ -241,9 +246,11 @@
                             <a href="code-camp.html" class="project-link-ghost" target="_blank" rel="noopener noreferrer">see project <span class="arrow">→</span></a>
                         </div>
                     </article>
-                </div>
-                <div class="projects-toggle-wrapper">
-                    <button type="button" class="projects-toggle" id="projectsToggle">+ view more projects</button>
+                        </div>
+                    </div>
+                    <button type="button" class="projects-carousel-btn projects-carousel-btn--next" aria-label="Next project">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </button>
                 </div>
             </div>
         </section>
