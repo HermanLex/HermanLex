@@ -327,37 +327,125 @@ function initProjectsCarousel() {
     if (!carousel) return;
 
     const track = carousel.querySelector('.projects-carousel-track');
-    const cards = carousel.querySelectorAll('.project-card');
     const prevBtn = carousel.querySelector('.projects-carousel-btn--prev');
     const nextBtn = carousel.querySelector('.projects-carousel-btn--next');
     const viewport = carousel.querySelector('.projects-carousel-viewport');
 
-    if (!track || cards.length === 0) return;
+    if (!track || !viewport) return;
+
+    const originalCards = [...track.querySelectorAll('.project-card')];
+    const originalCount = originalCards.length;
+    if (originalCount === 0) return;
+
+    originalCards.forEach((card) => {
+        const clone = card.cloneNode(true);
+        clone.setAttribute('data-carousel-clone', 'true');
+        clone.setAttribute('aria-hidden', 'true');
+        clone.querySelectorAll('a, button').forEach((el) => {
+            el.setAttribute('tabindex', '-1');
+        });
+        track.appendChild(clone);
+    });
+
+    const allCards = [...track.querySelectorAll('.project-card')];
 
     let currentIndex = 0;
     let autoPlayInterval;
+    let slideStep = 0;
+    let transitionLocked = false;
     const intervalMs = 7000;
     const transitionMs = 700;
+    const cardMaxWidth = 350;
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    function goTo(index, animate = true) {
-        currentIndex = ((index % cards.length) + cards.length) % cards.length;
+    function getCardsVisible() {
+        if (window.matchMedia('(max-width: 540px)').matches) return 1;
+        if (window.matchMedia('(max-width: 800px)').matches) return 2;
+        return 3;
+    }
+
+    function getGap() {
+        return parseFloat(getComputedStyle(track).gap) || 0;
+    }
+
+    function setTransform(index, animate) {
         track.style.transition = animate && !prefersReducedMotion
             ? `transform ${transitionMs}ms ease`
             : 'none';
-        track.style.transform = `translateX(-${currentIndex * 100}%)`;
+        track.style.transform = `translateX(-${index * slideStep}px)`;
+    }
 
-        cards.forEach((card, i) => {
-            card.setAttribute('aria-hidden', i !== currentIndex ? 'true' : 'false');
+    function updateLayout() {
+        const cardsVisible = getCardsVisible();
+        const trackGap = getGap();
+        const viewportWidth = viewport.offsetWidth;
+        const cardWidth = Math.min(
+            cardMaxWidth,
+            (viewportWidth - trackGap * (cardsVisible - 1)) / cardsVisible
+        );
+
+        allCards.forEach((card) => {
+            card.style.flexBasis = `${cardWidth}px`;
+            card.style.width = `${cardWidth}px`;
+            card.style.maxWidth = `${cardMaxWidth}px`;
+        });
+
+        slideStep = cardWidth + trackGap;
+
+        if (currentIndex >= originalCount) {
+            currentIndex %= originalCount;
+        }
+
+        setTransform(currentIndex, false);
+        updateAriaHidden();
+    }
+
+    function updateAriaHidden() {
+        const cardsVisible = getCardsVisible();
+        allCards.forEach((card, i) => {
+            if (card.dataset.carouselClone === 'true') {
+                card.setAttribute('aria-hidden', 'true');
+                return;
+            }
+
+            const isVisible = i >= currentIndex && i < currentIndex + cardsVisible;
+            card.setAttribute('aria-hidden', isVisible ? 'false' : 'true');
         });
     }
 
+    function goTo(index, animate = true) {
+        currentIndex = index;
+        const shouldAnimate = animate && !prefersReducedMotion;
+        setTransform(currentIndex, shouldAnimate);
+        updateAriaHidden();
+
+        if (!shouldAnimate) {
+            normalizeAfterLoop();
+        }
+    }
+
+    function normalizeAfterLoop() {
+        if (currentIndex >= originalCount) {
+            currentIndex -= originalCount;
+            setTransform(currentIndex, false);
+            updateAriaHidden();
+        }
+    }
+
     function next() {
-        goTo(currentIndex + 1);
+        if (transitionLocked) return;
+        goTo(currentIndex + 1, true);
     }
 
     function prev() {
-        goTo(currentIndex - 1);
+        if (transitionLocked) return;
+
+        if (currentIndex === 0) {
+            currentIndex = originalCount;
+            setTransform(currentIndex, false);
+        }
+
+        goTo(currentIndex - 1, true);
     }
 
     function startAutoPlay() {
@@ -368,6 +456,16 @@ function initProjectsCarousel() {
     function stopAutoPlay() {
         clearInterval(autoPlayInterval);
     }
+
+    track.addEventListener('transitionstart', () => {
+        transitionLocked = true;
+    });
+
+    track.addEventListener('transitionend', (e) => {
+        if (e.target !== track || e.propertyName !== 'transform') return;
+        transitionLocked = false;
+        normalizeAfterLoop();
+    });
 
     prevBtn?.addEventListener('click', () => {
         stopAutoPlay();
@@ -383,12 +481,12 @@ function initProjectsCarousel() {
 
     let touchStartX = 0;
 
-    viewport?.addEventListener('touchstart', (e) => {
+    viewport.addEventListener('touchstart', (e) => {
         touchStartX = e.touches[0].clientX;
         stopAutoPlay();
     }, { passive: true });
 
-    viewport?.addEventListener('touchend', (e) => {
+    viewport.addEventListener('touchend', (e) => {
         const touchEndX = e.changedTouches[0].clientX;
         const diff = touchStartX - touchEndX;
 
@@ -413,7 +511,9 @@ function initProjectsCarousel() {
         }
     });
 
-    goTo(0, false);
+    window.addEventListener('resize', updateLayout);
+
+    updateLayout();
     startAutoPlay();
 }
 
