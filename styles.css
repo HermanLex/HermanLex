@@ -761,9 +761,20 @@ h1.section-title,
     cursor: pointer;
 }
 
-.project-card:hover {
+.project-card:hover,
+.project-card.fade-in:hover,
+.project-card.fade-in.visible:hover {
     transform: translateY(-4px);
     border-color: #e5e5e5;
+}
+
+.project-card:focus-visible {
+    outline: 2px solid var(--color-text);
+    outline-offset: 4px;
+}
+
+.project-card:focus:not(:focus-visible) {
+    outline: none;
 }
 
 .projects-grid {
@@ -776,17 +787,20 @@ h1.section-title,
     --carousel-gap: clamp(24px, 2.5vw, 40px);
     --card-max-width: 350px;
     --cards-visible: 3;
+    --carousel-btn-size: 60px;
+    --carousel-btn-overlap: 24px;
+    width: 100%;
+}
+
+.projects-carousel-stage {
     position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: clamp(12px, 2vw, 24px);
+    width: 100%;
+    max-width: calc(var(--card-max-width) * var(--cards-visible) + var(--carousel-gap) * (var(--cards-visible) - 1));
+    margin: 0 auto;
 }
 
 .projects-carousel-viewport {
-    flex: 0 1 calc(var(--card-max-width) * var(--cards-visible) + var(--carousel-gap) * (var(--cards-visible) - 1));
     width: 100%;
-    max-width: calc(var(--card-max-width) * var(--cards-visible) + var(--carousel-gap) * (var(--cards-visible) - 1));
     overflow: hidden;
     touch-action: pan-y;
 }
@@ -805,29 +819,40 @@ h1.section-title,
 }
 
 .projects-carousel-btn {
+    position: absolute;
+    top: 50%;
+    z-index: 2;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
-    width: 2.75rem;
-    height: 2.75rem;
+    width: var(--carousel-btn-size);
+    height: var(--carousel-btn-size);
     padding: 0;
-    border: 1px solid var(--color-text);
+    border: none;
     border-radius: 50%;
-    background: white;
+    background: #f4f4f4;
     color: var(--color-text);
     cursor: pointer;
-    transition: background-color var(--transition-fast), color var(--transition-fast), opacity var(--transition-fast);
+    transform: translateY(-50%);
+    transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.projects-carousel-btn--prev {
+    left: calc(-1 * (var(--carousel-btn-size) - var(--carousel-btn-overlap)));
+}
+
+.projects-carousel-btn--next {
+    right: calc(-1 * (var(--carousel-btn-size) - var(--carousel-btn-overlap)));
 }
 
 .projects-carousel-btn svg {
-    width: 1.125rem;
-    height: 1.125rem;
+    width: 32px;
+    height: 32px;
 }
 
 .projects-carousel-btn:hover {
-    background-color: var(--color-text);
-    color: white;
+    background-color: white;
+    color: var(--color-text);
 }
 
 .projects-carousel-btn:focus-visible {
@@ -1682,11 +1707,6 @@ h1.section-title,
     .projects-carousel {
         --cards-visible: 2;
         gap: var(--space-xs);
-    }
-
-    .projects-carousel-btn {
-        width: 2.25rem;
-        height: 2.25rem;
     }
     
     .projects-grid .project-card {

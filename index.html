@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <a href="#main" class="skip-link">skip to main content</a>
+    <a href="#first-project-card" class="skip-link">skip to main content</a>
     
     <header class="header">
         <div class="header-inner">
@@ -143,12 +143,13 @@
                 <h2 class="section-title">Project examples <span class="section-note">(case studies upon request)</span></h2>
                 
                 <div class="projects-carousel" id="projectsCarousel" aria-roledescription="carousel" aria-label="Project examples">
-                    <button type="button" class="projects-carousel-btn projects-carousel-btn--prev" aria-label="Previous project">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
-                    </button>
-                    <div class="projects-carousel-viewport">
-                        <div class="projects-carousel-track">
-                    <article class="project-card">
+                    <div class="projects-carousel-stage">
+                        <button type="button" class="projects-carousel-btn projects-carousel-btn--prev" aria-label="Previous project" tabindex="-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                        </button>
+                        <div class="projects-carousel-viewport">
+                            <div class="projects-carousel-track">
+                    <article class="project-card" id="first-project-card">
                         <div class="project-image">
                             <img src="images/card-mastercard.png" alt="Shopper paying a merchant with her Mastercard" class="project-photo">
                         </div>
@@ -246,11 +247,12 @@
                             <a href="code-camp.html" class="project-link-ghost" target="_blank" rel="noopener noreferrer">see project <span class="arrow">→</span></a>
                         </div>
                     </article>
+                            </div>
                         </div>
+                        <button type="button" class="projects-carousel-btn projects-carousel-btn--next" aria-label="Next project" tabindex="-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        </button>
                     </div>
-                    <button type="button" class="projects-carousel-btn projects-carousel-btn--next" aria-label="Next project">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                    </button>
                 </div>
             </div>
         </section>
@@ -258,7 +260,7 @@
         <!-- Skills Section -->
         <section id="process" class="skills">
             <div class="container">
-                <h2 class="section-title">Skill highlights</h2>
+                <h2 class="section-title" id="skill-highlights" tabindex="0">Skill highlights</h2>
                 <p class="skills-description">
                     Well versed in usability, accessibility, design systems, and effective UI patterns. I help teams drive product strategy forward while delivering world-class solutions validated by end-users. I work cross-functionally and with senior leaders on end-to-end initiatives that transform complex systems into simplified user experiences.
                 </p>

@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize all modules
     initMobileNav();
     initHeaderScroll();
+    initClientsTabOrder();
     initTestimonials();
     initScrollAnimations();
     initSmoothScroll();
@@ -18,6 +19,15 @@ document.addEventListener('DOMContentLoaded', () => {
     initClickableCards();
     initDisabledLinks();
 });
+
+/**
+ * Remove client logos from keyboard tab order on homepage
+ */
+function initClientsTabOrder() {
+    document.querySelectorAll('.clients a').forEach((link) => {
+        link.setAttribute('tabindex', '-1');
+    });
+}
 
 /**
  * Mobile Navigation Toggle
@@ -170,9 +180,9 @@ function initTestimonials() {
  * Scroll Animations (Intersection Observer)
  */
 function initScrollAnimations() {
-    // Elements to animate
+    // Elements to animate (exclude carousel cards — they use overflow clipping, not page scroll)
     const animatedElements = document.querySelectorAll(
-        '.project-card, .section-title, .skills-description, .offerings-list li, .client-logo'
+        '.projects-grid .project-card, .section-title, .skills-description, .offerings-list li'
     );
     
     if (animatedElements.length === 0) return;
@@ -206,7 +216,7 @@ function initScrollAnimations() {
  * Smooth Scroll for Anchor Links
  */
 function initSmoothScroll() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    document.querySelectorAll('a[href^="#"]:not(.skip-link)').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             const targetId = this.getAttribute('href');
             if (targetId === '#') return;
@@ -337,22 +347,35 @@ function initProjectsCarousel() {
     const originalCount = originalCards.length;
     if (originalCount === 0) return;
 
-    originalCards.forEach((card) => {
+    const bufferCount = 3;
+
+    function cloneCard(card) {
         const clone = card.cloneNode(true);
-        clone.setAttribute('data-carousel-clone', 'true');
+        clone.setAttribute('data-carousel-buffer', 'true');
         clone.setAttribute('aria-hidden', 'true');
+        clone.setAttribute('tabindex', '-1');
         clone.querySelectorAll('a, button').forEach((el) => {
             el.setAttribute('tabindex', '-1');
         });
-        track.appendChild(clone);
+        return clone;
+    }
+
+    originalCards.slice(-bufferCount).forEach((card) => {
+        track.insertBefore(cloneCard(card), track.firstChild);
+    });
+
+    originalCards.slice(0, bufferCount).forEach((card) => {
+        track.appendChild(cloneCard(card));
     });
 
     const allCards = [...track.querySelectorAll('.project-card')];
+    const startIndex = bufferCount;
 
-    let currentIndex = 0;
+    let currentIndex = startIndex;
     let autoPlayInterval;
+    let unlockTimeout;
     let slideStep = 0;
-    let transitionLocked = false;
+    let isAnimating = false;
     const intervalMs = 7000;
     const transitionMs = 700;
     const cardMaxWidth = 350;
@@ -375,6 +398,33 @@ function initProjectsCarousel() {
         track.style.transform = `translateX(-${index * slideStep}px)`;
     }
 
+    function clearUnlockTimeout() {
+        if (unlockTimeout) {
+            clearTimeout(unlockTimeout);
+            unlockTimeout = null;
+        }
+    }
+
+    function finishAnimation() {
+        clearUnlockTimeout();
+        isAnimating = false;
+        normalizePosition();
+    }
+
+    function scheduleUnlockFallback() {
+        clearUnlockTimeout();
+        unlockTimeout = setTimeout(finishAnimation, transitionMs + 100);
+    }
+
+    function normalizePosition() {
+        if (currentIndex >= startIndex + originalCount) {
+            currentIndex -= originalCount;
+            setTransform(currentIndex, false);
+        }
+
+        updateAriaHidden();
+    }
+
     function updateLayout() {
         const cardsVisible = getCardsVisible();
         const trackGap = getGap();
@@ -391,58 +441,147 @@ function initProjectsCarousel() {
         });
 
         slideStep = cardWidth + trackGap;
-
-        if (currentIndex >= originalCount) {
-            currentIndex %= originalCount;
-        }
-
         setTransform(currentIndex, false);
         updateAriaHidden();
     }
 
     function updateAriaHidden() {
-        const cardsVisible = getCardsVisible();
-        allCards.forEach((card, i) => {
-            if (card.dataset.carouselClone === 'true') {
+        allCards.forEach((card) => {
+            if (card.dataset.carouselBuffer === 'true') {
                 card.setAttribute('aria-hidden', 'true');
-                return;
+            } else {
+                card.removeAttribute('aria-hidden');
             }
-
-            const isVisible = i >= currentIndex && i < currentIndex + cardsVisible;
-            card.setAttribute('aria-hidden', isVisible ? 'false' : 'true');
         });
     }
 
+    function activateFocusedCard(card) {
+        const cardLink = card.querySelector(':scope > a[href]');
+        const viewProjectBtn = card.querySelector(
+            '.password-trigger, .video-trigger, .project-link:not(.project-link-website), .project-link-ghost:not(.project-link-ghost--disabled):not(:disabled)'
+        );
+
+        if (cardLink) {
+            cardLink.click();
+        } else if (viewProjectBtn && !viewProjectBtn.disabled) {
+            viewProjectBtn.click();
+        }
+    }
+
+    function setupCarouselKeyboardAccess() {
+        prevBtn?.setAttribute('tabindex', '-1');
+        nextBtn?.setAttribute('tabindex', '-1');
+
+        originalCards.forEach((card, i) => {
+            const title = card.querySelector('.project-title')?.textContent?.trim() || `Project ${i + 1}`;
+            card.setAttribute('tabindex', '0');
+            card.setAttribute('role', 'group');
+            card.setAttribute('aria-roledescription', 'slide');
+            card.setAttribute('aria-label', title);
+
+            card.querySelectorAll('a, button').forEach((el) => {
+                el.setAttribute('tabindex', '-1');
+            });
+
+            card.addEventListener('focus', () => {
+                stopAutoPlay();
+                const index = allCards.indexOf(card);
+                if (index !== -1 && index !== currentIndex) {
+                    goTo(index, !prefersReducedMotion);
+                }
+            });
+
+            card.addEventListener('keydown', (e) => {
+                const cardIndex = originalCards.indexOf(card);
+                if (cardIndex === -1) return;
+
+                if (e.key === 'ArrowRight') {
+                    e.preventDefault();
+                    (originalCards[cardIndex + 1] || originalCards[0]).focus();
+                    return;
+                }
+
+                if (e.key === 'ArrowLeft') {
+                    e.preventDefault();
+                    (originalCards[cardIndex - 1] || originalCards[originalCards.length - 1]).focus();
+                    return;
+                }
+
+                if (e.key === 'Home') {
+                    e.preventDefault();
+                    originalCards[0].focus();
+                    return;
+                }
+
+                if (e.key === 'End') {
+                    e.preventDefault();
+                    originalCards[originalCards.length - 1].focus();
+                    return;
+                }
+
+                if ((e.key === 'Enter' || e.key === ' ') && e.target === card) {
+                    e.preventDefault();
+                    activateFocusedCard(card);
+                }
+            });
+        });
+    }
+
+    function setupSkipLinkFocus() {
+        const skipLink = document.querySelector('.skip-link');
+        const firstCard = originalCards[0];
+        if (!skipLink || !firstCard) return;
+
+        function focusFirstProjectCard() {
+            goTo(startIndex, false);
+
+            const headerHeight = document.querySelector('.header')?.offsetHeight || 0;
+            const targetPosition = firstCard.getBoundingClientRect().top + window.pageYOffset - headerHeight - 20;
+
+            window.scrollTo({
+                top: targetPosition,
+                behavior: 'smooth'
+            });
+
+            firstCard.focus({ preventScroll: true });
+        }
+
+        skipLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            focusFirstProjectCard();
+        });
+
+        if (window.location.hash === '#first-project-card') {
+            focusFirstProjectCard();
+        }
+    }
+
     function goTo(index, animate = true) {
+        if (animate && isAnimating) return;
+
         currentIndex = index;
         const shouldAnimate = animate && !prefersReducedMotion;
+
+        if (shouldAnimate) {
+            isAnimating = true;
+            scheduleUnlockFallback();
+        }
+
         setTransform(currentIndex, shouldAnimate);
         updateAriaHidden();
 
         if (!shouldAnimate) {
-            normalizeAfterLoop();
-        }
-    }
-
-    function normalizeAfterLoop() {
-        if (currentIndex >= originalCount) {
-            currentIndex -= originalCount;
-            setTransform(currentIndex, false);
-            updateAriaHidden();
+            normalizePosition();
         }
     }
 
     function next() {
-        if (transitionLocked) return;
         goTo(currentIndex + 1, true);
     }
 
     function prev() {
-        if (transitionLocked) return;
-
-        if (currentIndex === 0) {
-            currentIndex = originalCount;
-            setTransform(currentIndex, false);
+        if (currentIndex === startIndex - bufferCount) {
+            goTo(startIndex + originalCount - 1, false);
         }
 
         goTo(currentIndex - 1, true);
@@ -457,14 +596,9 @@ function initProjectsCarousel() {
         clearInterval(autoPlayInterval);
     }
 
-    track.addEventListener('transitionstart', () => {
-        transitionLocked = true;
-    });
-
     track.addEventListener('transitionend', (e) => {
         if (e.target !== track || e.propertyName !== 'transform') return;
-        transitionLocked = false;
-        normalizeAfterLoop();
+        finishAnimation();
     });
 
     prevBtn?.addEventListener('click', () => {
@@ -513,10 +647,11 @@ function initProjectsCarousel() {
 
     window.addEventListener('resize', updateLayout);
 
+    setupCarouselKeyboardAccess();
+    setupSkipLinkFocus();
     updateLayout();
     startAutoPlay();
 }
-
 /**
  * Form Submission Handler
  */
@@ -750,7 +885,7 @@ async function generateImage(prompt) {
  * Make Project Cards Clickable
  */
 function initClickableCards() {
-    const projectCards = document.querySelectorAll('.project-card');
+    const projectCards = document.querySelectorAll('.project-card:not([data-carousel-buffer="true"])');
     
     projectCards.forEach(card => {
         // Find the "view project" button/link within the card (exclude "visit website" links)
