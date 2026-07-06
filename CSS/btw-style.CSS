@@ -65,8 +65,8 @@
 
 @media (max-width: 767px) {
     .fullscreen-bg {
-/***        background: url('http://blankettheweb.com/images/mobile-bg.gif') center top / cover no-repeat;    ***/
-        background: url('http://blankettheweb.com/images/logo_withBTW_black.png') center top / cover no-repeat;
+/***        background: url('../images/mobile-bg.gif') center top / cover no-repeat;    ***/
+        background: url('../images/logo_withBTW_black.png') center top / cover no-repeat;
         opacity: 0.5;
         background-size: 80%;
         margin-top: 25%;
@@ -282,7 +282,7 @@
 	width: 90%;
 	margin-left: 5%;
 	display: block;
-	background: url("http://blankettheweb.com/images/LogoTetris-desktop.jpg") no-repeat center fixed;
+	background: url("../images/LogoTetris-desktop.jpg") no-repeat center fixed;
 	background-size: 80%;
 	z-index: 5;
  }
@@ -296,7 +296,7 @@
 	margin-bottom: -300px;
 	height: 850px;
 	display: block;
-	background: url("http://blankettheweb.com/images/LogoTetris-desktop.jpg") no-repeat center fixed;
+	background: url("../images/LogoTetris-desktop.jpg") no-repeat center fixed;
 	background-size: 80%;
 	z-index: 5;
 	width: 100%;
@@ -334,7 +334,7 @@
 	margin-left: 4%;
 	display: block;
 	background-color: #0098DB;
-/*	background: url("http://blankettheweb.com/images/LogoTetris3.png") no-repeat top center fixed;*/
+/*	background: url("../images/LogoTetris3.png") no-repeat top center fixed;*/
 	z-index: 5;
 	}
  @media (max-width: 767px) {
@@ -351,7 +351,7 @@
 	margin-left: 4%;
 	display: block;
 	background-color: #0098DB;
-/*	background: url("http://blankettheweb.com/images/LogoTetris3.png") no-repeat top center fixed;*/
+/*	background: url("../images/LogoTetris3.png") no-repeat top center fixed;*/
 	z-index: 5;
 	}
  @media (max-width: 767px) {
@@ -499,8 +499,8 @@
 	margin-bottom: -300px;
 	height: 450px;
 	display: block;
-	background: url("http://blankettheweb.com/images/BTW_Home_Desktop3.png") no-repeat center fixed;
-/*	background: url("http://blankettheweb.com/images/LogoTetris3.png") no-repeat center fixed;*/
+	background: url("../images/BTW_Home_Desktop3.png") no-repeat center fixed;
+/*	background: url("../images/LogoTetris3.png") no-repeat center fixed;*/
 	background-size: 100%;
 	z-index: 5;}
 
@@ -516,7 +516,7 @@
 	width: auto;
 	display: block;
 	background-color: #0098DB;
-/*	background: url("http://blankettheweb.com/images/BTW_Phone.jpg") no-repeat top center fixed;*/
+/*	background: url("../images/BTW_Phone.jpg") no-repeat top center fixed;*/
 	z-index: 5;
     }
 
@@ -586,7 +586,7 @@
 	width: auto;
 	display: block;
 	background-color: #F3F8FA;
-/*	background: url("http://blankettheweb.com/images/BTW_Phone.jpg") no-repeat top center fixed;*/
+/*	background: url("../images/BTW_Phone.jpg") no-repeat top center fixed;*/
 	z-index: 5;
 }
 @media (max-width: 767px) {
