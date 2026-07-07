@@ -372,11 +372,9 @@ function initProjectsCarousel() {
     const startIndex = bufferCount;
 
     let currentIndex = startIndex;
-    let autoPlayInterval;
     let unlockTimeout;
     let slideStep = 0;
     let isAnimating = false;
-    const intervalMs = 7000;
     const transitionMs = 700;
     const cardMaxWidth = 350;
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -484,7 +482,6 @@ function initProjectsCarousel() {
             });
 
             card.addEventListener('focus', () => {
-                stopAutoPlay();
                 const index = allCards.indexOf(card);
                 if (index !== -1 && index !== currentIndex) {
                     goTo(index, !prefersReducedMotion);
@@ -587,37 +584,18 @@ function initProjectsCarousel() {
         goTo(currentIndex - 1, true);
     }
 
-    function startAutoPlay() {
-        stopAutoPlay();
-        autoPlayInterval = setInterval(next, intervalMs);
-    }
-
-    function stopAutoPlay() {
-        clearInterval(autoPlayInterval);
-    }
-
     track.addEventListener('transitionend', (e) => {
         if (e.target !== track || e.propertyName !== 'transform') return;
         finishAnimation();
     });
 
-    prevBtn?.addEventListener('click', () => {
-        stopAutoPlay();
-        prev();
-        startAutoPlay();
-    });
-
-    nextBtn?.addEventListener('click', () => {
-        stopAutoPlay();
-        next();
-        startAutoPlay();
-    });
+    prevBtn?.addEventListener('click', prev);
+    nextBtn?.addEventListener('click', next);
 
     let touchStartX = 0;
 
     viewport.addEventListener('touchstart', (e) => {
         touchStartX = e.touches[0].clientX;
-        stopAutoPlay();
     }, { passive: true });
 
     viewport.addEventListener('touchend', (e) => {
@@ -631,26 +609,13 @@ function initProjectsCarousel() {
                 prev();
             }
         }
-
-        startAutoPlay();
     }, { passive: true });
-
-    carousel.addEventListener('mouseenter', stopAutoPlay);
-    carousel.addEventListener('mouseleave', startAutoPlay);
-
-    carousel.addEventListener('focusin', stopAutoPlay);
-    carousel.addEventListener('focusout', (e) => {
-        if (!carousel.contains(e.relatedTarget)) {
-            startAutoPlay();
-        }
-    });
 
     window.addEventListener('resize', updateLayout);
 
     setupCarouselKeyboardAccess();
     setupSkipLinkFocus();
     updateLayout();
-    startAutoPlay();
 }
 /**
  * Form Submission Handler
