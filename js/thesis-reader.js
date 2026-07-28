@@ -2,7 +2,10 @@
     'use strict';
 
     var PDF_URL = 'docs/thesis.pdf';
-    var INITIAL_PAGE = 47;
+    var DEFAULT_PAGE = 1;
+    var HASH_PAGES = {
+        montessori: 47
+    };
     var MIN_SCALE = 0.6;
     var MAX_SCALE = 2.4;
     var SCALE_STEP = 0.15;
@@ -18,7 +21,6 @@
     var zoomOutBtn = document.getElementById('thesisZoomOut');
     var pageControls = document.querySelector('.thesis-page-controls');
     var zoomControls = document.querySelector('.thesis-zoom-controls');
-    var skipLink = document.getElementById('thesisSkipLink');
 
     if (!window.pdfjsLib || !pagesEl || !viewportEl) {
         if (statusEl) {
@@ -33,7 +35,7 @@
 
     var pdfDoc = null;
     var scale = 1;
-    var currentPage = INITIAL_PAGE;
+    var currentPage = DEFAULT_PAGE;
     var rendering = Object.create(null);
     var rendered = Object.create(null);
     var pageObserver = null;
@@ -58,6 +60,24 @@
     function clampPage(pageNumber) {
         if (!pdfDoc) return Math.max(1, pageNumber | 0);
         return Math.min(pdfDoc.numPages, Math.max(1, pageNumber | 0));
+    }
+
+    function getPageFromHash() {
+        var hash = (window.location.hash || '').replace(/^#/, '').toLowerCase();
+        if (!hash || hash === 'thesis-reader') return DEFAULT_PAGE;
+        if (HASH_PAGES[hash]) return HASH_PAGES[hash];
+        var pageMatch = hash.match(/^page-(\d+)$/);
+        if (pageMatch) return parseInt(pageMatch[1], 10);
+        return DEFAULT_PAGE;
+    }
+
+    function pageIdFor(pageNumber) {
+        for (var key in HASH_PAGES) {
+            if (Object.prototype.hasOwnProperty.call(HASH_PAGES, key) && HASH_PAGES[key] === pageNumber) {
+                return key;
+            }
+        }
+        return 'page-' + pageNumber;
     }
 
     function updatePageUI() {
@@ -160,10 +180,10 @@
             var page = document.createElement('article');
             page.className = 'thesis-page';
             page.dataset.pageNumber = String(i);
-            page.id = 'page-' + i;
+            page.id = pageIdFor(i);
             page.setAttribute('aria-label', 'Page ' + i + ' of ' + pdfDoc.numPages);
             page.setAttribute('aria-busy', 'true');
-            if (i === INITIAL_PAGE) {
+            if (HASH_PAGES.montessori === i) {
                 page.setAttribute('tabindex', '-1');
             }
 
@@ -253,19 +273,21 @@
         rerenderVisible();
     }
 
-    if (skipLink) {
-        skipLink.addEventListener('click', function (event) {
-            event.preventDefault();
-            if (!pdfDoc) return;
-            goToPage(INITIAL_PAGE, 'smooth');
-            var pageEl = document.getElementById('page-' + INITIAL_PAGE);
-            if (pageEl) {
-                window.setTimeout(function () {
-                    pageEl.focus({ preventScroll: true });
-                }, 350);
-            }
-        });
+    function handleHashNavigation(behavior) {
+        if (!pdfDoc) return;
+        goToPage(getPageFromHash(), behavior || 'smooth');
+        var targetId = pageIdFor(getPageFromHash());
+        var pageEl = document.getElementById(targetId);
+        if (pageEl && behavior !== 'auto') {
+            window.setTimeout(function () {
+                pageEl.focus({ preventScroll: true });
+            }, 350);
+        }
     }
+
+    window.addEventListener('hashchange', function () {
+        handleHashNavigation('smooth');
+    });
 
     prevBtn.addEventListener('click', function () {
         goToPage(currentPage - 1);
@@ -339,7 +361,7 @@
             zoomControls.hidden = false;
             setStatus('');
             buildPlaceholders();
-            return openAtPage(INITIAL_PAGE, 'auto');
+            return openAtPage(getPageFromHash(), 'auto');
         })
         .then(function () {
             window.setTimeout(function () {
