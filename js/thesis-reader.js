@@ -2,6 +2,7 @@
     'use strict';
 
     var PDF_URL = 'docs/thesis.pdf';
+    var INITIAL_PAGE = 47;
     var MIN_SCALE = 0.6;
     var MAX_SCALE = 2.4;
     var SCALE_STEP = 0.15;
@@ -17,6 +18,7 @@
     var zoomOutBtn = document.getElementById('thesisZoomOut');
     var pageControls = document.querySelector('.thesis-page-controls');
     var zoomControls = document.querySelector('.thesis-zoom-controls');
+    var skipLink = document.getElementById('thesisSkipLink');
 
     if (!window.pdfjsLib || !pagesEl || !viewportEl) {
         if (statusEl) {
@@ -31,7 +33,7 @@
 
     var pdfDoc = null;
     var scale = 1;
-    var currentPage = 1;
+    var currentPage = INITIAL_PAGE;
     var rendering = Object.create(null);
     var rendered = Object.create(null);
     var pageObserver = null;
@@ -53,6 +55,11 @@
         return Math.min(1.35, Math.max(0.7, target / 612));
     }
 
+    function clampPage(pageNumber) {
+        if (!pdfDoc) return Math.max(1, pageNumber | 0);
+        return Math.min(pdfDoc.numPages, Math.max(1, pageNumber | 0));
+    }
+
     function updatePageUI() {
         if (!pdfDoc) return;
         pageInput.value = String(currentPage);
@@ -69,29 +76,31 @@
         page.scrollIntoView({ behavior: behavior || 'smooth', block: 'start' });
         window.setTimeout(function () {
             updatingFromScroll = false;
-        }, 400);
+        }, behavior === 'auto' ? 50 : 400);
     }
 
-    function goToPage(pageNumber) {
+    function goToPage(pageNumber, behavior) {
         if (!pdfDoc) return;
-        var next = Math.min(pdfDoc.numPages, Math.max(1, pageNumber | 0));
+        var next = clampPage(pageNumber);
         currentPage = next;
         updatePageUI();
-        scrollToPage(next, 'smooth');
+        scrollToPage(next, behavior || 'smooth');
         renderPage(next);
         if (next > 1) renderPage(next - 1);
         if (next < pdfDoc.numPages) renderPage(next + 1);
     }
 
     function renderPage(pageNumber) {
-        if (!pdfDoc || rendering[pageNumber] || rendered[pageNumber]) return;
+        if (!pdfDoc || rendering[pageNumber] || rendered[pageNumber]) {
+            return Promise.resolve();
+        }
 
         var wrapper = pagesEl.querySelector('[data-page-number="' + pageNumber + '"]');
-        if (!wrapper) return;
+        if (!wrapper) return Promise.resolve();
 
         rendering[pageNumber] = true;
 
-        pdfDoc.getPage(pageNumber).then(function (page) {
+        return pdfDoc.getPage(pageNumber).then(function (page) {
             var viewport = page.getViewport({ scale: scale });
             var canvas = wrapper.querySelector('canvas');
             var context = canvas.getContext('2d', { alpha: false });
@@ -138,14 +147,25 @@
         pagesEl.innerHTML = '';
     }
 
+    function sizePlaceholders(width, height) {
+        Array.prototype.forEach.call(pagesEl.children, function (el) {
+            el.style.width = Math.floor(width) + 'px';
+            el.style.minHeight = Math.floor(height) + 'px';
+        });
+    }
+
     function buildPlaceholders() {
         var frag = document.createDocumentFragment();
         for (var i = 1; i <= pdfDoc.numPages; i++) {
             var page = document.createElement('article');
             page.className = 'thesis-page';
             page.dataset.pageNumber = String(i);
+            page.id = 'page-' + i;
             page.setAttribute('aria-label', 'Page ' + i + ' of ' + pdfDoc.numPages);
             page.setAttribute('aria-busy', 'true');
+            if (i === INITIAL_PAGE) {
+                page.setAttribute('tabindex', '-1');
+            }
 
             var canvas = document.createElement('canvas');
             page.appendChild(canvas);
@@ -195,19 +215,35 @@
         });
     }
 
+    function openAtPage(pageNumber, behavior) {
+        var target = clampPage(pageNumber);
+        currentPage = target;
+        updatePageUI();
+
+        return pdfDoc.getPage(target).then(function (page) {
+            var viewport = page.getViewport({ scale: scale });
+            sizePlaceholders(viewport.width, viewport.height);
+            scrollToPage(target, behavior || 'auto');
+
+            var neighbors = [target];
+            if (target > 1) neighbors.push(target - 1);
+            if (target < pdfDoc.numPages) neighbors.push(target + 1);
+
+            return Promise.all(neighbors.map(renderPage)).then(function () {
+                scrollToPage(target, 'auto');
+            });
+        });
+    }
+
     function rerenderVisible() {
         var keepPage = currentPage;
         clearPages();
         buildPlaceholders();
-        currentPage = keepPage;
-        updatePageUI();
-        renderPage(keepPage);
-        if (keepPage > 1) renderPage(keepPage - 1);
-        if (pdfDoc && keepPage < pdfDoc.numPages) renderPage(keepPage + 1);
-        scrollToPage(keepPage, 'auto');
-        window.setTimeout(function () {
-            readyForScrollTracking = true;
-        }, 250);
+        openAtPage(keepPage, 'auto').then(function () {
+            window.setTimeout(function () {
+                readyForScrollTracking = true;
+            }, 250);
+        });
     }
 
     function setZoom(nextScale) {
@@ -215,6 +251,20 @@
         zoomInBtn.disabled = scale >= MAX_SCALE - 0.001;
         zoomOutBtn.disabled = scale <= MIN_SCALE + 0.001;
         rerenderVisible();
+    }
+
+    if (skipLink) {
+        skipLink.addEventListener('click', function (event) {
+            event.preventDefault();
+            if (!pdfDoc) return;
+            goToPage(INITIAL_PAGE, 'smooth');
+            var pageEl = document.getElementById('page-' + INITIAL_PAGE);
+            if (pageEl) {
+                window.setTimeout(function () {
+                    pageEl.focus({ preventScroll: true });
+                }, 350);
+            }
+        });
     }
 
     prevBtn.addEventListener('click', function () {
@@ -289,9 +339,9 @@
             zoomControls.hidden = false;
             setStatus('');
             buildPlaceholders();
-            updatePageUI();
-            renderPage(1);
-            if (pdf.numPages > 1) renderPage(2);
+            return openAtPage(INITIAL_PAGE, 'auto');
+        })
+        .then(function () {
             window.setTimeout(function () {
                 readyForScrollTracking = true;
             }, 250);
