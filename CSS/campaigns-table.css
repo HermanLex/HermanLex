@@ -314,11 +314,13 @@
     font-weight: 500;
     padding: 0;
     cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 2px;
 }
 
 .ct-select-all:hover {
     opacity: 1;
-    text-decoration: underline;
+    color: var(--ct-link-hover);
 }
 
 .ct-bulk-action {
@@ -453,15 +455,15 @@
 }
 
 .ct-campaign-link {
-    color: var(--ct-link);
+    color: var(--ct-text);
     font-weight: 500;
-    text-decoration: none;
+    text-decoration: underline;
+    text-underline-offset: 2px;
 }
 
 .ct-campaign-link:hover {
-    opacity: 1;
-    color: var(--ct-link-hover);
-    text-decoration: underline;
+    opacity: 0.7;
+    color: var(--ct-text);
 }
 
 .ct-status {
