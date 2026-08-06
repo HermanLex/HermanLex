@@ -665,7 +665,7 @@ function CampaignsTable() {
 
                 <div className="ct-search">
                     <span className="ct-search-icon">
-                        <Icon name="search" size={15} />
+                        <Icon name="search" size={20} />
                     </span>
                     <label className="visually-hidden" htmlFor={searchId}>
                         Search table
@@ -710,7 +710,7 @@ function CampaignsTable() {
                         disabled={selectedCount === 0}
                         onClick={() => flash(`Paused ${selectedCount} campaign(s)`)}
                     >
-                        <Icon name="pause" size={15} />
+                        <Icon name="pause" size={20} />
                         {`Pause (${selectedCount})`}
                     </button>
                     <button
@@ -719,7 +719,7 @@ function CampaignsTable() {
                         disabled={selectedCount === 0}
                         onClick={() => flash(`Download PDF for ${selectedCount} row(s)`)}
                     >
-                        <Icon name="download" size={15} />
+                        <Icon name="download" size={20} />
                         Download (PDF)
                     </button>
                     <button
@@ -728,7 +728,7 @@ function CampaignsTable() {
                         aria-label="More bulk actions"
                         onClick={() => flash('More actions menu — demo')}
                     >
-                        <Icon name="more" size={16} />
+                        <Icon name="more" size={20} />
                     </button>
                 </div>
             </div>

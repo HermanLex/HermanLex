@@ -11,8 +11,8 @@
     --ct-bulk: #ececec;
     --ct-link: #2563eb;
     --ct-link-hover: #1d4ed8;
-    --ct-primary: #e85d04;
-    --ct-primary-hover: #d45303;
+    --ct-primary: #C45000;
+    --ct-primary-hover: #a84400;
     --ct-radius: 8px;
     --ct-radius-pill: 999px;
     font-family: 'Inter', system-ui, sans-serif;
@@ -77,10 +77,10 @@
 
 .ct-toolbar {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     gap: 12px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     margin-bottom: 12px;
 }
 
@@ -89,7 +89,13 @@
     align-items: center;
     gap: 8px;
     flex-wrap: wrap;
+    flex: 1 1 auto;
     min-width: 0;
+}
+
+.ct-filter-picker {
+    position: relative;
+    flex: 0 0 auto;
 }
 
 .ct-filters-btn {
@@ -129,10 +135,6 @@
     font-size: 0.6875rem;
     font-weight: 600;
     line-height: 1;
-}
-
-.ct-filter-picker {
-    position: relative;
 }
 
 .ct-filter-picker-menu {
@@ -239,17 +241,24 @@
 
 .ct-search {
     position: relative;
-    flex: 0 1 260px;
-    min-width: 180px;
+    flex: 0 0 260px;
+    width: 260px;
+    max-width: 42%;
+    min-width: 160px;
 }
 
 .ct-search-icon {
     position: absolute;
     left: 12px;
-    top: 50%;
+    top: 58%;
     transform: translateY(-50%);
     color: var(--ct-muted);
     pointer-events: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
 }
 
 .ct-search-input {
@@ -315,16 +324,24 @@
 .ct-bulk-action {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 6px;
     border: none;
+    border-radius: 999px;
     background: transparent;
     color: var(--ct-text);
     font: inherit;
     font-size: 0.8125rem;
     font-weight: 500;
-    padding: 6px 8px;
-    border-radius: 6px;
+    padding: 8px 12px;
     cursor: pointer;
+    min-height: 36px;
+}
+
+.ct-bulk-action svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
 }
 
 .ct-bulk-action:hover:not(:disabled) {
@@ -335,6 +352,13 @@
 .ct-bulk-action:disabled {
     opacity: 0.4;
     cursor: not-allowed;
+}
+
+.ct-bulk-action[aria-label="More bulk actions"] {
+    width: 36px;
+    height: 36px;
+    min-height: 36px;
+    padding: 0;
 }
 
 .ct-table-scroll {
@@ -603,6 +627,14 @@
     font-size: 0.8125rem;
     color: var(--ct-text);
     text-align: center;
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+.ct-page-input::-webkit-outer-spin-button,
+.ct-page-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 .ct-page-input:focus {
@@ -636,8 +668,15 @@
         align-self: flex-start;
     }
 
+    .ct-toolbar {
+        gap: 8px;
+    }
+
     .ct-search {
-        flex: 1 1 100%;
+        flex: 0 0 160px;
+        width: 160px;
+        max-width: 46%;
+        min-width: 140px;
     }
 
     .ct-table-scroll {
