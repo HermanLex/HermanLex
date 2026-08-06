@@ -1,0 +1,914 @@
+const { useState, useMemo, useRef, useEffect, useId, useCallback } = React;
+
+const PROGRAM_TYPES = ['Enterprise', 'Consumer', 'SMB', 'Partner'];
+const STATUSES = ['Live', 'Draft', 'Paused', 'Ended', 'Scheduled'];
+const PAGE_SIZE_OPTIONS = [10, 20, 30, 40, 50];
+const DEFAULT_PAGE_SIZE = 10;
+
+const FILTER_DEFS = [
+    { id: 'campaign', label: 'Campaign', type: 'text' },
+    { id: 'status', label: 'Status', type: 'multi' },
+    { id: 'program', label: 'Program', type: 'multi' },
+    { id: 'startDate', label: 'Start date', type: 'dateRange' },
+    { id: 'endDate', label: 'End date', type: 'dateRange' }
+];
+
+const CAMPAIGN_NAMES = [
+    'Spring loyalty boost',
+    'Q1 cardholder rewards',
+    'Weekend cashback push',
+    'Merchant partner promo',
+    'Travel points accelerator',
+    'Back-to-school offers',
+    'Holiday dining deals',
+    'New card welcome offer',
+    'Grocery category boost',
+    'Fuel savings weekend',
+    'Streaming bundle promo',
+    'Local retail spotlight',
+    'Premium tier upgrade',
+    'Small business rebate',
+    'Airport lounge trial',
+    'Contactless adoption',
+    'Family plan incentives',
+    'Wellness category push',
+    'EV charging rewards',
+    'Campus student offers',
+    'Seasonal apparel promo',
+    'Pharmacy cashback',
+    'Transit fare discount',
+    'Home improvement push',
+    'End-of-year statement bonus'
+];
+
+function padDate(n) {
+    return String(n).padStart(2, '0');
+}
+
+function formatShortDate(date) {
+    return `${date.getMonth() + 1}/${date.getDate()}/${String(date.getFullYear()).slice(-2)}`;
+}
+
+function parseInputDate(value) {
+    if (!value) return null;
+    const [year, month, day] = value.split('-').map(Number);
+    if (!year || !month || !day) return null;
+    return new Date(year, month - 1, day);
+}
+
+function startOfDay(date) {
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+}
+
+function buildCampaigns(count) {
+    return Array.from({ length: count }, (_, index) => {
+        const start = new Date(2025, index % 12, 1 + (index % 27));
+        const end = new Date(start);
+        end.setMonth(end.getMonth() + 3 + (index % 6));
+        return {
+            id: `cmp-${padDate(index + 1)}`,
+            name: CAMPAIGN_NAMES[index],
+            programType: PROGRAM_TYPES[index % PROGRAM_TYPES.length],
+            status: STATUSES[index % STATUSES.length],
+            startDate: start,
+            endDate: end,
+            owner: ['A. Chen', 'J. Ortiz', 'M. Patel', 'S. Kim', 'L. Brooks'][index % 5],
+            budget: `$${(25 + index * 7).toLocaleString()}K`
+        };
+    });
+}
+
+const ALL_CAMPAIGNS = buildCampaigns(25);
+
+const EMPTY_FILTER_VALUES = {
+    campaign: '',
+    status: [],
+    program: [],
+    startDate: { from: '', to: '' },
+    endDate: { from: '', to: '' }
+};
+
+function Icon({ name, size = 16 }) {
+    const props = {
+        width: size,
+        height: size,
+        viewBox: '0 0 24 24',
+        fill: 'none',
+        stroke: 'currentColor',
+        strokeWidth: 2,
+        strokeLinecap: 'round',
+        strokeLinejoin: 'round',
+        'aria-hidden': true
+    };
+
+    switch (name) {
+        case 'upload':
+            return (
+                <svg {...props}>
+                    <path d="M12 16V4" />
+                    <path d="m7 9 5-5 5 5" />
+                    <path d="M20 16.5V19a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2.5" />
+                </svg>
+            );
+        case 'sliders':
+            return (
+                <svg {...props}>
+                    <line x1="4" y1="21" x2="4" y2="14" />
+                    <line x1="4" y1="10" x2="4" y2="3" />
+                    <line x1="12" y1="21" x2="12" y2="12" />
+                    <line x1="12" y1="8" x2="12" y2="3" />
+                    <line x1="20" y1="21" x2="20" y2="16" />
+                    <line x1="20" y1="12" x2="20" y2="3" />
+                    <line x1="1" y1="14" x2="7" y2="14" />
+                    <line x1="9" y1="8" x2="15" y2="8" />
+                    <line x1="17" y1="16" x2="23" y2="16" />
+                </svg>
+            );
+        case 'chevron':
+            return (
+                <svg {...props}>
+                    <polyline points="6 9 12 15 18 9" />
+                </svg>
+            );
+        case 'chevron-left':
+            return (
+                <svg {...props}>
+                    <polyline points="15 18 9 12 15 6" />
+                </svg>
+            );
+        case 'chevron-right':
+            return (
+                <svg {...props}>
+                    <polyline points="9 18 15 12 9 6" />
+                </svg>
+            );
+        case 'chevrons-left':
+            return (
+                <svg {...props}>
+                    <polyline points="11 17 6 12 11 7" />
+                    <polyline points="18 17 13 12 18 7" />
+                </svg>
+            );
+        case 'chevrons-right':
+            return (
+                <svg {...props}>
+                    <polyline points="13 17 18 12 13 7" />
+                    <polyline points="6 17 11 12 6 7" />
+                </svg>
+            );
+        case 'search':
+            return (
+                <svg {...props}>
+                    <circle cx="11" cy="11" r="7" />
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
+            );
+        case 'x':
+            return (
+                <svg {...props}>
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+            );
+        case 'pause':
+            return (
+                <svg {...props}>
+                    <circle cx="12" cy="12" r="9" />
+                    <line x1="10" y1="9" x2="10" y2="15" />
+                    <line x1="14" y1="9" x2="14" y2="15" />
+                </svg>
+            );
+        case 'download':
+            return (
+                <svg {...props}>
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <polyline points="14 2 14 8 20 8" />
+                    <line x1="12" y1="18" x2="12" y2="12" />
+                    <polyline points="9 15 12 18 15 15" />
+                </svg>
+            );
+        case 'more':
+            return (
+                <svg {...props}>
+                    <circle cx="12" cy="5" r="1" fill="currentColor" stroke="none" />
+                    <circle cx="12" cy="12" r="1" fill="currentColor" stroke="none" />
+                    <circle cx="12" cy="19" r="1" fill="currentColor" stroke="none" />
+                </svg>
+            );
+        default:
+            return null;
+    }
+}
+
+function useClickOutside(open, onClose) {
+    const rootRef = useRef(null);
+
+    useEffect(() => {
+        if (!open) return undefined;
+
+        function handlePointer(event) {
+            if (rootRef.current && !rootRef.current.contains(event.target)) {
+                onClose();
+            }
+        }
+
+        function handleKey(event) {
+            if (event.key === 'Escape') onClose();
+        }
+
+        document.addEventListener('mousedown', handlePointer);
+        document.addEventListener('keydown', handleKey);
+        return () => {
+            document.removeEventListener('mousedown', handlePointer);
+            document.removeEventListener('keydown', handleKey);
+        };
+    }, [open, onClose]);
+
+    return rootRef;
+}
+
+function FilterPicker({ enabledFilters, onToggleFilter, open, onToggle, onClose }) {
+    const rootRef = useClickOutside(open, onClose);
+    const enabledCount = enabledFilters.length;
+
+    return (
+        <div className="ct-filter-picker" ref={rootRef}>
+            <button
+                type="button"
+                className="ct-filters-btn"
+                aria-expanded={open}
+                aria-haspopup="menu"
+                onClick={onToggle}
+            >
+                <Icon name="sliders" size={15} />
+                Table filters
+                {enabledCount > 0 ? (
+                    <span className="ct-filters-count">{enabledCount}</span>
+                ) : null}
+                <Icon name="chevron" size={14} />
+            </button>
+            {open ? (
+                <div className="ct-filter-menu ct-filter-picker-menu" role="menu" aria-label="Available filters">
+                    <p className="ct-filter-menu-hint">Show filters for</p>
+                    {FILTER_DEFS.map((filter) => {
+                        const checked = enabledFilters.includes(filter.id);
+                        return (
+                            <label key={filter.id} className="ct-filter-option" role="menuitemcheckbox" aria-checked={checked}>
+                                <input
+                                    type="checkbox"
+                                    checked={checked}
+                                    onChange={() => onToggleFilter(filter.id)}
+                                />
+                                <span>{filter.label}</span>
+                            </label>
+                        );
+                    })}
+                </div>
+            ) : null}
+        </div>
+    );
+}
+
+function MultiSelectFilter({ label, options, selected, onChange, open, onToggle, onClose }) {
+    const rootRef = useClickOutside(open, onClose);
+    const summary =
+        selected.length === 0
+            ? 'Any'
+            : selected.length === 1
+              ? selected[0]
+              : `${selected.length}/${options.length}`;
+
+    function toggleOption(option) {
+        if (selected.includes(option)) {
+            onChange(selected.filter((value) => value !== option));
+        } else {
+            onChange([...selected, option]);
+        }
+    }
+
+    return (
+        <div className="ct-filter-chip" ref={rootRef}>
+            <button
+                type="button"
+                className="ct-filter-chip-btn"
+                aria-expanded={open}
+                aria-haspopup="listbox"
+                onClick={onToggle}
+            >
+                <span className="ct-filter-label">{label} :</span>
+                <span className="ct-filter-value">{summary}</span>
+                <Icon name="chevron" size={14} />
+            </button>
+            {open ? (
+                <div className="ct-filter-menu" role="listbox" aria-label={label} aria-multiselectable="true">
+                    {options.map((option) => (
+                        <label key={option} className="ct-filter-option">
+                            <input
+                                type="checkbox"
+                                checked={selected.includes(option)}
+                                onChange={() => toggleOption(option)}
+                            />
+                            <span>{option}</span>
+                        </label>
+                    ))}
+                </div>
+            ) : null}
+        </div>
+    );
+}
+
+function TextFilter({ label, value, onChange, open, onToggle, onClose }) {
+    const rootRef = useClickOutside(open, onClose);
+    const inputId = useId();
+    const summary = value.trim() ? value.trim() : 'Any';
+
+    return (
+        <div className="ct-filter-chip" ref={rootRef}>
+            <button
+                type="button"
+                className="ct-filter-chip-btn"
+                aria-expanded={open}
+                aria-haspopup="dialog"
+                onClick={onToggle}
+            >
+                <span className="ct-filter-label">{label} :</span>
+                <span className="ct-filter-value">{summary}</span>
+                <Icon name="chevron" size={14} />
+            </button>
+            {open ? (
+                <div className="ct-filter-menu ct-filter-text-menu" role="dialog" aria-label={label}>
+                    <label className="ct-date-field" htmlFor={inputId}>
+                        <span>Contains</span>
+                        <input
+                            id={inputId}
+                            type="search"
+                            className="ct-date-input"
+                            placeholder="Campaign name"
+                            value={value}
+                            onChange={(event) => onChange(event.target.value)}
+                            autoFocus
+                        />
+                    </label>
+                </div>
+            ) : null}
+        </div>
+    );
+}
+
+function DateRangeFilter({ label, value, onChange, open, onToggle, onClose }) {
+    const rootRef = useClickOutside(open, onClose);
+    const fromId = useId();
+    const toId = useId();
+    const hasValue = Boolean(value.from || value.to);
+    const summary = !hasValue
+        ? 'Any'
+        : value.from && value.to
+          ? `${value.from} → ${value.to}`
+          : value.from
+            ? `From ${value.from}`
+            : `Until ${value.to}`;
+
+    return (
+        <div className="ct-filter-chip" ref={rootRef}>
+            <button
+                type="button"
+                className="ct-filter-chip-btn"
+                aria-expanded={open}
+                aria-haspopup="dialog"
+                onClick={onToggle}
+            >
+                <span className="ct-filter-label">{label} :</span>
+                <span className="ct-filter-value">{summary}</span>
+                <Icon name="chevron" size={14} />
+            </button>
+            {open ? (
+                <div className="ct-filter-menu ct-filter-date-menu" role="dialog" aria-label={label}>
+                    <label className="ct-date-field" htmlFor={fromId}>
+                        <span>From</span>
+                        <input
+                            id={fromId}
+                            type="date"
+                            className="ct-date-input"
+                            value={value.from}
+                            onChange={(event) => onChange({ ...value, from: event.target.value })}
+                        />
+                    </label>
+                    <label className="ct-date-field" htmlFor={toId}>
+                        <span>To</span>
+                        <input
+                            id={toId}
+                            type="date"
+                            className="ct-date-input"
+                            value={value.to}
+                            onChange={(event) => onChange({ ...value, to: event.target.value })}
+                        />
+                    </label>
+                </div>
+            ) : null}
+        </div>
+    );
+}
+
+function inDateRange(date, range) {
+    const day = startOfDay(date);
+    const from = parseInputDate(range.from);
+    const to = parseInputDate(range.to);
+    if (from && day < startOfDay(from)) return false;
+    if (to && day > startOfDay(to)) return false;
+    return true;
+}
+
+function filterHasValue(filterId, values) {
+    const value = values[filterId];
+    if (filterId === 'campaign') return Boolean(value && value.trim());
+    if (filterId === 'status' || filterId === 'program') return value.length > 0;
+    if (filterId === 'startDate' || filterId === 'endDate') return Boolean(value.from || value.to);
+    return false;
+}
+
+function CampaignsTable() {
+    const searchId = useId();
+    const pageInputId = useId();
+    const [enabledFilters, setEnabledFilters] = useState([]);
+    const [filterValues, setFilterValues] = useState(EMPTY_FILTER_VALUES);
+    const [search, setSearch] = useState('');
+    const [selectedIds, setSelectedIds] = useState(() => new Set(['cmp-01', 'cmp-05']));
+    const [expandedIds, setExpandedIds] = useState(() => new Set());
+    const [openMenu, setOpenMenu] = useState(null);
+    const [toast, setToast] = useState('');
+    const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [pageInput, setPageInput] = useState('1');
+
+    const closeMenus = useCallback(() => setOpenMenu(null), []);
+
+    const filteredRows = useMemo(() => {
+        const query = search.trim().toLowerCase();
+        return ALL_CAMPAIGNS.filter((row) => {
+            if (enabledFilters.includes('campaign')) {
+                const campaignQuery = filterValues.campaign.trim().toLowerCase();
+                if (campaignQuery && !row.name.toLowerCase().includes(campaignQuery)) return false;
+            }
+            if (enabledFilters.includes('program') && filterValues.program.length > 0) {
+                if (!filterValues.program.includes(row.programType)) return false;
+            }
+            if (enabledFilters.includes('status') && filterValues.status.length > 0) {
+                if (!filterValues.status.includes(row.status)) return false;
+            }
+            if (enabledFilters.includes('startDate')) {
+                if (!inDateRange(row.startDate, filterValues.startDate)) return false;
+            }
+            if (enabledFilters.includes('endDate')) {
+                if (!inDateRange(row.endDate, filterValues.endDate)) return false;
+            }
+            if (query) {
+                const haystack = `${row.name} ${row.programType} ${row.status} ${row.owner}`.toLowerCase();
+                if (!haystack.includes(query)) return false;
+            }
+            return true;
+        });
+    }, [enabledFilters, filterValues, search]);
+
+    const totalPages = Math.max(1, Math.ceil(filteredRows.length / pageSize));
+    const safePage = Math.min(currentPage, totalPages);
+
+    useEffect(() => {
+        if (currentPage !== safePage) {
+            setCurrentPage(safePage);
+            setPageInput(String(safePage));
+        }
+    }, [currentPage, safePage]);
+
+    useEffect(() => {
+        setCurrentPage(1);
+        setPageInput('1');
+    }, [enabledFilters, filterValues, search, pageSize]);
+
+    const pageStart = (safePage - 1) * pageSize;
+    const pageRows = filteredRows.slice(pageStart, pageStart + pageSize);
+    const pageIds = pageRows.map((row) => row.id);
+    const filteredIds = filteredRows.map((row) => row.id);
+
+    const selectedVisibleCount = pageIds.filter((id) => selectedIds.has(id)).length;
+    const allVisibleSelected = pageIds.length > 0 && selectedVisibleCount === pageIds.length;
+    const someVisibleSelected = selectedVisibleCount > 0 && !allVisibleSelected;
+
+    const hasAppliedFilterValues =
+        enabledFilters.some((id) => filterHasValue(id, filterValues)) || search.trim().length > 0;
+
+    useEffect(() => {
+        if (!toast) return undefined;
+        const timer = window.setTimeout(() => setToast(''), 2200);
+        return () => window.clearTimeout(timer);
+    }, [toast]);
+
+    function flash(message) {
+        setToast(message);
+    }
+
+    function toggleEnabledFilter(filterId) {
+        setEnabledFilters((prev) => {
+            if (prev.includes(filterId)) {
+                setFilterValues((values) => ({
+                    ...values,
+                    [filterId]: EMPTY_FILTER_VALUES[filterId]
+                }));
+                return prev.filter((id) => id !== filterId);
+            }
+            return [...prev, filterId];
+        });
+    }
+
+    function clearFilters() {
+        setFilterValues(EMPTY_FILTER_VALUES);
+        setSearch('');
+        setOpenMenu(null);
+    }
+
+    function goToPage(page) {
+        const next = Math.min(totalPages, Math.max(1, page));
+        setCurrentPage(next);
+        setPageInput(String(next));
+    }
+
+    function toggleSelectAllVisible() {
+        setSelectedIds((prev) => {
+            const next = new Set(prev);
+            if (allVisibleSelected) {
+                pageIds.forEach((id) => next.delete(id));
+            } else {
+                pageIds.forEach((id) => next.add(id));
+            }
+            return next;
+        });
+    }
+
+    function selectAllFiltered() {
+        setSelectedIds(new Set(filteredIds));
+    }
+
+    function toggleRow(id) {
+        setSelectedIds((prev) => {
+            const next = new Set(prev);
+            if (next.has(id)) next.delete(id);
+            else next.add(id);
+            return next;
+        });
+    }
+
+    function toggleExpanded(id) {
+        setExpandedIds((prev) => {
+            const next = new Set(prev);
+            if (next.has(id)) next.delete(id);
+            else next.add(id);
+            return next;
+        });
+    }
+
+    function renderActiveFilter(filterId) {
+        const def = FILTER_DEFS.find((item) => item.id === filterId);
+        if (!def) return null;
+
+        if (def.type === 'text') {
+            return (
+                <TextFilter
+                    key={filterId}
+                    label={def.label}
+                    value={filterValues.campaign}
+                    onChange={(value) => setFilterValues((prev) => ({ ...prev, campaign: value }))}
+                    open={openMenu === filterId}
+                    onToggle={() => setOpenMenu((menu) => (menu === filterId ? null : filterId))}
+                    onClose={closeMenus}
+                />
+            );
+        }
+
+        if (def.type === 'multi') {
+            const options = filterId === 'status' ? STATUSES : PROGRAM_TYPES;
+            const selected = filterId === 'status' ? filterValues.status : filterValues.program;
+            return (
+                <MultiSelectFilter
+                    key={filterId}
+                    label={def.label}
+                    options={options}
+                    selected={selected}
+                    onChange={(next) =>
+                        setFilterValues((prev) => ({
+                            ...prev,
+                            [filterId === 'status' ? 'status' : 'program']: next
+                        }))
+                    }
+                    open={openMenu === filterId}
+                    onToggle={() => setOpenMenu((menu) => (menu === filterId ? null : filterId))}
+                    onClose={closeMenus}
+                />
+            );
+        }
+
+        return (
+            <DateRangeFilter
+                key={filterId}
+                label={def.label}
+                value={filterValues[filterId]}
+                onChange={(next) => setFilterValues((prev) => ({ ...prev, [filterId]: next }))}
+                open={openMenu === filterId}
+                onToggle={() => setOpenMenu((menu) => (menu === filterId ? null : filterId))}
+                onClose={closeMenus}
+            />
+        );
+    }
+
+    const selectedCount = selectedIds.size;
+    const rangeStart = filteredRows.length === 0 ? 0 : pageStart + 1;
+    const rangeEnd = Math.min(pageStart + pageSize, filteredRows.length);
+
+    return (
+        <div className="ct-wrap" aria-label="All Campaigns data table example">
+            <div className="ct-header">
+                <div>
+                    <h3 className="ct-title">All Campaigns</h3>
+                    <p className="ct-subtitle">
+                        Manage all active campaigns or upload and create new ones
+                    </p>
+                </div>
+                <button
+                    type="button"
+                    className="ct-upload"
+                    onClick={() => flash('Upload new — demo action')}
+                >
+                    <Icon name="upload" size={16} />
+                    Upload new
+                </button>
+            </div>
+
+            <div className="ct-toolbar">
+                <div className="ct-filters">
+                    <FilterPicker
+                        enabledFilters={enabledFilters}
+                        onToggleFilter={toggleEnabledFilter}
+                        open={openMenu === 'picker'}
+                        onToggle={() => setOpenMenu((menu) => (menu === 'picker' ? null : 'picker'))}
+                        onClose={closeMenus}
+                    />
+
+                    {FILTER_DEFS.filter((def) => enabledFilters.includes(def.id)).map((def) =>
+                        renderActiveFilter(def.id)
+                    )}
+
+                    {hasAppliedFilterValues ? (
+                        <button type="button" className="ct-clear-filters" onClick={clearFilters}>
+                            <Icon name="x" size={14} />
+                            Clear all filters
+                        </button>
+                    ) : null}
+                </div>
+
+                <div className="ct-search">
+                    <span className="ct-search-icon">
+                        <Icon name="search" size={15} />
+                    </span>
+                    <label className="visually-hidden" htmlFor={searchId}>
+                        Search table
+                    </label>
+                    <input
+                        id={searchId}
+                        className="ct-search-input"
+                        type="search"
+                        placeholder="Search table"
+                        value={search}
+                        onChange={(event) => setSearch(event.target.value)}
+                    />
+                </div>
+            </div>
+
+            <div className="ct-bulk" role="region" aria-label="Bulk actions">
+                <div className="ct-bulk-left">
+                    <input
+                        className="ct-checkbox"
+                        type="checkbox"
+                        checked={allVisibleSelected}
+                        ref={(node) => {
+                            if (node) node.indeterminate = someVisibleSelected;
+                        }}
+                        onChange={toggleSelectAllVisible}
+                        aria-label="Select all rows on this page"
+                    />
+                    <span className="ct-bulk-count">
+                        {selectedCount}/{ALL_CAMPAIGNS.length}
+                    </span>
+                    {selectedCount < filteredIds.length ? (
+                        <button type="button" className="ct-select-all" onClick={selectAllFiltered}>
+                            Select all {filteredIds.length}
+                        </button>
+                    ) : null}
+                </div>
+
+                <div className="ct-bulk-right">
+                    <button
+                        type="button"
+                        className="ct-bulk-action"
+                        disabled={selectedCount === 0}
+                        onClick={() => flash(`Paused ${selectedCount} campaign(s)`)}
+                    >
+                        <Icon name="pause" size={15} />
+                        {`Pause (${selectedCount})`}
+                    </button>
+                    <button
+                        type="button"
+                        className="ct-bulk-action"
+                        disabled={selectedCount === 0}
+                        onClick={() => flash(`Download PDF for ${selectedCount} row(s)`)}
+                    >
+                        <Icon name="download" size={15} />
+                        Download (PDF)
+                    </button>
+                    <button
+                        type="button"
+                        className="ct-bulk-action"
+                        aria-label="More bulk actions"
+                        onClick={() => flash('More actions menu — demo')}
+                    >
+                        <Icon name="more" size={16} />
+                    </button>
+                </div>
+            </div>
+
+            <div className="ct-table-scroll">
+                <table className="ct-table">
+                    <thead>
+                        <tr>
+                            <th className="ct-check-cell" scope="col">
+                                <span className="visually-hidden">Select</span>
+                            </th>
+                            <th className="ct-expand-cell" scope="col">
+                                <span className="visually-hidden">Expand</span>
+                            </th>
+                            <th scope="col">Campaign</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Start date</th>
+                            <th scope="col">End date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {pageRows.length === 0 ? (
+                            <tr>
+                                <td className="ct-empty" colSpan={6}>
+                                    No campaigns match your filters or search.
+                                </td>
+                            </tr>
+                        ) : (
+                            pageRows.map((row) => {
+                                const selected = selectedIds.has(row.id);
+                                const expanded = expandedIds.has(row.id);
+                                const statusClass = `is-${row.status.toLowerCase()}`;
+                                return (
+                                    <React.Fragment key={row.id}>
+                                        <tr className={selected ? 'is-selected' : undefined}>
+                                            <td className="ct-check-cell">
+                                                <input
+                                                    className="ct-checkbox"
+                                                    type="checkbox"
+                                                    checked={selected}
+                                                    onChange={() => toggleRow(row.id)}
+                                                    aria-label={`Select ${row.name}`}
+                                                />
+                                            </td>
+                                            <td className="ct-expand-cell">
+                                                <button
+                                                    type="button"
+                                                    className="ct-expand"
+                                                    aria-expanded={expanded}
+                                                    aria-label={`${expanded ? 'Collapse' : 'Expand'} ${row.name}`}
+                                                    onClick={() => toggleExpanded(row.id)}
+                                                >
+                                                    <Icon name="chevron" size={14} />
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <a
+                                                    className="ct-campaign-link"
+                                                    href={`#${row.id}`}
+                                                    onClick={(event) => {
+                                                        event.preventDefault();
+                                                        flash(`Open ${row.name}`);
+                                                    }}
+                                                >
+                                                    {row.name}
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <span className={`ct-status ${statusClass}`}>
+                                                    {row.status}
+                                                </span>
+                                            </td>
+                                            <td>{formatShortDate(row.startDate)}</td>
+                                            <td>{formatShortDate(row.endDate)}</td>
+                                        </tr>
+                                        {expanded ? (
+                                            <tr className="ct-detail-row">
+                                                <td colSpan={6}>
+                                                    {row.programType} program · Owner {row.owner} ·
+                                                    Budget {row.budget}
+                                                </td>
+                                            </tr>
+                                        ) : null}
+                                    </React.Fragment>
+                                );
+                            })
+                        )}
+                    </tbody>
+                </table>
+            </div>
+
+            <div className="ct-pagination" role="navigation" aria-label="Table pagination">
+                <div className="ct-page-size">
+                    <label htmlFor={`${pageInputId}-size`}>Items per page</label>
+                    <select
+                        id={`${pageInputId}-size`}
+                        className="ct-page-size-select"
+                        value={pageSize}
+                        onChange={(event) => setPageSize(Number(event.target.value))}
+                    >
+                        {PAGE_SIZE_OPTIONS.map((size) => (
+                            <option key={size} value={size}>
+                                {size}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                <div className="ct-page-meta">
+                    {rangeStart}–{rangeEnd} of {filteredRows.length}
+                </div>
+
+                <div className="ct-page-controls">
+                    <button
+                        type="button"
+                        className="ct-page-btn"
+                        aria-label="First page"
+                        disabled={safePage <= 1}
+                        onClick={() => goToPage(1)}
+                    >
+                        <Icon name="chevrons-left" size={15} />
+                    </button>
+                    <button
+                        type="button"
+                        className="ct-page-btn"
+                        aria-label="Previous page"
+                        disabled={safePage <= 1}
+                        onClick={() => goToPage(safePage - 1)}
+                    >
+                        <Icon name="chevron-left" size={15} />
+                    </button>
+                    <label className="ct-page-jump" htmlFor={pageInputId}>
+                        <span className="visually-hidden">Page number</span>
+                        <input
+                            id={pageInputId}
+                            className="ct-page-input"
+                            type="number"
+                            min={1}
+                            max={totalPages}
+                            value={pageInput}
+                            onChange={(event) => setPageInput(event.target.value)}
+                            onBlur={() => goToPage(parseInt(pageInput, 10) || 1)}
+                            onKeyDown={(event) => {
+                                if (event.key === 'Enter') {
+                                    event.preventDefault();
+                                    goToPage(parseInt(pageInput, 10) || 1);
+                                }
+                            }}
+                        />
+                        <span>of {totalPages}</span>
+                    </label>
+                    <button
+                        type="button"
+                        className="ct-page-btn"
+                        aria-label="Next page"
+                        disabled={safePage >= totalPages}
+                        onClick={() => goToPage(safePage + 1)}
+                    >
+                        <Icon name="chevron-right" size={15} />
+                    </button>
+                    <button
+                        type="button"
+                        className="ct-page-btn"
+                        aria-label="Last page"
+                        disabled={safePage >= totalPages}
+                        onClick={() => goToPage(totalPages)}
+                    >
+                        <Icon name="chevrons-right" size={15} />
+                    </button>
+                </div>
+            </div>
+
+            <div className="ct-footer">
+                <span aria-live="polite">{toast}</span>
+            </div>
+        </div>
+    );
+}
+
+const mountNode = document.getElementById('campaigns-table-root');
+if (mountNode) {
+    ReactDOM.createRoot(mountNode).render(<CampaignsTable />);
+}
