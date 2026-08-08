@@ -3,448 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data tables | HermanLex | UX/UI Design</title>
+    <title>Herman | Design system | HermanLex</title>
+    <meta name="description" content="Herman — branded design system and style guide for HermanLex, drawn from the live portfolio.">
     <link rel="icon" href="/images/H-favi.png" type="image/png" sizes="99x99">
     <link rel="shortcut icon" href="/images/H-favi.png" type="image/png">
     <link rel="apple-touch-icon" href="/images/H-favi.png">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="CSS/campaigns-table.css">
+    <link rel="stylesheet" href="CSS/herman-guide.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --tables-header-bg: #f8f8f8;
-            --tables-header-height: 92px;
-            --tables-sidebar-width: 200px;
-            --tables-sidebar-collapsed-width: 36px;
-            --tables-layout-gap: 48px;
-            --tables-text: #1a1a1a;
-            --tables-muted: #5c5c5c;
-            --tables-border: #e8e8e8;
-            --tables-panel-bg: #f8f8f8;
-            --tables-accent: #e85d4c;
-        }
-
-        body.tables-doc {
-            margin: 0;
-            background: #fff;
-            color: var(--tables-text);
-            font-family: 'Inter', sans-serif;
-        }
-
-        .tables-doc .header {
-            position: sticky;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 100;
-            height: var(--tables-header-height);
-            background: var(--tables-header-bg);
-            border-bottom: 1px solid var(--tables-border);
-            padding: 0;
-            backdrop-filter: none;
-            -webkit-backdrop-filter: none;
-            transform: none;
-        }
-
-        .tables-doc .header-inner {
-            width: 100%;
-            max-width: none;
-            height: 100%;
-            margin: 0;
-            padding: 0 32px;
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            gap: 16px;
-            position: static;
-        }
-
-        .tables-doc .header-inner > a {
-            display: flex;
-            align-items: center;
-            flex-shrink: 0;
-            transform-origin: center center;
-            animation: logo-invite-rock 2.8s ease-in-out infinite;
-        }
-
-        .tables-doc .header-logo {
-            width: 50px;
-            height: 50px;
-            flex-shrink: 0;
-            transform-origin: center center;
-            transition: transform 0.5s ease-in-out;
-        }
-
-        .tables-doc .header-inner > a:hover {
-            animation: none;
-            transform: none;
-        }
-
-        .tables-doc .header-inner > a:hover .header-logo {
-            transform: rotate(380deg);
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            .tables-doc .header-inner > a {
-                animation: none;
-            }
-
-            .tables-doc .header-logo {
-                transition: none;
-            }
-
-            .tables-doc .header-inner > a:hover .header-logo {
-                transform: none;
-            }
-        }
-
-        .tables-doc .header-title {
-            font-size: 1.75rem;
-            font-weight: 700;
-            letter-spacing: -0.03em;
-            margin: 0;
-        }
-
-        .tables-doc .layout {
-            max-width: 1440px;
-            display: grid;
-            grid-template-columns: var(--tables-sidebar-width) minmax(0, 1fr);
-            gap: var(--tables-layout-gap);
-            padding: 40px 32px 80px;
-            transition: grid-template-columns 0.25s ease, gap 0.25s ease;
-        }
-
-        .tables-doc .layout.is-sidebar-collapsed {
-            grid-template-columns: var(--tables-sidebar-collapsed-width) minmax(0, 1fr);
-            gap: 16px;
-        }
-
-        .tables-doc .sidebar {
-            position: sticky;
-            top: calc(var(--tables-header-height) + 24px);
-            align-self: start;
-            max-height: calc(100vh - var(--tables-header-height) - 48px);
-            overflow-x: hidden;
-            overflow-y: auto;
-            padding-right: 8px;
-            min-width: 0;
-            transition: padding 0.25s ease;
-        }
-
-        .tables-doc .layout.is-sidebar-collapsed .sidebar {
-            padding-right: 0;
-            overflow: hidden;
-        }
-
-        .tables-doc .sidebar-head {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            margin-bottom: 4px;
-        }
-
-        .tables-doc .sidebar-head .sidebar-link {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .tables-doc .sidebar-collapse-btn {
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 28px;
-            height: 28px;
-            padding: 0;
-            border: none;
-            border-radius: 6px;
-            background: transparent;
-            color: var(--tables-muted);
-            cursor: pointer;
-            transition: background-color 0.15s ease, color 0.15s ease;
-        }
-
-        .tables-doc .sidebar-collapse-btn:hover {
-            background: rgba(0, 0, 0, 0.04);
-            color: var(--tables-text);
-        }
-
-        .tables-doc .sidebar-collapse-btn svg {
-            width: 16px;
-            height: 16px;
-            transform: rotate(90deg);
-            transition: transform 0.2s ease;
-        }
-
-        .tables-doc .layout.is-sidebar-collapsed .sidebar-collapse-btn svg {
-            transform: rotate(-90deg);
-        }
-
-        .tables-doc .layout.is-sidebar-collapsed .sidebar-head .sidebar-link,
-        .tables-doc .layout.is-sidebar-collapsed .sidebar-nav {
-            display: none;
-        }
-
-        .tables-doc .layout.is-sidebar-collapsed .sidebar-head {
-            justify-content: center;
-            margin-bottom: 0;
-        }
-
-        .tables-doc .sidebar-nav {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-
-        .tables-doc .sidebar-nav > li {
-            margin-bottom: 4px;
-        }
-
-        .tables-doc .sidebar-link {
-            display: block;
-            padding: 8px 12px;
-            border-radius: 8px;
-            color: var(--tables-text);
-            text-decoration: none;
-            font-size: 0.9375rem;
-            line-height: 1.4;
-            transition: background-color 0.15s ease;
-        }
-
-        .tables-doc .sidebar-link:hover {
-            background: rgba(0, 0, 0, 0.04);
-        }
-
-        .tables-doc .sidebar-link.is-parent {
-            font-weight: 600;
-        }
-
-        .tables-doc .sidebar-link.is-active {
-            background: #ececec;
-            font-weight: 600;
-        }
-
-        .tables-doc .sidebar-group {
-            list-style: none;
-            margin: 0 0 8px;
-            padding: 0 0 0 16px;
-        }
-
-        .tables-doc .sidebar-group .sidebar-link {
-            font-size: 0.875rem;
-            color: var(--tables-muted);
-        }
-
-        .tables-doc .sidebar-group .sidebar-link.is-parent {
-            font-weight: 600;
-            color: var(--tables-text);
-            padding-left: 12px;
-        }
-
-        .tables-doc .content {
-            min-width: 0;
-        }
-
-        .tables-doc .section {
-            margin-bottom: 64px;
-            scroll-margin-top: calc(var(--tables-header-height) + 24px);
-        }
-
-        .tables-doc .section-title {
-            font-size: clamp(2rem, 4vw, 2.75rem);
-            font-weight: 700;
-            letter-spacing: -0.04em;
-            line-height: 1.1;
-            margin: 0 0 24px;
-        }
-
-        .tables-doc .section-subtitle {
-            font-size: 1.375rem;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            margin: 0 0 12px;
-        }
-
-        .tables-doc .section-lead {
-            font-size: 1.125rem;
-            font-weight: 600;
-            margin: 0 0 8px;
-        }
-
-        .tables-doc .section-text {
-            font-size: 1rem;
-            line-height: 1.65;
-            color: var(--tables-muted);
-            margin: 0 0 16px;
-            max-width: 720px;
-        }
-
-        .tables-doc .hero-image {
-            width: 100%;
-            height: auto;
-            display: block;
-            border-radius: 12px;
-            border: 1px solid #e5e5e5;
-        }
-
-        .tables-doc .figure-image {
-            width: 100%;
-            height: auto;
-            display: block;
-            border-radius: 12px;
-        }
-
-        .tables-doc .figure {
-            margin: 24px 0 0;
-        }
-
-        .tables-doc .panel {
-            background: var(--tables-panel-bg);
-            border-radius: 16px;
-            padding: 32px;
-            margin-top: 24px;
-        }
-
-        .tables-doc .panel[id] {
-            scroll-margin-top: calc(var(--tables-header-height) + 24px - 32px);
-        }
-
-        .tables-doc .panel-title {
-            font-size: 1.125rem;
-            font-weight: 700;
-            margin: 0 0 20px;
-        }
-
-        .tables-doc .panel-stack {
-            display: grid;
-            gap: 20px;
-        }
-
-        .tables-doc .task-list {
-            margin: 0 0 16px;
-            padding-left: 1.25rem;
-            color: var(--tables-muted);
-            line-height: 1.8;
-        }
-
-        .tables-doc .task-list ul {
-            margin: 8px 0 0;
-            padding-left: 1.25rem;
-        }
-
-        .tables-doc .use-case-list {
-            list-style: disc;
-            font-weight: 600;
-            color: var(--tables-text);
-        }
-
-        .tables-doc .use-case-list li {
-            margin-bottom: 4px;
-        }
-
-        .tables-doc .use-case-list li::marker {
-            color: var(--tables-text);
-        }
-
-        .tables-doc .section-text a {
-            color: var(--tables-text);
-            text-decoration: underline;
-            text-underline-offset: 2px;
-        }
-
-        .tables-doc .guide-callout,
-        .tables-doc .guide-pro-tip {
-            max-width: 720px;
-            margin: 0 0 16px;
-            padding: 16px 20px;
-            border-radius: 12px;
-            background: var(--tables-panel-bg);
-            color: var(--tables-muted);
-            line-height: 1.65;
-            font-size: 1rem;
-        }
-
-        .tables-doc .guide-pro-tip {
-            font-style: italic;
-        }
-
-        .tables-doc .guide-quote {
-            max-width: 720px;
-            margin: 0 0 16px;
-            padding: 0 0 0 20px;
-            border-left: 3px solid var(--tables-border);
-            color: var(--tables-muted);
-            line-height: 1.65;
-            font-size: 1rem;
-        }
-
-        .tables-doc .guide-quote cite {
-            display: block;
-            margin-top: 12px;
-            font-style: normal;
-            font-weight: 600;
-            color: var(--tables-text);
-        }
-
-        .tables-doc .guide-note {
-            max-width: 720px;
-            margin: 0;
-            color: var(--tables-muted);
-            line-height: 1.65;
-            font-size: 0.9375rem;
-        }
-
-        .tables-doc .guide-feedback {
-            max-width: 720px;
-            margin-top: 16px;
-            color: var(--tables-muted);
-            font-size: 1rem;
-        }
-
-        .tables-doc .guide-feedback a {
-            color: var(--tables-text);
-        }
-
-        @media (max-width: 899px) {
-            .tables-doc {
-                --tables-sidebar-width: 160px;
-            }
-        }
-
-        @media (max-width: 700px) {
-            .tables-doc .layout {
-                grid-template-columns: 1fr;
-                gap: 32px;
-                padding: 24px 20px 64px;
-            }
-
-            .tables-doc .layout.is-sidebar-collapsed {
-                grid-template-columns: 1fr;
-                gap: 32px;
-            }
-
-            .tables-doc .sidebar {
-                position: static;
-                max-height: none;
-                border-bottom: 1px solid var(--tables-border);
-                padding-bottom: 24px;
-                overflow: visible;
-            }
-
-            .tables-doc .sidebar-collapse-btn {
-                display: none;
-            }
-
-            .tables-doc .layout.is-sidebar-collapsed .sidebar-head .sidebar-link,
-            .tables-doc .layout.is-sidebar-collapsed .sidebar-nav {
-                display: block;
-            }
-        }
-    </style>
 </head>
-<body class="tables-doc">
+<body class="hg-body">
     <a href="#main" class="skip-link">skip to main content</a>
 
     <header class="header">
@@ -452,377 +23,485 @@
             <a href="index.html" aria-label="HermanLex Home">
                 <img src="images/H.logo.svg" alt="H" class="header-logo">
             </a>
-            <h1 class="header-title">Data tables</h1>
+            <div class="hg-brand">
+                <h1 class="hg-brand-name">Herman</h1>
+                <p class="hg-brand-meta">Design system</p>
+            </div>
+            <div class="hg-header-actions">
+                <a class="hg-header-link" href="tables.html">Tables guide</a>
+                <a class="hg-header-link" href="index.html">Portfolio</a>
+            </div>
         </div>
     </header>
 
-    <div class="layout">
-        <aside class="sidebar" id="sidebar-nav" aria-label="Page sections">
-            <div class="sidebar-head">
-                <a class="sidebar-link is-parent" href="#data-tables">Data tables</a>
-                <button type="button" class="sidebar-collapse-btn" aria-expanded="true" aria-controls="sidebar-nav" aria-label="Collapse section navigation">
+    <div class="hg-layout" id="hgLayout">
+        <aside class="hg-sidebar" id="hgSidebar" aria-label="Style guide sections">
+            <div class="hg-sidebar-head">
+                <span class="hg-sidebar-kicker">Contents</span>
+                <button type="button" class="hg-collapse-btn" id="hgCollapse" aria-expanded="true" aria-controls="hgSidebar" aria-label="Collapse section navigation">
                     <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
                         <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                 </button>
             </div>
-            <ul class="sidebar-nav">
-                <li>
-                    <a class="sidebar-link is-parent" href="#overview">Overview</a>
-                    <ul class="sidebar-group">
-                        <li><a class="sidebar-link" href="#what-is-a-table">What is a table?</a></li>
-                        <li><a class="sidebar-link" href="#use-cases">Use cases</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a class="sidebar-link is-parent" href="#anatomy">Anatomy</a>
-                    <ul class="sidebar-group">
-                        <li><a class="sidebar-link" href="#essential">Essential</a></li>
-                        <li><a class="sidebar-link" href="#optional">Optional</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a class="sidebar-link is-parent" href="#table-features">Table features</a>
-                    <ul class="sidebar-group">
-                        <li><a class="sidebar-link" href="#title-header">Title header</a></li>
-                        <li><a class="sidebar-link" href="#primary-action">Primary action</a></li>
-                        <li><a class="sidebar-link" href="#expanding-rows">Expanding rows</a></li>
-                        <li><a class="sidebar-link" href="#filters">Filters</a></li>
-                        <li><a class="sidebar-link" href="#table-search">Table search</a></li>
-                        <li><a class="sidebar-link" href="#saved-searches">Saved searches</a></li>
-                        <li><a class="sidebar-link" href="#sorting">Sorting</a></li>
-                        <li><a class="sidebar-link" href="#row-selection">Row selection</a></li>
-                        <li><a class="sidebar-link" href="#table-actions">Table actions</a></li>
-                        <li><a class="sidebar-link" href="#row-level-actions">Row-level actions</a></li>
-                        <li><a class="sidebar-link" href="#bulk-actions-bar">Bulk actions bar</a></li>
-                        <li><a class="sidebar-link" href="#table-settings">Table settings</a></li>
-                        <li><a class="sidebar-link" href="#pagination-bar">Pagination bar</a></li>
-                        <li><a class="sidebar-link" href="#items-per-page">Items per page</a></li>
-                        <li><a class="sidebar-link" href="#page-navigation">Page navigation</a></li>
-                        <li><a class="sidebar-link" href="#pagination-controls">Pagination controls</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a class="sidebar-link is-parent" href="#keyboard-navigation">Keyboard navigation</a>
-                    <ul class="sidebar-group">
-                        <li><a class="sidebar-link" href="#top-level-focus">Top-level focus</a></li>
-                        <li><a class="sidebar-link" href="#second-level-tabbing">2nd-level tabbing</a></li>
-                        <li><a class="sidebar-link" href="#table-core-content">Table columns, rows, and cells</a></li>
-                    </ul>
-                </li>
-            </ul>
+            <nav class="hg-nav" id="hgNav">
+                <div class="hg-nav-group">Start</div>
+                <a href="#intro">Introduction</a>
+                <a href="#brand">Brand</a>
+
+                <div class="hg-nav-group">Foundations</div>
+                <a href="#color">Color</a>
+                <a href="#typography">Typography</a>
+                <a href="#spacing">Spacing</a>
+                <a href="#radius">Radius</a>
+                <a href="#shadows">Shadows</a>
+                <a href="#motion">Motion</a>
+
+                <div class="hg-nav-group">Components</div>
+                <a href="#buttons">Buttons &amp; links</a>
+                <a href="#navigation">Navigation</a>
+                <a href="#status">Status</a>
+                <a href="#data-table">Data table</a>
+                <a href="#accessibility">Accessibility</a>
+            </nav>
         </aside>
 
-        <main id="main" class="content">
-            <section id="data-tables" class="section">
-                <h2 class="section-title">Data tables</h2>
-                <p class="section-lead">Why a data table design guide?</p>
-                <p class="section-text">After a decade of designing enterprise data-heavy applications, I've found data tables remain heavily nuanced and create more confusion for designers, PMs, and engineers than teams expect.</p>
-                <p class="section-text">With hundreds of micro-components they're also expensive to design well. Re-usable Figma and modern code components dramatically reduce design and development time while creating more consistent user experiences.</p>
-
-                <p class="section-lead" style="margin-top: 2rem;">Live example</p>
-                <p class="section-text">Interactive client-side React component with functional filtering, multi-select, table search, bulk actions, pagination and more</p>
-                <div id="campaigns-table-root"></div>
-
-                <img src="images/data-tables.png" alt="Data table design guide preview" class="hero-image">
-            </section>
-
-            <section id="overview" class="section">
-                <h2 class="section-title">Overview</h2>
-                <p class="section-text">Data tables are everywhere. They are our primary tool for organizing information in the digital world, from spreadsheets and databases to enterprise applications and consumer products.</p>
-            </section>
-
-            <section id="what-is-a-table" class="section">
-                <h3 class="section-subtitle">What is a table?</h3>
-                <p class="section-text">A table is a collection of records or values presented in rows and columns. Each row represents a record, and each column represents a field or attribute of that record.</p>
-                <p class="section-text">Tables are often complex UI components that must balance density, scannability, and interaction. Good table design helps users find, compare, and act on data quickly.</p>
-            </section>
-
-            <section id="use-cases" class="section">
-                <h3 class="section-subtitle">Use cases</h3>
-                <p class="section-text">Most tables are designed to support 4 common user tasks:</p>
-                <ul class="task-list use-case-list">
-                    <li>find records</li>
-                    <li>compare data</li>
-                    <li>view/edit/add new records data</li>
-                    <li>and take actions on records (eg change status)</li>
-                </ul>
-            </section>
-
-            <section id="anatomy" class="section">
-                <h2 class="section-title">Anatomy</h2>
-                <p class="section-text">Here's a breakdown of functional features commonly found in tables:</p>
-
-                <div id="essential" class="panel">
-                    <h3 class="panel-title">Essential elements</h3>
-                    <p class="section-text">These are the core components required for a data table to function correctly.</p>
-                    <ul class="task-list">
-                        <li>Column headers</li>
-                        <li>Rows</li>
-                        <li>Cells</li>
-                    </ul>
-                    <div class="panel-stack">
-                        <img src="images/essential-call-outs.png" alt="Essential table elements: column header, rows, and columns" class="figure-image">
-                        <img src="images/essential-table.png" alt="Simple essential data table example" class="figure-image">
-                    </div>
+        <main class="hg-content" id="main">
+            <section class="hg-hero" id="intro">
+                <h1>Herman</h1>
+                <p>
+                    A Zeroheight-style design system for HermanLex — tokens, type, motion, and UI patterns
+                    pulled from the live portfolio so product work stays consistent with the brand.
+                </p>
+                <div class="hg-hero-meta">
+                    <span class="hg-pill">Inter 300–700</span>
+                    <span class="hg-pill">Base 15px</span>
+                    <span class="hg-pill">Warm neutral monochrome</span>
+                    <span class="hg-pill">Source: styles.css</span>
                 </div>
+            </section>
 
-                <div id="optional" class="panel">
-                    <h3 class="panel-title">Optional elements</h3>
-                    <p class="section-text">These are additional components that extend a table with extra functionality or information.</p>
-                    <ul class="task-list">
-                        <li>Checkboxes</li>
-                        <li>Pagination</li>
-                        <li>Search</li>
-                        <li>Filtering</li>
-                        <li>Sorting</li>
-                    </ul>
-                    <div class="panel-stack">
-                        <img src="images/optional-call-outs.png" alt="Optional table elements including filters, search, sorting, and pagination" class="figure-image">
-                        <img src="images/optional-table.png" alt="Full-featured optional data table example" class="figure-image">
+            <section class="hg-section" id="brand">
+                <div class="hg-section-head">
+                    <h2>Brand</h2>
+                    <span class="hg-section-tag">HermanLex · H mark</span>
+                </div>
+                <p class="hg-lead">
+                    The H mark is the primary identity signal. Idle rock invites interaction; hover completes a full spin.
+                </p>
+                <div class="hg-card">
+                    <div class="hg-logo-row">
+                        <div class="hg-logo-card">
+                            <img src="images/H.logo.svg" alt="HermanLex H logo">
+                            <span>H.logo.svg</span>
+                        </div>
+                        <div class="hg-logo-card">
+                            <img src="images/H-favi.png" alt="HermanLex favicon">
+                            <span>H-favi.png</span>
+                        </div>
+                        <div class="hg-logo-card">
+                            <img src="images/og-logo.png" alt="HermanLex Open Graph logo" style="width:120px;height:auto;border-radius:8px;border:1px solid var(--hg-border)">
+                            <span>og-logo.png</span>
+                        </div>
                     </div>
                 </div>
             </section>
 
-            <section id="table-features" class="section">
-                <h2 class="section-title">Table features</h2>
+            <section class="hg-section" id="color">
+                <div class="hg-section-head">
+                    <h2>Color</h2>
+                    <span class="hg-section-tag">Core + product accents</span>
+                </div>
+                <p class="hg-lead">
+                    Warm cream canvas with near-black type. Product surfaces (tables, actions) add restrained accents without leaving the monochrome system.
+                </p>
+
+                <p class="hg-demo-label">Core palette</p>
+                <div class="hg-grid hg-grid-3" style="margin-bottom:20px">
+                    <div class="hg-swatch-card">
+                        <div class="hg-swatch" style="background:#faf9f7"></div>
+                        <div class="hg-swatch-meta">
+                            <div class="hg-swatch-name">Background</div>
+                            <div class="hg-swatch-token">--color-bg</div>
+                            <div class="hg-swatch-hex">#faf9f7</div>
+                        </div>
+                    </div>
+                    <div class="hg-swatch-card">
+                        <div class="hg-swatch" style="background:#f0eeea"></div>
+                        <div class="hg-swatch-meta">
+                            <div class="hg-swatch-name">Background alt</div>
+                            <div class="hg-swatch-token">--color-bg-alt</div>
+                            <div class="hg-swatch-hex">#f0eeea</div>
+                        </div>
+                    </div>
+                    <div class="hg-swatch-card">
+                        <div class="hg-swatch" style="background:#ffffff;border-bottom-color:#e0ddd8"></div>
+                        <div class="hg-swatch-meta">
+                            <div class="hg-swatch-name">Surface</div>
+                            <div class="hg-swatch-token">--color-white</div>
+                            <div class="hg-swatch-hex">#ffffff</div>
+                        </div>
+                    </div>
+                    <div class="hg-swatch-card">
+                        <div class="hg-swatch" style="background:#111"></div>
+                        <div class="hg-swatch-meta">
+                            <div class="hg-swatch-name">Text</div>
+                            <div class="hg-swatch-token">--color-text</div>
+                            <div class="hg-swatch-hex">#111</div>
+                        </div>
+                    </div>
+                    <div class="hg-swatch-card">
+                        <div class="hg-swatch" style="background:#444"></div>
+                        <div class="hg-swatch-meta">
+                            <div class="hg-swatch-name">Text muted</div>
+                            <div class="hg-swatch-token">--color-text-muted</div>
+                            <div class="hg-swatch-hex">#444</div>
+                        </div>
+                    </div>
+                    <div class="hg-swatch-card">
+                        <div class="hg-swatch" style="background:#1a1a1a"></div>
+                        <div class="hg-swatch-meta">
+                            <div class="hg-swatch-name">Accent</div>
+                            <div class="hg-swatch-token">--color-accent</div>
+                            <div class="hg-swatch-hex">#1a1a1a</div>
+                        </div>
+                    </div>
+                    <div class="hg-swatch-card">
+                        <div class="hg-swatch" style="background:#e0ddd8"></div>
+                        <div class="hg-swatch-meta">
+                            <div class="hg-swatch-name">Border</div>
+                            <div class="hg-swatch-token">--color-border</div>
+                            <div class="hg-swatch-hex">#e0ddd8</div>
+                        </div>
+                    </div>
+                    <div class="hg-swatch-card">
+                        <div class="hg-swatch" style="background:#212121"></div>
+                        <div class="hg-swatch-meta">
+                            <div class="hg-swatch-name">Primary button</div>
+                            <div class="hg-swatch-token">--color-btn-primary</div>
+                            <div class="hg-swatch-hex">#212121</div>
+                        </div>
+                    </div>
+                    <div class="hg-swatch-card">
+                        <div class="hg-swatch" style="background:#c45000"></div>
+                        <div class="hg-swatch-meta">
+                            <div class="hg-swatch-name">Table primary</div>
+                            <div class="hg-swatch-token">--ct-primary</div>
+                            <div class="hg-swatch-hex">#c45000</div>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="hg-demo-label">Social (footer hover only)</p>
+                <div class="hg-grid hg-grid-4">
+                    <div class="hg-swatch-card">
+                        <div class="hg-swatch" style="background:#00ab6c;height:56px"></div>
+                        <div class="hg-swatch-meta">
+                            <div class="hg-swatch-name">Medium</div>
+                            <div class="hg-swatch-hex">#00ab6c</div>
+                        </div>
+                    </div>
+                    <div class="hg-swatch-card">
+                        <div class="hg-swatch" style="background:#ea4c89;height:56px"></div>
+                        <div class="hg-swatch-meta">
+                            <div class="hg-swatch-name">Dribbble</div>
+                            <div class="hg-swatch-hex">#ea4c89</div>
+                        </div>
+                    </div>
+                    <div class="hg-swatch-card">
+                        <div class="hg-swatch" style="background:#0077b5;height:56px"></div>
+                        <div class="hg-swatch-meta">
+                            <div class="hg-swatch-name">LinkedIn</div>
+                            <div class="hg-swatch-hex">#0077b5</div>
+                        </div>
+                    </div>
+                    <div class="hg-swatch-card">
+                        <div class="hg-swatch" style="background:#ca8a04;height:56px"></div>
+                        <div class="hg-swatch-meta">
+                            <div class="hg-swatch-name">Email</div>
+                            <div class="hg-swatch-hex">#ca8a04</div>
+                        </div>
+                    </div>
+                </div>
             </section>
 
-            <section id="title-header" class="section">
-                <h3 class="section-subtitle">Title header (and/or sub-title description)</h3>
-                <p class="section-text">Every table deserves a descriptive header so users can quickly identify the intended value before digging into dense details. A header tag can belong to the entire screen if the screen is centered around a table or can go directly on the table itself. Just don't leave tables floating half way down a screen without a title in sight.</p>
+            <section class="hg-section" id="typography">
+                <div class="hg-section-head">
+                    <h2>Typography</h2>
+                    <span class="hg-section-tag">Inter · --font-primary</span>
+                </div>
+                <p class="hg-lead">
+                    Expressive fluid display for heroes, tighter scale for product UI. Default stack is Inter — never system UI for brand surfaces.
+                </p>
+                <div class="hg-card">
+                    <div class="hg-type-row">
+                        <div class="hg-type-meta">Display / H1<br>600 · -0.04em<br>clamp(2.5rem, 8vw, 4.5rem)</div>
+                        <div class="hg-type-sample-h1">HermanLex</div>
+                    </div>
+                    <div class="hg-type-row">
+                        <div class="hg-type-meta">Section / H2<br>600 · -0.035em<br>clamp(1.5rem, 3.5vw, 2rem)</div>
+                        <div class="hg-type-sample-h2">Design systems that ship</div>
+                    </div>
+                    <div class="hg-type-row">
+                        <div class="hg-type-meta">Body<br>400 · 0.9375–1.25rem</div>
+                        <div class="hg-type-sample-body">Senior design consultant with 10+ years crafting more user-centered experiences.</div>
+                    </div>
+                    <div class="hg-type-row">
+                        <div class="hg-type-meta">Navigation<br>500 · 0.875rem</div>
+                        <div class="hg-type-sample-nav">work · process · about</div>
+                    </div>
+                    <div class="hg-type-row">
+                        <div class="hg-type-meta">Label / CTA<br>500 · 0.75–0.875rem</div>
+                        <div class="hg-type-sample-label">View case study →</div>
+                    </div>
+                </div>
             </section>
 
-            <section id="primary-action" class="section">
-                <h3 class="section-subtitle">Primary action</h3>
-                <p class="section-text">Some tables may allow users to create new table records. These screens typically revolve around the table and can leverage standard primary action buttons (vertically alignmed with table title).</p>
+            <section class="hg-section" id="spacing">
+                <div class="hg-section-head">
+                    <h2>Spacing</h2>
+                    <span class="hg-section-tag">--space-xs → --space-xl</span>
+                </div>
+                <p class="hg-lead">A simple rem ladder keeps rhythm consistent from chips to page sections.</p>
+                <div class="hg-card">
+                    <div class="hg-space-row">
+                        <div class="hg-space-bar" style="width:0.5rem"></div>
+                        <div><strong>--space-xs</strong> · <span class="hg-code">0.5rem</span></div>
+                    </div>
+                    <div class="hg-space-row">
+                        <div class="hg-space-bar" style="width:1rem"></div>
+                        <div><strong>--space-sm</strong> · <span class="hg-code">1rem</span></div>
+                    </div>
+                    <div class="hg-space-row">
+                        <div class="hg-space-bar" style="width:2rem"></div>
+                        <div><strong>--space-md</strong> · <span class="hg-code">2rem</span></div>
+                    </div>
+                    <div class="hg-space-row">
+                        <div class="hg-space-bar" style="width:4rem"></div>
+                        <div><strong>--space-lg</strong> · <span class="hg-code">4rem</span></div>
+                    </div>
+                    <div class="hg-space-row">
+                        <div class="hg-space-bar" style="width:8rem"></div>
+                        <div><strong>--space-xl</strong> · <span class="hg-code">8rem</span></div>
+                    </div>
+                </div>
             </section>
 
-            <section id="expanding-rows" class="section">
-                <h3 class="section-subtitle">Expanding rows</h3>
-                <ul class="task-list">
-                    <li>Expanding rows allow a user to quickly access additional row-level information without navigating off to a details screen.</li>
-                    <li>This is a flexible i-frame to support a variety of content.</li>
-                </ul>
+            <section class="hg-section" id="radius">
+                <div class="hg-section-head">
+                    <h2>Radius</h2>
+                    <span class="hg-section-tag">4px → pill</span>
+                </div>
+                <p class="hg-lead">Soft geometry: small for controls, large for cards, full pill for CTAs and nav.</p>
+                <div class="hg-card">
+                    <div class="hg-space-row">
+                        <div class="hg-radius-demo" style="border-radius:4px"></div>
+                        <div><strong>xs</strong> · <span class="hg-code">4px</span> · chips, close</div>
+                    </div>
+                    <div class="hg-space-row">
+                        <div class="hg-radius-demo" style="border-radius:8px"></div>
+                        <div><strong>sm</strong> · <span class="hg-code">8px</span> · menus, sidebar</div>
+                    </div>
+                    <div class="hg-space-row">
+                        <div class="hg-radius-demo" style="border-radius:20px"></div>
+                        <div><strong>md</strong> · <span class="hg-code">20px</span> · profile, toaster</div>
+                    </div>
+                    <div class="hg-space-row">
+                        <div class="hg-radius-demo" style="border-radius:24px"></div>
+                        <div><strong>lg</strong> · <span class="hg-code">24px</span> · inputs</div>
+                    </div>
+                    <div class="hg-space-row">
+                        <div class="hg-radius-demo" style="border-radius:40px"></div>
+                        <div><strong>card</strong> · <span class="hg-code">40px</span> · project cards</div>
+                    </div>
+                    <div class="hg-space-row">
+                        <div class="hg-radius-demo" style="border-radius:50px"></div>
+                        <div><strong>pill</strong> · <span class="hg-code">50px</span> · buttons, nav</div>
+                    </div>
+                </div>
             </section>
 
-            <section id="filters" class="section">
-                <h3 class="section-subtitle">Filters</h3>
-                <p class="section-text">In large data sets filters allow users to narrow their table results down to a smaller set of records with some shared characteristic(s).</p>
-                <ul class="task-list">
-                    <li>Table filters usually correspond to visible columns in the table but are not required to.</li>
-                    <li>Each workflow will have different filtering needs, and not every column will always deserve a filter.</li>
-                    <li>In more focused workflows or due to technical and performance related constraints it is possible to make specific filters mandatory and/or persistent for higher visibility. If a filter is mandatory, consider using a default selection or asking users to pick a filter preference before they load the table.</li>
-                    <li>Filters are less helpful on columns with a high count of unique values; for example finding a unique ID when there are 100s of unique IDs is a task better suited for the <a href="#table-search">table search tool</a>.</li>
-                    <li>Users may apply table filters at any time, either before or after a table search but keep in mind how applying filters may impact a user's current <a href="#row-selection">row selection</a>.</li>
-                    <li>It is important to make clearing all filters very easy</li>
-                </ul>
+            <section class="hg-section" id="shadows">
+                <div class="hg-section-head">
+                    <h2>Shadows</h2>
+                    <span class="hg-section-tag">Elevation sparingly</span>
+                </div>
+                <p class="hg-lead">Most surfaces rely on border + background. Shadows appear for overlays and focus.</p>
+                <div class="hg-card">
+                    <div class="hg-shadow-row">
+                        <div class="hg-shadow-demo" style="box-shadow:0 0 0 3px rgba(26,26,26,0.05)"></div>
+                        <div><strong>Focus</strong> · <span class="hg-code">0 0 0 3px rgba(26,26,26,0.05)</span></div>
+                    </div>
+                    <div class="hg-shadow-row">
+                        <div class="hg-shadow-demo" style="box-shadow:0 2px 8px rgba(0,0,0,0.15)"></div>
+                        <div><strong>Tooltip</strong> · <span class="hg-code">0 2px 8px rgba(0,0,0,0.15)</span></div>
+                    </div>
+                    <div class="hg-shadow-row">
+                        <div class="hg-shadow-demo" style="box-shadow:0 8px 24px rgba(0,0,0,0.15)"></div>
+                        <div><strong>Toaster</strong> · <span class="hg-code">0 8px 24px rgba(0,0,0,0.15)</span></div>
+                    </div>
+                    <div class="hg-shadow-row">
+                        <div class="hg-shadow-demo" style="box-shadow:0 20px 60px rgba(0,0,0,0.3)"></div>
+                        <div><strong>Modal</strong> · <span class="hg-code">0 20px 60px rgba(0,0,0,0.3)</span></div>
+                    </div>
+                </div>
             </section>
 
-            <section id="table-search" class="section">
-                <h3 class="section-subtitle">Table search</h3>
-                <ul class="task-list">
-                    <li>A table search tool can help users find unique values within a long data table quickly. Columns containing unique values like names and addresses are great candidates to make searchable.</li>
-                    <li>A table search can index all cells of an entire table or if the table is particularly large with many free text values, the search function can be restrict to specific columns of user interest.</li>
-                    <li>Consider how changing search terms (or applying new filters) may impact a row selection and be sure to warn users before any selection is lost by loading new search results.</li>
-                    <li>Save and load searches (details below) can be made available in the search bar drop-down menu.</li>
-                </ul>
-                <p class="guide-pro-tip">Pro-tip : Allowing recent searches, or trending searches with just one click inside the search menu can be an incredibly helpful enhancement to any search bar.</p>
+            <section class="hg-section" id="motion">
+                <div class="hg-section-head">
+                    <h2>Motion</h2>
+                    <span class="hg-section-tag">fast · base · slow</span>
+                </div>
+                <p class="hg-lead">
+                    Use motion for presence and hierarchy — logo rock/spin, fade-ins, hover transitions.
+                    Respect <span class="hg-code">prefers-reduced-motion</span>.
+                </p>
+                <div class="hg-grid hg-grid-3">
+                    <div class="hg-card">
+                        <p class="hg-demo-label">--transition-fast · 150ms</p>
+                        <div class="hg-motion-card"><div class="hg-motion-box is-fast"></div></div>
+                    </div>
+                    <div class="hg-card">
+                        <p class="hg-demo-label">--transition-base · 300ms</p>
+                        <div class="hg-motion-card"><div class="hg-motion-box is-base"></div></div>
+                    </div>
+                    <div class="hg-card">
+                        <p class="hg-demo-label">--transition-slow · 500ms</p>
+                        <div class="hg-motion-card"><div class="hg-motion-box is-slow"></div></div>
+                    </div>
+                </div>
             </section>
 
-            <section id="saved-searches" class="section">
-                <h3 class="section-subtitle">Saved searches</h3>
-                <ul class="task-list">
-                    <li>This advanced search feature is intended for repeate power users only - it is tucked subtly inside the search menu.</li>
-                    <li>Users can save and quickly load a re-usable search configuration (search term + filters).</li>
-                    <li>To create a saved search, conduct a normal table search and then use the 'save' option inside search menu.</li>
-                    <li>Manage saved searches in a separate screen where they can be run with 1 click, re-named, or deleted.</li>
-                </ul>
+            <section class="hg-section" id="buttons">
+                <div class="hg-section-head">
+                    <h2>Buttons &amp; links</h2>
+                    <span class="hg-section-tag">Live classes from styles.css</span>
+                </div>
+                <p class="hg-lead">Primary pills for actions, ghost for secondary, underline for lightweight text links.</p>
+                <div class="hg-card">
+                    <p class="hg-demo-label">Portfolio actions</p>
+                    <div class="hg-demo-row" style="margin-bottom:20px">
+                        <a href="#buttons" class="project-link" onclick="return false">View project</a>
+                        <a href="#buttons" class="project-link-ghost" onclick="return false">Résumé <span class="arrow">→</span></a>
+                        <a href="#buttons" class="project-link-website" onclick="return false">Visit website</a>
+                        <button type="button" class="project-link-ghost project-link-ghost--disabled" disabled>Unavailable</button>
+                    </div>
+                    <p class="hg-demo-label">Product / table primary</p>
+                    <div class="hg-demo-row">
+                        <button type="button" class="hg-ct-primary">Upload new</button>
+                        <a href="#buttons" class="connect-link" onclick="return false">connect</a>
+                    </div>
+                </div>
             </section>
 
-            <section id="sorting" class="section">
-                <h3 class="section-subtitle">Sorting</h3>
-                <ul class="task-list">
-                    <li>The currently sorted column is indicated by a dark bottom border and arrow in the column header which signals an ascending or descending order.</li>
-                    <li>Ideally all columns should be sortable alphabetically, numerically, or by date (except for actions columns).</li>
-                </ul>
+            <section class="hg-section" id="navigation">
+                <div class="hg-section-head">
+                    <h2>Navigation</h2>
+                    <span class="hg-section-tag">Dark capsule · white current</span>
+                </div>
+                <p class="hg-lead">Site navigation sits in a near-black pill with a white current-state chip.</p>
+                <div class="hg-card">
+                    <nav class="hg-nav-demo" aria-label="Example site navigation">
+                        <a href="#navigation" class="is-current" onclick="return false">work</a>
+                        <a href="#navigation" onclick="return false">process</a>
+                        <a href="#navigation" onclick="return false">about</a>
+                    </nav>
+                </div>
             </section>
 
-            <section id="row-selection" class="section">
-                <h3 class="section-subtitle">Row selection</h3>
-                <ul class="task-list">
-                    <li>The single checkbox in the multi-select bar can select/unselect the full active page of records with a single click</li>
-                    <li>A ratio indicates the count of selected records over the total number of records across all pages
-                        <ul>
-                            <li>The example ratio below indicates 3/75 rows selected, however only 2 selected rows are in-view. This tells the user a 3rd selection is also active somewhere beyond the current page - an important piece of feedback when using pagination.</li>
-                        </ul>
-                    </li>
-                    <li>"Select all 75" ghost button allows user to select all records across all pages</li>
-                </ul>
-                <p class="guide-callout">* Special consideration for filters and search combined with selection : table filters and table search may alter a table selection. If a user has already selected some rows and then rows become narrowed further by applying a filter (or search), it's possible the selected records get filtered out of the table. In this case users should be notified before applying any irreversible impact to their working selection.</p>
+            <section class="hg-section" id="status">
+                <div class="hg-section-head">
+                    <h2>Status</h2>
+                    <span class="hg-section-tag">Campaigns table chips</span>
+                </div>
+                <p class="hg-lead">Soft tinted pills for operational state — readable without loud color.</p>
+                <div class="hg-card">
+                    <div class="hg-status-row">
+                        <span class="hg-status is-live">Live</span>
+                        <span class="hg-status is-draft">Draft</span>
+                        <span class="hg-status is-paused">Paused</span>
+                        <span class="hg-status is-ended">Ended</span>
+                        <span class="hg-status is-scheduled">Scheduled</span>
+                    </div>
+                </div>
             </section>
 
-            <section id="table-actions" class="section">
-                <h3 class="section-subtitle">Table actions</h3>
-                <ul class="task-list">
-                    <li>Some actions in the toolbar buttons may apply only to selected records (example: delete selected record)</li>
-                </ul>
+            <section class="hg-section" id="data-table">
+                <div class="hg-section-head">
+                    <h2>Data table</h2>
+                    <span class="hg-section-tag">Live React demo</span>
+                </div>
+                <p class="hg-lead">
+                    Full interactive pattern from the tables guide — filters, search, selection, bulk actions,
+                    sorting, resizable columns, and pagination. See also the
+                    <a href="tables.html" style="text-decoration:underline">data tables design guide</a>.
+                </p>
+                <div class="hg-table-embed">
+                    <div id="campaigns-table-root"></div>
+                </div>
+                <p class="hg-note">Component: <span class="hg-code">js/campaigns-table.jsx</span> · styles: <span class="hg-code">CSS/campaigns-table.css</span></p>
             </section>
 
-            <section id="row-level-actions" class="section">
-                <h3 class="section-subtitle">Row-level actions</h3>
-                <ul class="task-list">
-                    <li>Single row actions can be added to an actions column in the table.</li>
-                    <li>Multiple single-row actions can be added into an actions overflow menus.</li>
-                </ul>
+            <section class="hg-section" id="accessibility">
+                <div class="hg-section-head">
+                    <h2>Accessibility</h2>
+                    <span class="hg-section-tag">Baseline expectations</span>
+                </div>
+                <div class="hg-card">
+                    <ul class="task-list" style="margin:0;padding-left:1.1rem;color:var(--hg-muted);font-size:0.9375rem">
+                        <li style="margin-bottom:8px">Skip link to main content on every page</li>
+                        <li style="margin-bottom:8px">Visible <span class="hg-code">:focus-visible</span> rings on interactive controls</li>
+                        <li style="margin-bottom:8px">Logo and decorative motion honor <span class="hg-code">prefers-reduced-motion</span></li>
+                        <li style="margin-bottom:8px">Tables announce title, description, and column structure for assistive tech</li>
+                        <li>Color is never the only status cue — pair with labels</li>
+                    </ul>
+                </div>
             </section>
 
-            <section id="bulk-actions-bar" class="section">
-                <h3 class="section-subtitle">Bulk actions bar</h3>
-                <ul class="task-list">
-                    <li>The bulk actions bar is a default location for general table actions (example: download, or share)</li>
-                    <li>Some bulk actions may apply only to the active user selection (example: delete, or archive).</li>
-                    <li>All toolbar buttons should have icons. Also more compact icon only buttons may also work well depending on user context and icon choices.</li>
-                </ul>
-            </section>
-
-            <section id="table-settings" class="section">
-                <h3 class="section-subtitle">Table settings</h3>
-                <ul class="task-list">
-                    <li>Users can configure the visible columns by selecting checkboxes on the left</li>
-                    <li>Drag-and-drop the gripper icons in table settings drop-down menu to re-order table columns</li>
-                    <li>Row sizing modes (compact, default, large designs in progress)</li>
-                </ul>
-                <p class="guide-note">* Additional table settings TBD<br>Row sizing modes (compact, default, large)<br>Available filters</p>
-            </section>
-
-            <section id="pagination-bar" class="section">
-                <h3 class="section-subtitle">Pagination bar</h3>
-                <ul class="task-list">
-                    <li>The multi-select counter ratio in the bulk actions bar accounts for user selections across several pages of results (see example: Select all 75)</li>
-                </ul>
-            </section>
-
-            <section id="items-per-page" class="section">
-                <h3 class="section-subtitle">Items per page</h3>
-                <ul class="task-list">
-                    <li>Control the number of items shown on each page with a menu (10, 20, 30, 40, or 50) and view more items as needed or fewer items to limit the table and screen height when navigating longer lists.</li>
-                </ul>
-            </section>
-
-            <section id="page-navigation" class="section">
-                <h3 class="section-subtitle">Page navigation</h3>
-                <ul class="task-list">
-                    <li>Given a longer list of items, pagination controls allow users to skip to different pages including the first page, previous page, an exact user typed number page input, the next or the last page.</li>
-                    <li>The total number of pages is clearly indicated, and the exact range of items visible on the current page.</li>
-                </ul>
-            </section>
-
-            <section id="pagination-controls" class="section">
-                <h3 class="section-subtitle">Pagination controls</h3>
-                <ul class="task-list">
-                    <li>Table pagination can be applied to improve performance and prevent large tables from slow loading.</li>
-                    <li>Pagination can also make long tables easier to navigate by breaking content into more manageable chunks.</li>
-                    <li>When using pagination, product teams should consider the ideal table length for their use case and also allow enhanced user control with the "Items per page" control in the bottom left of the table.</li>
-                </ul>
-            </section>
-
-            <section id="keyboard-navigation" class="section">
-                <h2 class="section-title">Keyboard navigation</h2>
-            </section>
-
-            <section id="top-level-focus" class="section">
-                <h3 class="section-subtitle">Top-level focus</h3>
-                <ul class="task-list">
-                    <li>The table component can be a single point of focus on the screen, separate from navigation or other page section.</li>
-                    <li>The table should announce itself by the title, title description and table column headers (for example, 'Offers Table, filter, search and manage offers campaigns. Campaign name, status, start date, end date...')</li>
-                </ul>
-            </section>
-
-            <section id="second-level-tabbing" class="section">
-                <h3 class="section-subtitle">2nd-level tabbing elements</h3>
-                <ul class="task-list">
-                    <li>Users can enter and navigate the following sub-components with arrow keys + enter, escape keys.</li>
-                    <li>Upon focus, 2nd-level sub components like buttons, menus and search or text inputs should maintain their own standard keyboard controls.</li>
-                </ul>
-                <ol class="task-list">
-                    <li>Primary action</li>
-                    <li>Filters (or search)</li>
-                    <li>Search (or filters)</li>
-                    <li>Table content</li>
-                </ol>
-            </section>
-
-            <section id="table-core-content" class="section">
-                <h3 class="section-subtitle">Table columns, rows, and cell content</h3>
-                <ul class="task-list">
-                    <li>Keyboard users should be able to enter and navigate core table data with arrow keys + enter, escape keys.</li>
-                    <li>More information on data table accessibility learn how screen readers navigate data tables.</li>
-                </ul>
-                <blockquote class="guide-quote">
-                    ...you do not need to make each cell of a table focusable with a keyboard to aid navigation. If the cell contains a focusable and interactive element that's OK, but if it contains non-interactive content it is likely that you will make keyboard users work much harder to navigate the table than you intended.
-                    <cite>— Léonie Watson</cite>
-                </blockquote>
-                <p class="guide-feedback">Got feedback? Please contact <a href="mailto:alexwyrick.alexander@mastercard.com">alexwyrick.alexander@mastercard.com</a></p>
-            </section>
+            <p class="hg-footer-note">
+                Herman is maintained as a living mirror of <span class="hg-code">hermanlex.com</span>.
+                Tokens and components stay aligned with production CSS.
+            </p>
         </main>
     </div>
 
     <script>
         (function () {
-            const layout = document.querySelector('.layout');
-            const collapseBtn = document.querySelector('.sidebar-collapse-btn');
-            const links = document.querySelectorAll('.sidebar-link[href^="#"]');
-            const sections = [...document.querySelectorAll('.content .section, .content .panel[id]')];
-            const mobileQuery = window.matchMedia('(max-width: 700px)');
-
-            function setSidebarExpanded(expanded) {
-                if (!layout || !collapseBtn) return;
-
-                layout.classList.toggle('is-sidebar-collapsed', !expanded);
-                collapseBtn.setAttribute('aria-expanded', String(expanded));
-                collapseBtn.setAttribute(
-                    'aria-label',
-                    expanded ? 'Collapse section navigation' : 'Expand section navigation'
-                );
-            }
-
-            if (collapseBtn && layout) {
-                collapseBtn.addEventListener('click', () => {
-                    const isExpanded = collapseBtn.getAttribute('aria-expanded') === 'true';
-                    setSidebarExpanded(!isExpanded);
-                });
-
-                mobileQuery.addEventListener('change', (event) => {
-                    if (event.matches) {
-                        setSidebarExpanded(true);
-                    }
+            var layout = document.getElementById('hgLayout');
+            var btn = document.getElementById('hgCollapse');
+            if (btn && layout) {
+                btn.addEventListener('click', function () {
+                    var collapsed = layout.classList.toggle('is-sidebar-collapsed');
+                    btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+                    btn.setAttribute('aria-label', collapsed ? 'Expand section navigation' : 'Collapse section navigation');
                 });
             }
 
-            function setActiveLink() {
-                let current = sections[0]?.id;
-                const offset = 120;
+            var links = document.querySelectorAll('#hgNav a[href^="#"]');
+            var sections = [];
+            links.forEach(function (link) {
+                var id = link.getAttribute('href').slice(1);
+                var el = document.getElementById(id);
+                if (el) sections.push({ id: id, el: el, link: link });
+            });
 
-                sections.forEach((section) => {
-                    if (section.getBoundingClientRect().top - offset <= 0) {
-                        current = section.id;
-                    }
+            function setActive() {
+                var y = window.scrollY + 100;
+                var current = sections[0];
+                sections.forEach(function (item) {
+                    if (item.el.offsetTop <= y) current = item;
                 });
-
-                links.forEach((link) => {
-                    const href = link.getAttribute('href');
-                    link.classList.toggle('is-active', href === `#${current}`);
-                });
+                links.forEach(function (link) { link.classList.remove('is-active'); });
+                if (current) current.link.classList.add('is-active');
             }
 
-            window.addEventListener('scroll', setActiveLink, { passive: true });
-            setActiveLink();
+            window.addEventListener('scroll', setActive, { passive: true });
+            setActive();
         })();
     </script>
-    <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/@babel/standalone@7.26.9/babel.min.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone@7.26.10/babel.min.js"></script>
     <script type="text/babel" src="js/campaigns-table.jsx"></script>
 </body>
 </html>
