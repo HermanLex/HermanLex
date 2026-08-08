@@ -5,8 +5,14 @@ const STATUSES = ['Live', 'Draft', 'Paused', 'Ended', 'Scheduled'];
 const PAGE_SIZE_OPTIONS = [10, 20, 30, 40, 50];
 const DEFAULT_PAGE_SIZE = 10;
 
+const DATA_COLUMNS = [
+    { id: 'name', label: 'Campaign', width: 280, minWidth: 140, sortable: true },
+    { id: 'status', label: 'Status', width: 130, minWidth: 96, sortable: true },
+    { id: 'startDate', label: 'Start date', width: 130, minWidth: 100, sortable: true },
+    { id: 'endDate', label: 'End date', width: 130, minWidth: 100, sortable: true }
+];
+
 const FILTER_DEFS = [
-    { id: 'campaign', label: 'Campaign', type: 'text' },
     { id: 'status', label: 'Status', type: 'multi' },
     { id: 'program', label: 'Program', type: 'multi' },
     { id: 'startDate', label: 'Start date', type: 'dateRange' },
@@ -81,7 +87,6 @@ function buildCampaigns(count) {
 const ALL_CAMPAIGNS = buildCampaigns(25);
 
 const EMPTY_FILTER_VALUES = {
-    campaign: '',
     status: [],
     program: [],
     startDate: { from: '', to: '' },
@@ -190,9 +195,21 @@ function Icon({ name, size = 16 }) {
         case 'more':
             return (
                 <svg {...props}>
-                    <circle cx="12" cy="5" r="1" fill="currentColor" stroke="none" />
-                    <circle cx="12" cy="12" r="1" fill="currentColor" stroke="none" />
-                    <circle cx="12" cy="19" r="1" fill="currentColor" stroke="none" />
+                    <circle cx="12" cy="5" r="2.4" fill="currentColor" stroke="none" />
+                    <circle cx="12" cy="12" r="2.4" fill="currentColor" stroke="none" />
+                    <circle cx="12" cy="19" r="2.4" fill="currentColor" stroke="none" />
+                </svg>
+            );
+        case 'sort-asc':
+            return (
+                <svg {...props}>
+                    <polyline points="6 14 12 8 18 14" />
+                </svg>
+            );
+        case 'sort-desc':
+            return (
+                <svg {...props}>
+                    <polyline points="6 10 12 16 18 10" />
                 </svg>
             );
         default:
@@ -317,44 +334,6 @@ function MultiSelectFilter({ label, options, selected, onChange, open, onToggle,
     );
 }
 
-function TextFilter({ label, value, onChange, open, onToggle, onClose }) {
-    const rootRef = useClickOutside(open, onClose);
-    const inputId = useId();
-    const summary = value.trim() ? value.trim() : 'Any';
-
-    return (
-        <div className="ct-filter-chip" ref={rootRef}>
-            <button
-                type="button"
-                className="ct-filter-chip-btn"
-                aria-expanded={open}
-                aria-haspopup="dialog"
-                onClick={onToggle}
-            >
-                <span className="ct-filter-label">{label} :</span>
-                <span className="ct-filter-value">{summary}</span>
-                <Icon name="chevron" size={14} />
-            </button>
-            {open ? (
-                <div className="ct-filter-menu ct-filter-text-menu" role="dialog" aria-label={label}>
-                    <label className="ct-date-field" htmlFor={inputId}>
-                        <span>Contains</span>
-                        <input
-                            id={inputId}
-                            type="search"
-                            className="ct-date-input"
-                            placeholder="Campaign name"
-                            value={value}
-                            onChange={(event) => onChange(event.target.value)}
-                            autoFocus
-                        />
-                    </label>
-                </div>
-            ) : null}
-        </div>
-    );
-}
-
 function DateRangeFilter({ label, value, onChange, open, onToggle, onClose }) {
     const rootRef = useClickOutside(open, onClose);
     const fromId = useId();
@@ -420,7 +399,6 @@ function inDateRange(date, range) {
 
 function filterHasValue(filterId, values) {
     const value = values[filterId];
-    if (filterId === 'campaign') return Boolean(value && value.trim());
     if (filterId === 'status' || filterId === 'program') return value.length > 0;
     if (filterId === 'startDate' || filterId === 'endDate') return Boolean(value.from || value.to);
     return false;
@@ -439,16 +417,20 @@ function CampaignsTable() {
     const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE);
     const [currentPage, setCurrentPage] = useState(1);
     const [pageInput, setPageInput] = useState('1');
+    const [sortKey, setSortKey] = useState(null);
+    const [sortDir, setSortDir] = useState('asc');
+    const [columnWidths, setColumnWidths] = useState(() =>
+        DATA_COLUMNS.reduce((acc, col) => {
+            acc[col.id] = col.width;
+            return acc;
+        }, {})
+    );
 
     const closeMenus = useCallback(() => setOpenMenu(null), []);
 
     const filteredRows = useMemo(() => {
         const query = search.trim().toLowerCase();
-        return ALL_CAMPAIGNS.filter((row) => {
-            if (enabledFilters.includes('campaign')) {
-                const campaignQuery = filterValues.campaign.trim().toLowerCase();
-                if (campaignQuery && !row.name.toLowerCase().includes(campaignQuery)) return false;
-            }
+        let rows = ALL_CAMPAIGNS.filter((row) => {
             if (enabledFilters.includes('program') && filterValues.program.length > 0) {
                 if (!filterValues.program.includes(row.programType)) return false;
             }
@@ -467,7 +449,34 @@ function CampaignsTable() {
             }
             return true;
         });
-    }, [enabledFilters, filterValues, search]);
+
+        if (sortKey) {
+            rows = [...rows].sort((a, b) => {
+                let left;
+                let right;
+                if (sortKey === 'name') {
+                    left = a.name.toLowerCase();
+                    right = b.name.toLowerCase();
+                } else if (sortKey === 'status') {
+                    left = a.status.toLowerCase();
+                    right = b.status.toLowerCase();
+                } else if (sortKey === 'startDate') {
+                    left = a.startDate.getTime();
+                    right = b.startDate.getTime();
+                } else if (sortKey === 'endDate') {
+                    left = a.endDate.getTime();
+                    right = b.endDate.getTime();
+                } else {
+                    return 0;
+                }
+                if (left < right) return sortDir === 'asc' ? -1 : 1;
+                if (left > right) return sortDir === 'asc' ? 1 : -1;
+                return 0;
+            });
+        }
+
+        return rows;
+    }, [enabledFilters, filterValues, search, sortKey, sortDir]);
 
     const totalPages = Math.max(1, Math.ceil(filteredRows.length / pageSize));
     const safePage = Math.min(currentPage, totalPages);
@@ -482,7 +491,7 @@ function CampaignsTable() {
     useEffect(() => {
         setCurrentPage(1);
         setPageInput('1');
-    }, [enabledFilters, filterValues, search, pageSize]);
+    }, [enabledFilters, filterValues, search, pageSize, sortKey, sortDir]);
 
     const pageStart = (safePage - 1) * pageSize;
     const pageRows = filteredRows.slice(pageStart, pageStart + pageSize);
@@ -565,23 +574,41 @@ function CampaignsTable() {
         });
     }
 
+    function handleSort(columnId) {
+        if (sortKey === columnId) {
+            setSortDir((dir) => (dir === 'asc' ? 'desc' : 'asc'));
+            return;
+        }
+        setSortKey(columnId);
+        setSortDir('asc');
+    }
+
+    function startColumnResize(event, columnId) {
+        event.preventDefault();
+        event.stopPropagation();
+        const startX = event.clientX;
+        const startWidth = columnWidths[columnId];
+        const minWidth = DATA_COLUMNS.find((col) => col.id === columnId)?.minWidth ?? 80;
+
+        function onMove(moveEvent) {
+            const nextWidth = Math.max(minWidth, startWidth + (moveEvent.clientX - startX));
+            setColumnWidths((prev) => ({ ...prev, [columnId]: nextWidth }));
+        }
+
+        function onUp() {
+            document.removeEventListener('mousemove', onMove);
+            document.removeEventListener('mouseup', onUp);
+            document.body.classList.remove('ct-is-resizing');
+        }
+
+        document.body.classList.add('ct-is-resizing');
+        document.addEventListener('mousemove', onMove);
+        document.addEventListener('mouseup', onUp);
+    }
+
     function renderActiveFilter(filterId) {
         const def = FILTER_DEFS.find((item) => item.id === filterId);
         if (!def) return null;
-
-        if (def.type === 'text') {
-            return (
-                <TextFilter
-                    key={filterId}
-                    label={def.label}
-                    value={filterValues.campaign}
-                    onChange={(value) => setFilterValues((prev) => ({ ...prev, campaign: value }))}
-                    open={openMenu === filterId}
-                    onToggle={() => setOpenMenu((menu) => (menu === filterId ? null : filterId))}
-                    onClose={closeMenus}
-                />
-            );
-        }
 
         if (def.type === 'multi') {
             const options = filterId === 'status' ? STATUSES : PROGRAM_TYPES;
@@ -735,6 +762,16 @@ function CampaignsTable() {
 
             <div className="ct-table-scroll">
                 <table className="ct-table">
+                    <colgroup>
+                        <col className="ct-col-check" />
+                        <col className="ct-col-expand" />
+                        {DATA_COLUMNS.map((col) => (
+                            <col
+                                key={col.id}
+                                style={{ width: columnWidths[col.id], minWidth: col.minWidth }}
+                            />
+                        ))}
+                    </colgroup>
                     <thead>
                         <tr>
                             <th className="ct-check-cell" scope="col">
@@ -743,16 +780,53 @@ function CampaignsTable() {
                             <th className="ct-expand-cell" scope="col">
                                 <span className="visually-hidden">Expand</span>
                             </th>
-                            <th scope="col">Campaign</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Start date</th>
-                            <th scope="col">End date</th>
+                            {DATA_COLUMNS.map((col) => {
+                                const isSorted = sortKey === col.id;
+                                const ariaSort = isSorted
+                                    ? sortDir === 'asc'
+                                        ? 'ascending'
+                                        : 'descending'
+                                    : 'none';
+                                return (
+                                    <th
+                                        key={col.id}
+                                        scope="col"
+                                        className={`ct-th${isSorted ? ' is-sorted' : ''}`}
+                                        aria-sort={ariaSort}
+                                    >
+                                        <div className="ct-th-inner">
+                                            <button
+                                                type="button"
+                                                className="ct-th-sort"
+                                                onClick={() => handleSort(col.id)}
+                                            >
+                                                <span>{col.label}</span>
+                                                {isSorted ? (
+                                                    <Icon
+                                                        name={sortDir === 'asc' ? 'sort-asc' : 'sort-desc'}
+                                                        size={14}
+                                                    />
+                                                ) : (
+                                                    <span className="ct-th-sort-placeholder" aria-hidden="true" />
+                                                )}
+                                            </button>
+                                            <span
+                                                className="ct-col-resize"
+                                                role="separator"
+                                                aria-orientation="vertical"
+                                                aria-label={`Resize ${col.label} column`}
+                                                onMouseDown={(event) => startColumnResize(event, col.id)}
+                                            />
+                                        </div>
+                                    </th>
+                                );
+                            })}
                         </tr>
                     </thead>
                     <tbody>
                         {pageRows.length === 0 ? (
                             <tr>
-                                <td className="ct-empty" colSpan={6}>
+                                <td className="ct-empty" colSpan={2 + DATA_COLUMNS.length}>
                                     No campaigns match your filters or search.
                                 </td>
                             </tr>
@@ -784,7 +858,7 @@ function CampaignsTable() {
                                                     <Icon name="chevron" size={14} />
                                                 </button>
                                             </td>
-                                            <td>
+                                            <td className="ct-cell-name">
                                                 <a
                                                     className="ct-campaign-link"
                                                     href={`#${row.id}`}
@@ -806,7 +880,7 @@ function CampaignsTable() {
                                         </tr>
                                         {expanded ? (
                                             <tr className="ct-detail-row">
-                                                <td colSpan={6}>
+                                                <td colSpan={2 + DATA_COLUMNS.length}>
                                                     {row.programType} program · Owner {row.owner} ·
                                                     Budget {row.budget}
                                                 </td>

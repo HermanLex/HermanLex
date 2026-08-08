@@ -61,10 +61,43 @@
             position: static;
         }
 
+        .tables-doc .header-inner > a {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+            transform-origin: center center;
+            animation: logo-invite-rock 2.8s ease-in-out infinite;
+        }
+
         .tables-doc .header-logo {
             width: 50px;
             height: 50px;
             flex-shrink: 0;
+            transform-origin: center center;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .tables-doc .header-inner > a:hover {
+            animation: none;
+            transform: none;
+        }
+
+        .tables-doc .header-inner > a:hover .header-logo {
+            transform: rotate(380deg);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .tables-doc .header-inner > a {
+                animation: none;
+            }
+
+            .tables-doc .header-logo {
+                transition: none;
+            }
+
+            .tables-doc .header-inner > a:hover .header-logo {
+                transform: none;
+            }
         }
 
         .tables-doc .header-title {
@@ -485,7 +518,7 @@
                 <h2 class="section-title">Data tables</h2>
                 <p class="section-lead">Why a data table design guide?</p>
                 <p class="section-text">After a decade of designing enterprise data-heavy applications, I've found data tables remain heavily nuanced and create more confusion for designers, PMs, and engineers than teams expect.</p>
-                <p class="section-text">They're also expensive to design well with hundreds of micro-components. Re-usable Figma and modern code components dramatically reduce design and development time while creating more consistent user experiences.</p>
+                <p class="section-text">With hundreds of micro-components they're also expensive to design well. Re-usable Figma and modern code components dramatically reduce design and development time while creating more consistent user experiences.</p>
 
                 <p class="section-lead" style="margin-top: 2rem;">Live example</p>
                 <p class="section-text">Interactive client-side React component with functional filtering, multi-select, table search, bulk actions, pagination and more</p>

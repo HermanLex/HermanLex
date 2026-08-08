@@ -371,8 +371,17 @@
 
 .ct-table {
     width: 100%;
+    table-layout: fixed;
     border-collapse: collapse;
     min-width: 640px;
+}
+
+.ct-col-check {
+    width: 40px;
+}
+
+.ct-col-expand {
+    width: 28px;
 }
 
 .ct-table th,
@@ -384,10 +393,100 @@
     font-size: 0.875rem;
 }
 
+.ct-table td.ct-cell-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 .ct-table thead th {
     font-weight: 600;
-    border-bottom: 2px solid var(--ct-text);
+    border-bottom: 2px solid var(--ct-border);
     white-space: nowrap;
+    position: relative;
+}
+
+.ct-table thead th.is-sorted {
+    border-bottom-color: var(--ct-text);
+}
+
+.ct-th-inner {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    min-width: 0;
+    position: relative;
+    padding-right: 8px;
+}
+
+.ct-th-sort {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    min-width: 0;
+    max-width: 100%;
+    border: none;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-weight: 600;
+    padding: 0;
+    cursor: pointer;
+    text-align: left;
+}
+
+.ct-th-sort:hover {
+    opacity: 0.75;
+}
+
+.ct-th-sort:focus-visible {
+    outline: 2px solid var(--ct-text);
+    outline-offset: 2px;
+    border-radius: 2px;
+}
+
+.ct-th-sort-placeholder {
+    width: 14px;
+    height: 14px;
+    flex: 0 0 auto;
+}
+
+.ct-col-resize {
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    bottom: -12px;
+    width: 10px;
+    cursor: col-resize;
+    touch-action: none;
+    user-select: none;
+}
+
+.ct-col-resize::after {
+    content: '';
+    position: absolute;
+    top: 20%;
+    bottom: 20%;
+    left: 50%;
+    width: 2px;
+    transform: translateX(-50%);
+    background: transparent;
+    border-radius: 1px;
+}
+
+.ct-th:hover .ct-col-resize::after,
+.ct-col-resize:hover::after {
+    background: var(--ct-border-strong);
+}
+
+body.ct-is-resizing,
+body.ct-is-resizing * {
+    cursor: col-resize !important;
+    user-select: none !important;
+}
+
+.ct-cell-name .ct-campaign-link {
+    display: inline;
 }
 
 .ct-table tbody tr {
@@ -505,6 +604,9 @@
     padding: 12px 16px 16px 76px;
     font-size: 0.8125rem;
     color: var(--ct-muted);
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
 }
 
 .ct-empty {
