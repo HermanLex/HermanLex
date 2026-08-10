@@ -34,14 +34,40 @@
                 width: 100%;
             }
         }
+
+        .eop-nav-closing {
+            margin: 0;
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            line-height: 1.6;
+            color: var(--color-text-muted);
+        }
+
+        .eop-doc-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3em;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+            color: inherit;
+        }
+
+        .eop-doc-link:hover {
+            opacity: 0.7;
+        }
+
+        .section-title + .image-slider-container {
+            margin-top: 40px;
+        }
+
+        .projects .section-title:has(+ .image-slider-container) {
+            margin-bottom: 0;
+        }
         
         /* Image Slider Styles */
         .image-slider-container {
-            margin: 60px 0;
+            margin: 60px auto;
             width: 100%;
             max-width: 1200px;
-            margin-left: auto;
-            margin-right: auto;
         }
         
         .image-slider {
@@ -190,14 +216,14 @@
         <section class="tagline">
             <div class="container">
                 <h1 class="tagline-title">Navigation Overhaul</h1>
-                <p class="tagline-subtitle">The most glaring UX issue when I joined Mastercard Offers was the top level navigation. I worked with 2 different internal design systems to bring this up to Mastercard standards.</p>
+                <p class="tagline-subtitle">After deeply understanding the 3 web applications that make up the Mastercard Offers platform, I worked with 2 internal design systems teams to create a unified navigation experience. The result brought the Offers platform up to Mastercard standards while making movement between tools more consistent, predictable, and effortless.<br><br>Beyond navigation some early clean-up was applied to the table on this screen example. See more moves to improve tables ~2 years later in the <a class="eop-doc-link" href="https://hermanlex.com/mc-tables.html" target="_blank" rel="noopener noreferrer">table designs case study</a>.</p>
             </div>
         </section>
 
         <!-- Content Section -->
         <section class="projects">
             <div class="container">
-                <h2 class="section-title">Drag the slider to see the before and after screens</h2>
+                <h2 class="section-title">Drag the slider to see before and after</h2>
                 <!-- Before/After Image Slider -->
                 <div class="image-slider-container">
                     <div class="image-slider">
@@ -225,6 +251,8 @@
                         </div>
                     </div>
                 </div>
+                <h2 class="section-title">Impact</h2>
+                <p class="eop-nav-closing">Navigation is one of the most frequently used parts of any digital product—and one of the easiest to overlook. When it’s intuitive, people stop thinking about where to go and can focus on what they came to accomplish. The right navigation can make complex workflows feel less like work and, at their best, almost playful.</p>
             </div>
         </section>
     </main>
