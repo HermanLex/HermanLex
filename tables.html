@@ -66,7 +66,6 @@
             align-items: center;
             flex-shrink: 0;
             transform-origin: center center;
-            animation: logo-invite-rock 2.8s ease-in-out infinite;
         }
 
         .tables-doc .header-logo {
@@ -75,11 +74,7 @@
             flex-shrink: 0;
             transform-origin: center center;
             transition: transform 0.5s ease-in-out;
-        }
-
-        .tables-doc .header-inner > a:hover {
-            animation: none;
-            transform: none;
+            animation: logo-spin-in 0.55s ease-in-out;
         }
 
         .tables-doc .header-inner > a:hover .header-logo {
@@ -87,11 +82,8 @@
         }
 
         @media (prefers-reduced-motion: reduce) {
-            .tables-doc .header-inner > a {
-                animation: none;
-            }
-
             .tables-doc .header-logo {
+                animation: none;
                 transition: none;
             }
 

@@ -49,7 +49,6 @@
     align-items: center;
     flex-shrink: 0;
     transform-origin: center center;
-    animation: logo-invite-rock 2.8s ease-in-out infinite;
 }
 
 .hg-body .header-logo {
@@ -58,11 +57,10 @@
     flex-shrink: 0;
     transform-origin: center center;
     transition: transform 0.5s ease-in-out;
+    animation: logo-spin-in 0.55s ease-in-out;
 }
 
 .hg-body .header-inner > a:hover {
-    animation: none;
-    transform: none;
     opacity: 1;
 }
 
@@ -71,11 +69,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .hg-body .header-inner > a {
-        animation: none;
-    }
-
     .hg-body .header-logo {
+        animation: none;
         transition: none;
     }
 

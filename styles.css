@@ -215,19 +215,6 @@ ul {
     position: absolute;
     left: var(--space-md);
     transform-origin: center center;
-    animation: logo-invite-rock 2.8s ease-in-out infinite;
-}
-
-@keyframes logo-invite-rock {
-    0% {
-        transform: rotate(-8deg);
-    }
-    50% {
-        transform: rotate(8deg);
-    }
-    100% {
-        transform: rotate(-8deg);
-    }
 }
 
 .logo-svg {
@@ -235,11 +222,16 @@ ul {
     height: 50px;
     transform-origin: center center;
     transition: transform 0.5s ease-in-out;
+    animation: logo-spin-in 0.55s ease-in-out;
 }
 
-.logo:hover {
-    animation: none;
-    transform: none;
+@keyframes logo-spin-in {
+    from {
+        transform: rotate(-380deg);
+    }
+    to {
+        transform: rotate(0deg);
+    }
 }
 
 .logo:hover .logo-svg {
@@ -247,11 +239,8 @@ ul {
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .logo {
-        animation: none;
-    }
-
     .logo-svg {
+        animation: none;
         transition: none;
     }
 
