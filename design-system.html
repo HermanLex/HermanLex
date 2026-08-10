@@ -3,13 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Design System — alexwyrick.com</title>
+<title>Design System — hermanlex.com</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="/images/H-favi.png" type="image/png" sizes="99x99">
+<link rel="stylesheet" href="CSS/herman-guide.css">
+<link rel="stylesheet" href="CSS/campaigns-table.css">
 <style>
 /* ============================================================
-   DESIGN SYSTEM VIEWER — alexwyrick.com
+   DESIGN SYSTEM VIEWER — hermanlex.com
    Reverse-engineered from source
    ============================================================ */
 
@@ -555,44 +558,6 @@ body {
   border-radius: 24px;
 }
 
-/* --- Testimonial --- */
-.demo-testimonial {
-  background: white;
-  border-radius: 16px;
-  border: 1px solid var(--color-border);
-  padding: 2.5rem;
-  max-width: 600px;
-  text-align: center;
-}
-.demo-blockquote {
-  font-size: 1.0625rem;
-  font-weight: 300;
-  line-height: 1.7;
-  margin-bottom: 1.5rem;
-  color: var(--color-text);
-}
-.demo-cite {
-  font-size: 0.875rem;
-  color: var(--color-text-muted);
-  font-style: normal;
-}
-.demo-dots {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin-top: 1.5rem;
-}
-.demo-dot {
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  border: 1px solid var(--color-text);
-  background: transparent;
-  cursor: pointer;
-  transition: background var(--transition-fast);
-  padding: 0;
-}
-.demo-dot.active { background: var(--color-text); }
-
 /* --- Client Logo --- */
 .demo-clients-row {
   display: flex;
@@ -858,6 +823,82 @@ hr.ds-hr {
   .ds-grid-4 { grid-template-columns: repeat(2, 1fr); }
   .ds-grid-3 { grid-template-columns: repeat(2, 1fr); }
 }
+
+/* Herman guide sections embedded in DS */
+.ds-main {
+  --hg-surface: #ffffff;
+  --hg-canvas: #faf9f7;
+  --hg-panel: #f3f1ed;
+  --hg-text: #111111;
+  --hg-muted: #5c5c5c;
+  --hg-border: #e0ddd8;
+  --hg-accent: #1a1a1a;
+  --hg-mono: 'SF Mono', 'Fira Code', ui-monospace, monospace;
+}
+.ds-main .hg-section { margin-bottom: 0; }
+.ds-main .hg-section-head { margin-bottom: 10px; }
+.ds-main .hg-section-head h2 { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.02em; }
+.ds-main .project-link {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: white;
+  background-color: #212121;
+  padding: calc(0.5rem + 4px) 1.25rem;
+  border: none;
+  border-radius: 50px;
+  text-decoration: none;
+}
+.ds-main .project-link:hover { opacity: 0.85; }
+.ds-main .project-link-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text);
+  background: transparent;
+  padding: calc(0.5rem + 4px) 1.25rem;
+  border: 1px solid var(--color-text);
+  border-radius: 50px;
+  text-decoration: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+.ds-main .project-link-ghost:hover {
+  background: var(--color-text);
+  color: white;
+  opacity: 1;
+}
+.ds-main .project-link-ghost--disabled,
+.ds-main .project-link-ghost--disabled:disabled {
+  background: #f8f8f8;
+  border-color: #e5e5e5;
+  color: #9e9e9e;
+  cursor: not-allowed;
+}
+.ds-main .project-link-website {
+  color: var(--color-text);
+  text-decoration: underline;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+.ds-main .connect-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: white;
+  background: #1a1a1a;
+  padding: calc(0.5rem + 4px) 1.25rem;
+  border-radius: 50px;
+  text-decoration: none;
+}
+.ds-main .connect-link:hover { opacity: 0.85; }
+.ds-main .hg-table-embed { margin-top: 0.5rem; }
+.ds-main .hg-nav-demo a:hover { opacity: 1; }
+
 </style>
 </head>
 <body>
@@ -868,25 +909,29 @@ hr.ds-hr {
 <aside class="ds-sidebar">
   <div class="ds-sidebar-logo">
     <strong>Design System</strong>
-    alexwyrick.com
+    hermanlex.com
   </div>
   <nav class="ds-nav">
     <div class="ds-nav-group">Foundation</div>
     <a href="#tokens">Design Tokens</a>
+    <a href="#brand">Brand</a>
     <a href="#colors">Color</a>
     <a href="#typography">Typography</a>
     <a href="#spacing">Spacing</a>
-    <a href="#radius">Border Radius</a>
-    <a href="#shadows">Shadows</a>
+    <a href="#radius">Radius</a>
+    <a href="#buttons">Buttons & links</a>
+    <a href="#navigation">Navigation</a>
+    <a href="#status">Status</a>
+    <a href="#data-table">Data table</a>
     <a href="#motion">Motion</a>
+    <a href="#shadows">Shadows</a>
     <div class="ds-nav-group">Layout</div>
     <a href="#layout">Layout & Grid</a>
     <div class="ds-nav-group">Components</div>
-    <a href="#nav">Navigation</a>
-    <a href="#buttons">Buttons & Links</a>
+    <a href="#nav">Header & drawer</a>
+    <a href="#button-variants">Button variants</a>
     <a href="#forms">Form Inputs</a>
     <a href="#cards">Project Card</a>
-    <a href="#testimonial">Testimonial</a>
     <a href="#clients">Client Logo</a>
     <a href="#offerings">Offering Item</a>
     <a href="#modals">Modals</a>
@@ -903,7 +948,7 @@ hr.ds-hr {
 
   <!-- INTRO -->
   <div class="ds-intro">
-    <h1>alexwyrick.com<br>Design System</h1>
+    <h1>hermanlex.com<br>Design System</h1>
     <p>Reverse-engineered from the live site. Every token, component, and pattern extracted directly from <code style="font-size:0.8rem;color:rgba(250,249,247,0.5)">styles.css</code> and the HTML source.</p>
     <div class="ds-intro-meta">
       <div class="ds-meta-item">
@@ -932,6 +977,33 @@ hr.ds-hr {
       <span class="ds-section-tag">CSS Custom Properties</span>
     </div>
     <p style="font-size:0.875rem;color:var(--color-text-muted);margin-bottom:1.5rem;">All tokens are declared on <code class="ds-code">:root</code> and used throughout the stylesheet via <code class="ds-code">var()</code>.</p>
+  </section>
+
+  <!-- ===== BRAND ===== -->
+  <section class="ds-section hg-section" id="brand">
+    <div class="ds-section-header hg-section-head">
+      <h2 class="ds-section-title">Brand</h2>
+      <span class="ds-section-tag hg-section-tag">HermanLex · H mark</span>
+    </div>
+    <p class="hg-lead">
+      The H mark is the primary identity signal. Idle rock invites interaction; hover completes a full spin.
+    </p>
+    <div class="hg-card">
+      <div class="hg-logo-row">
+        <div class="hg-logo-card">
+          <img src="images/H.logo.svg" alt="HermanLex H logo">
+          <span>H.logo.svg</span>
+        </div>
+        <div class="hg-logo-card">
+          <img src="images/H-favi.png" alt="HermanLex favicon">
+          <span>H-favi.png</span>
+        </div>
+        <div class="hg-logo-card">
+          <img src="images/og-logo.png" alt="HermanLex Open Graph logo" style="width:120px;height:auto;border-radius:8px;border:1px solid var(--hg-border)">
+          <span>og-logo.png</span>
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- ===== COLORS ===== -->
@@ -1040,227 +1112,200 @@ hr.ds-hr {
   </section>
 
   <!-- ===== TYPOGRAPHY ===== -->
-  <section class="ds-section" id="typography">
-    <div class="ds-section-header">
+  <section class="ds-section hg-section" id="typography">
+    <div class="ds-section-header hg-section-head">
       <h2 class="ds-section-title">Typography</h2>
-      <span class="ds-section-tag">Inter — 300 / 400 / 500 / 600 / 700</span>
+      <span class="ds-section-tag hg-section-tag">Inter · --font-primary</span>
     </div>
-
-    <!-- H1 / page title -->
-    <div class="ds-type-specimen bg-warm" style="border-radius:12px;padding:2rem;">
-      <div style="font-family:'Inter',sans-serif;font-size:clamp(2.5rem,8vw,4.5rem);font-weight:600;letter-spacing:-0.04em;line-height:1.1;">Much more than pixels</div>
-      <div class="ds-type-meta">
-        <span>tagline-title / h1.section-title</span>
-        <span>clamp(2.5rem, 8vw, 4.5rem)</span>
-        <span>weight 600</span>
-        <span>tracking −0.04em</span>
-        <span>line-height 1.1</span>
+    <p class="hg-lead">
+      Expressive fluid display for heroes, tighter scale for product UI. Default stack is Inter — never system UI for brand surfaces.
+    </p>
+    <div class="hg-card">
+      <div class="hg-type-row">
+        <div class="hg-type-meta">Display / H1<br>600 · -0.04em<br>clamp(2.5rem, 8vw, 4.5rem)</div>
+        <div class="hg-type-sample-h1">HermanLex</div>
       </div>
-    </div>
-
-    <!-- H2 section title -->
-    <div class="ds-type-specimen">
-      <div style="font-family:'Inter',sans-serif;font-size:clamp(1.5rem,3.5vw,2rem);font-weight:600;letter-spacing:-0.035em;">Project examples</div>
-      <div class="ds-type-meta">
-        <span>section-title (h2)</span>
-        <span>clamp(1.5rem, 3.5vw, 2rem)</span>
-        <span>weight 600</span>
-        <span>tracking −0.035em</span>
+      <div class="hg-type-row">
+        <div class="hg-type-meta">Section / H2<br>600 · -0.035em<br>clamp(1.5rem, 3.5vw, 2rem)</div>
+        <div class="hg-type-sample-h2">Design systems that ship</div>
       </div>
-    </div>
-
-    <!-- Section note -->
-    <div class="ds-type-specimen">
-      <div style="font-family:'Inter',sans-serif;font-size:clamp(1rem,2.5vw,1.25rem);color:#444;font-weight:400;">(case studies upon request)</div>
-      <div class="ds-type-meta">
-        <span>section-note</span>
-        <span>clamp(1rem, 2.5vw, 1.25rem)</span>
-        <span>weight 400</span>
-        <span>color: --color-text-muted</span>
+      <div class="hg-type-row">
+        <div class="hg-type-meta">Body<br>400 · 0.9375–1.25rem</div>
+        <div class="hg-type-sample-body">Senior design consultant with 10+ years crafting more user-centered experiences.</div>
       </div>
-    </div>
-
-    <!-- tagline subtitle -->
-    <div class="ds-type-specimen">
-      <div style="font-family:'Inter',sans-serif;font-size:clamp(1rem,2.5vw,1.25rem);color:#444;">I help B2B teams discover more elegant solutions to real human challenges</div>
-      <div class="ds-type-meta">
-        <span>tagline-subtitle</span>
-        <span>clamp(1rem, 2.5vw, 1.25rem)</span>
-        <span>weight 400</span>
-        <span>color: text-muted</span>
+      <div class="hg-type-row">
+        <div class="hg-type-meta">Navigation<br>500 · 0.875rem</div>
+        <div class="hg-type-sample-nav">work · process · about</div>
       </div>
-    </div>
-
-    <!-- H3 project title -->
-    <div class="ds-type-specimen">
-      <div style="font-family:'Inter',sans-serif;font-size:1.125rem;font-weight:600;letter-spacing:-0.02em;">Mastercard offers platform</div>
-      <div class="ds-type-meta">
-        <span>project-title (h3)</span>
-        <span>1.125rem / 16.875px</span>
-        <span>weight 600</span>
-        <span>tracking −0.02em</span>
-      </div>
-    </div>
-
-    <!-- Offerings title -->
-    <div class="ds-type-specimen">
-      <div style="font-family:'Inter',sans-serif;font-size:1.5rem;font-weight:600;letter-spacing:-0.03em;">Core offerings</div>
-      <div class="ds-type-meta">
-        <span>offerings-title (h3)</span>
-        <span>1.5rem / 22.5px</span>
-        <span>weight 600</span>
-        <span>tracking −0.03em</span>
-      </div>
-    </div>
-
-    <!-- Body text -->
-    <div class="ds-type-specimen">
-      <div style="font-family:'Inter',sans-serif;font-size:0.9375rem;line-height:1.8;color:#444;max-width:600px;">Well versed in usability, accessibility, design systems, and effective UI patterns. I help teams drive product strategy forward while delivering world-class solutions validated by end-users.</div>
-      <div class="ds-type-meta">
-        <span>skills-description / body</span>
-        <span>0.9375rem / 14.06px</span>
-        <span>weight 400</span>
-        <span>line-height 1.8</span>
-        <span>color: text-muted</span>
-      </div>
-    </div>
-
-    <!-- Project description -->
-    <div class="ds-type-specimen">
-      <div style="font-family:'Inter',sans-serif;font-size:0.8125rem;line-height:1.7;color:#444;">Led end-to-end UX design for an enterprise offers platform, driving merchant onboarding flows that connect 1,000+ businesses to 350M+ cardholders worldwide.</div>
-      <div class="ds-type-meta">
-        <span>project-description</span>
-        <span>0.8125rem / 12.19px</span>
-        <span>weight 400</span>
-        <span>line-height 1.7</span>
-      </div>
-    </div>
-
-    <!-- Blockquote testimonial -->
-    <div class="ds-type-specimen" style="background:#fff;">
-      <div style="font-family:'Inter',sans-serif;font-size:1.0625rem;font-weight:300;line-height:1.7;text-align:center;">"Alex brings an exceptional combination of creativity and strategic thinking to every project."</div>
-      <div class="ds-type-meta">
-        <span>testimonial blockquote</span>
-        <span>clamp(1rem, 2vw, 1.125rem)</span>
-        <span>weight 300 (Light)</span>
-        <span>line-height 1.7</span>
-        <span>text-align center</span>
-      </div>
-    </div>
-
-    <!-- Nav link -->
-    <div class="ds-type-specimen">
-      <div style="font-family:'Inter',sans-serif;font-size:0.875rem;font-weight:500;letter-spacing:0;text-transform:lowercase;">work &nbsp; process &nbsp; mission &nbsp; about</div>
-      <div class="ds-type-meta">
-        <span>nav-link</span>
-        <span>0.875rem / 13.125px</span>
-        <span>weight 500</span>
-        <span>lowercase</span>
-      </div>
-    </div>
-
-    <!-- Footer / label small -->
-    <div class="ds-type-specimen">
-      <div style="font-family:'Inter',sans-serif;font-size:0.8125rem;color:#444;">© 2025 Alex Wyrick. All rights reserved.</div>
-      <div class="ds-type-meta">
-        <span>footer text / labels</span>
-        <span>0.8125rem / 12.19px</span>
-        <span>weight 400</span>
-        <span>color: text-muted</span>
-      </div>
-    </div>
-
-    <!-- Monospace -->
-    <div class="ds-type-specimen">
-      <div style="font-family:'SF Mono','Fira Code',monospace;font-size:0.9375rem;background:var(--color-bg-alt);padding:0.375rem 0.75rem;border-radius:4px;display:inline-block;">git commit -m "initial"</div>
-      <div class="ds-type-meta">
-        <span>code (git-steps)</span>
-        <span>SF Mono / Fira Code</span>
-        <span>0.9375rem</span>
-        <span>bg: --color-bg-alt</span>
+      <div class="hg-type-row">
+        <div class="hg-type-meta">Label / CTA<br>500 · 0.75–0.875rem</div>
+        <div class="hg-type-sample-label">View case study →</div>
       </div>
     </div>
   </section>
 
   <!-- ===== SPACING ===== -->
-  <section class="ds-section" id="spacing">
-    <div class="ds-section-header">
-      <h2 class="ds-section-title">Spacing Scale</h2>
-      <span class="ds-section-tag">5-step token scale</span>
+  <section class="ds-section hg-section" id="spacing">
+    <div class="ds-section-header hg-section-head">
+      <h2 class="ds-section-title">Spacing</h2>
+      <span class="ds-section-tag hg-section-tag">--space-xs → --space-xl</span>
     </div>
-    <div>
-      <div class="ds-token-row">
-        <div class="ds-token-name">--space-xs</div>
-        <div class="ds-token-value">0.5rem / 7.5px</div>
-        <span class="ds-space-bar" style="width:7.5px;"></span>
-        <span class="ds-chip" style="margin-left:auto;">gap-xs, padding-xs</span>
+    <p class="hg-lead">A simple rem ladder keeps rhythm consistent from chips to page sections.</p>
+    <div class="hg-card">
+      <div class="hg-space-row">
+        <div class="hg-space-bar" style="width:0.5rem"></div>
+        <div><strong>--space-xs</strong> · <span class="hg-code">0.5rem</span></div>
       </div>
-      <div class="ds-token-row">
-        <div class="ds-token-name">--space-sm</div>
-        <div class="ds-token-value">1rem / 15px</div>
-        <span class="ds-space-bar" style="width:15px;"></span>
-        <span class="ds-chip" style="margin-left:auto;">form groups, nav padding, project content padding</span>
+      <div class="hg-space-row">
+        <div class="hg-space-bar" style="width:1rem"></div>
+        <div><strong>--space-sm</strong> · <span class="hg-code">1rem</span></div>
       </div>
-      <div class="ds-token-row">
-        <div class="ds-token-name">--space-md</div>
-        <div class="ds-token-value">2rem / 30px</div>
-        <span class="ds-space-bar" style="width:30px;"></span>
-        <span class="ds-chip" style="margin-left:auto;">container padding, form margins, section padding</span>
+      <div class="hg-space-row">
+        <div class="hg-space-bar" style="width:2rem"></div>
+        <div><strong>--space-md</strong> · <span class="hg-code">2rem</span></div>
       </div>
-      <div class="ds-token-row">
-        <div class="ds-token-name">--space-lg</div>
-        <div class="ds-token-value">4rem / 60px</div>
-        <span class="ds-space-bar" style="width:60px;"></span>
-        <span class="ds-chip" style="margin-left:auto;">footer padding, between-section gaps</span>
+      <div class="hg-space-row">
+        <div class="hg-space-bar" style="width:4rem"></div>
+        <div><strong>--space-lg</strong> · <span class="hg-code">4rem</span></div>
       </div>
-      <div class="ds-token-row">
-        <div class="ds-token-name">--space-xl</div>
-        <div class="ds-token-value">8rem / 120px</div>
-        <span class="ds-space-bar" style="width:80px;max-width:80px;"></span>
-        <span class="ds-chip" style="margin-left:auto;">hero, skills, testimonials, contact sections</span>
+      <div class="hg-space-row">
+        <div class="hg-space-bar" style="width:8rem"></div>
+        <div><strong>--space-xl</strong> · <span class="hg-code">8rem</span></div>
       </div>
     </div>
-    <p style="font-size:0.8125rem;color:var(--color-text-muted);margin-top:1rem;">Mobile override (≤768px): <code class="ds-code">--space-lg → 3rem</code>, <code class="ds-code">--space-xl → 5rem</code></p>
   </section>
 
-  <!-- ===== BORDER RADIUS ===== -->
-  <section class="ds-section" id="radius">
-    <div class="ds-section-header">
-      <h2 class="ds-section-title">Border Radius</h2>
-      <span class="ds-section-tag">7 values</span>
+  <!-- ===== RADIUS ===== -->
+  <section class="ds-section hg-section" id="radius">
+    <div class="ds-section-header hg-section-head">
+      <h2 class="ds-section-title">Radius</h2>
+      <span class="ds-section-tag hg-section-tag">4px → pill</span>
     </div>
-    <div class="ds-grid ds-grid-4" style="gap:0.75rem;">
-      <div style="background:white;border:1px solid var(--color-border);border-radius:50px;height:56px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;">
-        <span style="font-size:0.6875rem;font-family:var(--font-mono);color:var(--color-text-muted);">50px</span>
-        <span style="font-size:0.625rem;color:var(--color-text-muted);">pill / nav / buttons</span>
+    <p class="hg-lead">Soft geometry: small for controls, large for cards, full pill for CTAs and nav.</p>
+    <div class="hg-card">
+      <div class="hg-space-row">
+        <div class="hg-radius-demo" style="border-radius:4px"></div>
+        <div><strong>xs</strong> · <span class="hg-code">4px</span> · chips, close</div>
       </div>
-      <div style="background:white;border:1px solid var(--color-border);border-radius:40px;height:56px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;">
-        <span style="font-size:0.6875rem;font-family:var(--font-mono);color:var(--color-text-muted);">40px</span>
-        <span style="font-size:0.625rem;color:var(--color-text-muted);">project card</span>
+      <div class="hg-space-row">
+        <div class="hg-radius-demo" style="border-radius:8px"></div>
+        <div><strong>sm</strong> · <span class="hg-code">8px</span> · menus, sidebar</div>
       </div>
-      <div style="background:white;border:1px solid var(--color-border);border-radius:24px;height:56px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;">
-        <span style="font-size:0.6875rem;font-family:var(--font-mono);color:var(--color-text-muted);">24px</span>
-        <span style="font-size:0.625rem;color:var(--color-text-muted);">inputs / submit btn</span>
+      <div class="hg-space-row">
+        <div class="hg-radius-demo" style="border-radius:20px"></div>
+        <div><strong>md</strong> · <span class="hg-code">20px</span> · profile, toaster</div>
       </div>
-      <div style="background:white;border:1px solid var(--color-border);border-radius:20px;height:56px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;">
-        <span style="font-size:0.6875rem;font-family:var(--font-mono);color:var(--color-text-muted);">20px</span>
-        <span style="font-size:0.625rem;color:var(--color-text-muted);">modals / images</span>
+      <div class="hg-space-row">
+        <div class="hg-radius-demo" style="border-radius:24px"></div>
+        <div><strong>lg</strong> · <span class="hg-code">24px</span> · inputs</div>
       </div>
-      <div style="background:white;border:1px solid var(--color-border);border-radius:16px;height:56px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;">
-        <span style="font-size:0.6875rem;font-family:var(--font-mono);color:var(--color-text-muted);">16px</span>
-        <span style="font-size:0.625rem;color:var(--color-text-muted);">toaster / modal overlay</span>
+      <div class="hg-space-row">
+        <div class="hg-radius-demo" style="border-radius:40px"></div>
+        <div><strong>card</strong> · <span class="hg-code">40px</span> · project cards</div>
       </div>
-      <div style="background:white;border:1px solid var(--color-border);border-radius:8px;height:56px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;">
-        <span style="font-size:0.6875rem;font-family:var(--font-mono);color:var(--color-text-muted);">8px</span>
-        <span style="font-size:0.625rem;color:var(--color-text-muted);">tooltips / video player</span>
+      <div class="hg-space-row">
+        <div class="hg-radius-demo" style="border-radius:50px"></div>
+        <div><strong>pill</strong> · <span class="hg-code">50px</span> · buttons, nav</div>
       </div>
-      <div style="background:white;border:1px solid var(--color-border);border-radius:6px;height:56px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;">
-        <span style="font-size:0.6875rem;font-family:var(--font-mono);color:var(--color-text-muted);">6px</span>
-        <span style="font-size:0.625rem;color:var(--color-text-muted);">client logo tooltip</span>
+    </div>
+  </section>
+
+  <!-- ===== BUTTONS & LINKS (Herman) ===== -->
+  <section class="ds-section hg-section" id="buttons">
+    <div class="ds-section-header hg-section-head">
+      <h2 class="ds-section-title">Buttons &amp; links</h2>
+      <span class="ds-section-tag hg-section-tag">Live classes from styles.css</span>
+    </div>
+    <p class="hg-lead">Primary pills for actions, ghost for secondary, underline for lightweight text links.</p>
+    <div class="hg-card">
+      <p class="hg-demo-label">Portfolio actions</p>
+      <div class="hg-demo-row" style="margin-bottom:20px">
+        <a href="#buttons" class="project-link" onclick="return false">View project</a>
+        <a href="#buttons" class="project-link-ghost" onclick="return false">Résumé <span class="arrow">→</span></a>
+        <a href="#buttons" class="project-link-website" onclick="return false">Visit website</a>
+        <button type="button" class="project-link-ghost project-link-ghost--disabled" disabled>Unavailable</button>
       </div>
-      <div style="background:white;border:1px solid var(--color-border);border-radius:50%;height:56px;width:56px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px;">
-        <span style="font-size:0.6875rem;font-family:var(--font-mono);color:var(--color-text-muted);">50%</span>
-        <span style="font-size:0.625rem;color:var(--color-text-muted);">dots</span>
+      <p class="hg-demo-label">Product / table primary</p>
+      <div class="hg-demo-row">
+        <button type="button" class="hg-ct-primary">Upload new</button>
+        <a href="#buttons" class="connect-link" onclick="return false">connect</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== NAVIGATION (Herman) ===== -->
+  <section class="ds-section hg-section" id="navigation">
+    <div class="ds-section-header hg-section-head">
+      <h2 class="ds-section-title">Navigation</h2>
+      <span class="ds-section-tag hg-section-tag">Dark capsule · white current</span>
+    </div>
+    <p class="hg-lead">Site navigation sits in a near-black pill with a white current-state chip.</p>
+    <div class="hg-card">
+      <nav class="hg-nav-demo" aria-label="Example site navigation">
+        <a href="#navigation" class="is-current" onclick="return false">work</a>
+        <a href="#navigation" onclick="return false">process</a>
+        <a href="#navigation" onclick="return false">about</a>
+      </nav>
+    </div>
+  </section>
+
+  <!-- ===== STATUS ===== -->
+  <section class="ds-section hg-section" id="status">
+    <div class="ds-section-header hg-section-head">
+      <h2 class="ds-section-title">Status</h2>
+      <span class="ds-section-tag hg-section-tag">Campaigns table chips</span>
+    </div>
+    <p class="hg-lead">Soft tinted pills for operational state — readable without loud color.</p>
+    <div class="hg-card">
+      <div class="hg-status-row">
+        <span class="hg-status is-live">Live</span>
+        <span class="hg-status is-draft">Draft</span>
+        <span class="hg-status is-paused">Paused</span>
+        <span class="hg-status is-ended">Ended</span>
+        <span class="hg-status is-scheduled">Scheduled</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== DATA TABLE ===== -->
+  <section class="ds-section hg-section" id="data-table">
+    <div class="ds-section-header hg-section-head">
+      <h2 class="ds-section-title">Data table</h2>
+      <span class="ds-section-tag hg-section-tag">Live React demo</span>
+    </div>
+    <p class="hg-lead">
+      Full interactive pattern from the tables guide — filters, search, selection, bulk actions,
+      sorting, resizable columns, and pagination. See also the
+      <a href="tables.html" style="text-decoration:underline">data tables design guide</a>.
+    </p>
+    <div class="hg-table-embed">
+      <div id="campaigns-table-root"></div>
+    </div>
+    <p class="hg-note">Component: <span class="hg-code">js/campaigns-table.jsx</span> · styles: <span class="hg-code">CSS/campaigns-table.css</span></p>
+  </section>
+
+  <!-- ===== MOTION ===== -->
+  <section class="ds-section hg-section" id="motion">
+    <div class="ds-section-header hg-section-head">
+      <h2 class="ds-section-title">Motion</h2>
+      <span class="ds-section-tag hg-section-tag">fast · base · slow</span>
+    </div>
+    <p class="hg-lead">
+      Use motion for presence and hierarchy — logo rock/spin, fade-ins, hover transitions.
+      Respect <span class="hg-code">prefers-reduced-motion</span>.
+    </p>
+    <div class="hg-grid hg-grid-3">
+      <div class="hg-card">
+        <p class="hg-demo-label">--transition-fast · 150ms</p>
+        <div class="hg-motion-card"><div class="hg-motion-box is-fast"></div></div>
+      </div>
+      <div class="hg-card">
+        <p class="hg-demo-label">--transition-base · 300ms</p>
+        <div class="hg-motion-card"><div class="hg-motion-box is-base"></div></div>
+      </div>
+      <div class="hg-card">
+        <p class="hg-demo-label">--transition-slow · 500ms</p>
+        <div class="hg-motion-card"><div class="hg-motion-box is-slow"></div></div>
       </div>
     </div>
   </section>
@@ -1297,60 +1342,6 @@ hr.ds-hr {
       <p style="font-size:0.75rem;font-family:var(--font-mono);color:var(--color-text-muted);margin-bottom:0.5rem;">Focus ring (inputs)</p>
       <p style="font-size:0.6875rem;color:var(--color-text-muted);">0 0 0 3px rgba(26,26,26,0.05)</p>
       <p style="font-size:0.625rem;color:var(--color-text-muted);margin-top:0.5rem;">Applied on :focus for all form inputs</p>
-    </div>
-  </section>
-
-  <!-- ===== MOTION ===== -->
-  <section class="ds-section" id="motion">
-    <div class="ds-section-header">
-      <h2 class="ds-section-title">Motion & Animation</h2>
-      <span class="ds-section-tag">3 transition speeds + 2 keyframes</span>
-    </div>
-    <div class="ds-flex" style="gap:1rem;margin-bottom:1.5rem;">
-      <div style="text-align:center;">
-        <div class="ds-transition-demo ds-t-fast"></div>
-        <p style="font-size:0.6875rem;font-family:var(--font-mono);color:var(--color-text-muted);margin-top:0.5rem;">--transition-fast<br>150ms ease</p>
-        <p style="font-size:0.625rem;color:var(--color-text-muted);">hover states, opacity</p>
-      </div>
-      <div style="text-align:center;">
-        <div class="ds-transition-demo ds-t-base"></div>
-        <p style="font-size:0.6875rem;font-family:var(--font-mono);color:var(--color-text-muted);margin-top:0.5rem;">--transition-base<br>300ms ease</p>
-        <p style="font-size:0.625rem;color:var(--color-text-muted);">carousel fade, header border</p>
-      </div>
-      <div style="text-align:center;">
-        <div class="ds-transition-demo ds-t-slow"></div>
-        <p style="font-size:0.6875rem;font-family:var(--font-mono);color:var(--color-text-muted);margin-top:0.5rem;">--transition-slow<br>500ms cubic-bezier(0.23,1,0.32,1)</p>
-        <p style="font-size:0.625rem;color:var(--color-text-muted);">card hover, toaster, nav slide</p>
-      </div>
-    </div>
-
-    <p style="font-size:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-text-muted);margin-bottom:0.75rem;">Keyframe Animations</p>
-    <div class="ds-grid ds-grid-2" style="gap:1rem;">
-      <div style="background:white;border:1px solid var(--color-border);border-radius:12px;padding:1.5rem;overflow:hidden;">
-        <div style="font-size:clamp(1.25rem,4vw,2rem);font-weight:600;letter-spacing:-0.04em;animation:fadeInUp 1.2s 0s both;animation-iteration-count:infinite;animation-direction:alternate;">Much more than pixels</div>
-        <div class="ds-type-meta" style="margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid var(--color-bg-alt);">
-          <span>fadeInUp</span>
-          <span>0.8s forwards</span>
-          <span>stagger: 0.2s / 0.4s / 0.6s</span>
-        </div>
-        <p style="font-size:0.6875rem;color:var(--color-text-muted);margin-top:0.5rem;">Used: tagline-title, tagline-subtitle (staggered)</p>
-      </div>
-      <div style="background:white;border:1px solid var(--color-border);border-radius:12px;padding:1.5rem;overflow:hidden;">
-        <div style="display:flex;gap:1rem;animation:scroll-right-to-left 4s linear infinite;white-space:nowrap;">
-          <span style="background:var(--color-bg-alt);padding:0.25rem 0.75rem;border-radius:6px;font-size:0.75rem;color:var(--color-text-muted);">Mastercard</span>
-          <span style="background:var(--color-bg-alt);padding:0.25rem 0.75rem;border-radius:6px;font-size:0.75rem;color:var(--color-text-muted);">Hitachi</span>
-          <span style="background:var(--color-bg-alt);padding:0.25rem 0.75rem;border-radius:6px;font-size:0.75rem;color:var(--color-text-muted);">Waterline</span>
-          <span style="background:var(--color-bg-alt);padding:0.25rem 0.75rem;border-radius:6px;font-size:0.75rem;color:var(--color-text-muted);">Mastercard</span>
-          <span style="background:var(--color-bg-alt);padding:0.25rem 0.75rem;border-radius:6px;font-size:0.75rem;color:var(--color-text-muted);">Hitachi</span>
-          <span style="background:var(--color-bg-alt);padding:0.25rem 0.75rem;border-radius:6px;font-size:0.75rem;color:var(--color-text-muted);">Waterline</span>
-        </div>
-        <div class="ds-type-meta" style="margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid var(--color-bg-alt);">
-          <span>scroll-right-to-left</span>
-          <span>30s linear infinite</span>
-          <span>pauses on hover</span>
-        </div>
-        <p style="font-size:0.6875rem;color:var(--color-text-muted);margin-top:0.5rem;">Used: clients-carousel (seamless loop via duplicated items)</p>
-      </div>
     </div>
   </section>
 
@@ -1426,7 +1417,7 @@ hr.ds-hr {
   </section>
 
   <!-- ===== BUTTONS ===== -->
-  <section class="ds-section" id="buttons">
+  <section class="ds-section" id="button-variants">
     <div class="ds-section-header">
       <h2 class="ds-section-title">Buttons & Links</h2>
       <span class="ds-section-tag">5 variants</span>
@@ -1516,33 +1507,6 @@ hr.ds-hr {
       <p style="font-size:0.75rem;font-family:var(--font-mono);color:var(--color-text-muted);">bg:white · border-radius:40px · border:12px solid #f4f4f4 · hover → translateY(-4px) + border-color:#e5e5e5</p>
       <p style="font-size:0.75rem;font-family:var(--font-mono);color:var(--color-text-muted);margin-top:0.25rem;">transition:500ms cubic-bezier(0.23,1,0.32,1) · image aspect-ratio:4/3 · content padding: 1rem 2rem 2rem</p>
       <p style="font-size:0.75rem;font-family:var(--font-mono);color:var(--color-text-muted);margin-top:0.25rem;">Grid: 3 cols (default), first 3 visible, remaining hidden until .expanded toggled</p>
-    </div>
-  </section>
-
-  <!-- ===== TESTIMONIAL ===== -->
-  <section class="ds-section" id="testimonial">
-    <div class="ds-section-header">
-      <h2 class="ds-section-title">Testimonial Slider</h2>
-      <span class="ds-section-tag">section.testimonials</span>
-    </div>
-    <div style="background:white;border:1px solid var(--color-border);border-radius:12px;padding:2.5rem;text-align:center;">
-      <p style="font-size:1.0625rem;color:var(--color-text-muted);margin-bottom:1.5rem;">What recent teams have said:</p>
-      <div class="demo-testimonial" style="margin:0 auto;border:none;padding:0;box-shadow:none;">
-        <p class="demo-blockquote">"Alex brings an exceptional combination of creativity and strategic thinking to every project. Their ability to translate complex requirements into elegant solutions is unmatched."</p>
-        <cite class="demo-cite">— Former Manager, Enterprise Design</cite>
-      </div>
-      <div class="demo-dots" style="margin-top:1.5rem;">
-        <button class="demo-dot active"></button>
-        <button class="demo-dot"></button>
-        <button class="demo-dot"></button>
-        <button class="demo-dot"></button>
-        <button class="demo-dot"></button>
-        <button class="demo-dot"></button>
-      </div>
-    </div>
-    <div style="margin-top:0.75rem;background:white;border:1px solid var(--color-border);border-radius:10px;padding:1rem;">
-      <p style="font-size:0.75rem;font-family:var(--font-mono);color:var(--color-text-muted);">Slider: position:absolute per slide, opacity:0 + translateX(20px) → .active: position:relative, opacity:1, translateX(0)</p>
-      <p style="font-size:0.75rem;font-family:var(--font-mono);color:var(--color-text-muted);margin-top:0.25rem;">Dots: 8px circles · border:1px solid text · .active fills dark · bg:white section</p>
     </div>
   </section>
 
@@ -1697,7 +1661,7 @@ hr.ds-hr {
   </section>
 
   <hr class="ds-hr" style="margin-bottom:2rem;">
-  <p style="font-size:0.8125rem;color:var(--color-text-muted);text-align:center;padding-bottom:1rem;">Design System extracted from <strong>alexwyrick.com</strong> · Inter font · 15px base · Warm neutral palette · 2026</p>
+  <p style="font-size:0.8125rem;color:var(--color-text-muted);text-align:center;padding-bottom:1rem;">Design System extracted from <strong>hermanlex.com</strong> · Inter font · 15px base · Warm neutral palette · 2026</p>
 
 </main>
 
@@ -1716,5 +1680,10 @@ const observer = new IntersectionObserver((entries) => {
 }, { rootMargin: '-20% 0px -70% 0px' });
 sections.forEach(s => observer.observe(s));
 </script>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone@7.26.10/babel.min.js"></script>
+<script type="text/babel" src="js/campaigns-table.jsx"></script>
 </body>
 </html>
