@@ -42,6 +42,23 @@
         .tagline-subtitle a {
             text-decoration: underline;
         }
+        .okrmate-try-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3em;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+            color: inherit;
+        }
+        .okrmate-try-link:hover {
+            color: var(--color-link-hover);
+            opacity: 1;
+        }
+        .okrmate-try-link svg {
+            width: 0.9em;
+            height: 0.9em;
+            flex-shrink: 0;
+        }
         .story {
             font-size: clamp(1rem, 2.5vw, 1.25rem);
             color: var(--color-text-muted);
@@ -76,7 +93,7 @@
         <section class="tagline">
             <div class="container">
                 <h1 class="tagline-title">OKRmate.com (by Careerjump)</h1>
-                <p class="tagline-subtitle">From brand concept and logo design to fully-functional web app. After years of coding experiments I recently learned a cutting edge AI-coding workflow to launch an AI-powered OKR coach that helps teams leverage <a href="https://www.whatmatters.com/faqs/okr-meaning-definition-example" target="_blank" rel="noopener noreferrer">the advanced goals framework</a> without any prior experience.</p>
+                <p class="tagline-subtitle">As founding designer turned CTO - I designed everything from the concept and logo to marketing and mobile-first clickable prototypes. Eventually, I moved into developing and shipping a fully-functional web application with cutting edge AI-coding workflows. <a class="okrmate-try-link" href="https://okrmate.com" target="_blank" rel="noopener noreferrer">Try it out<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a></p>
             </div>
         </section>
 

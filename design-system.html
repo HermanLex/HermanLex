@@ -24,6 +24,7 @@
   --color-text:      #111;
   --color-text-muted:#444;
   --color-accent:    #1a1a1a;
+  --color-link-hover:#001bff;
   --color-border:    #e0ddd8;
   --color-white:     #ffffff;
 
@@ -487,7 +488,7 @@ body {
   padding: 0.5rem 1rem;
   transition: opacity var(--transition-fast);
 }
-.btn-text:hover { opacity: 0.7; }
+.btn-text:hover { color: var(--color-link-hover); opacity: 1; }
 
 .link-underline {
   color: var(--color-text-muted);
@@ -495,7 +496,7 @@ body {
   transition: opacity var(--transition-fast);
   font-size: 0.875rem;
 }
-.link-underline:hover { opacity: 0.7; }
+.link-underline:hover { color: var(--color-link-hover); opacity: 1; }
 
 .btn-website {
   color: var(--color-text);
@@ -507,7 +508,7 @@ body {
   background: none;
   border: none;
 }
-.btn-website:hover { opacity: 0.7; }
+.btn-website:hover { color: var(--color-link-hover); opacity: 1; }
 
 /* --- Form Elements --- */
 .demo-form {
@@ -882,6 +883,10 @@ hr.ds-hr {
   text-decoration: underline;
   font-size: 0.875rem;
   font-weight: 500;
+}
+.ds-main .project-link-website:hover {
+  color: var(--color-link-hover);
+  opacity: 1;
 }
 .ds-main .connect-link {
   display: inline-flex;

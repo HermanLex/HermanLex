@@ -561,8 +561,8 @@ body.ct-is-resizing * {
 }
 
 .ct-campaign-link:hover {
-    opacity: 0.7;
-    color: var(--ct-text);
+    opacity: 1;
+    color: var(--color-link-hover, #001bff);
 }
 
 .ct-status {

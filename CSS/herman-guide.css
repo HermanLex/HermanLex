@@ -12,6 +12,7 @@
     --hg-muted: #5c5c5c;
     --hg-border: #e0ddd8;
     --hg-accent: #1a1a1a;
+    --color-link-hover: #001bff;
     --hg-mono: 'SF Mono', 'Fira Code', ui-monospace, monospace;
     margin: 0;
     background: var(--hg-canvas);
@@ -325,6 +326,11 @@
     max-width: 42rem;
     font-size: 0.9375rem;
     color: var(--hg-muted);
+}
+
+.hg-lead a:hover {
+    color: var(--color-link-hover, #001bff);
+    opacity: 1;
 }
 
 .hg-card {
