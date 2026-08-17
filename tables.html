@@ -202,20 +202,35 @@
             text-decoration: none;
             font-size: 0.9375rem;
             line-height: 1.4;
-            transition: background-color 0.15s ease;
+            transition: background-color 0.15s ease, color 0.15s ease;
         }
 
         .tables-doc .sidebar-link:hover {
-            background: rgba(0, 0, 0, 0.04);
+            background: rgba(196, 80, 0, 0.08);
+            color: var(--tables-text);
         }
 
         .tables-doc .sidebar-link.is-parent {
             font-weight: 600;
         }
 
+        .tables-doc .sidebar-link.is-ancestor-active {
+            color: #c45000;
+        }
+
         .tables-doc .sidebar-link.is-active {
-            background: #ececec;
+            background: rgba(196, 80, 0, 0.14);
+            color: #c45000;
             font-weight: 600;
+        }
+
+        .tables-doc .sidebar-link.is-active:hover {
+            background: rgba(196, 80, 0, 0.2);
+            color: #c45000;
+        }
+
+        .tables-doc .sidebar-group .sidebar-link.is-active {
+            background: rgba(196, 80, 0, 0.12);
         }
 
         .tables-doc .sidebar-group {
@@ -363,475 +378,6 @@
             flex-shrink: 0;
         }
 
-        .tables-doc .table-skeleton {
-            --sk-1: #f1f1f1;
-            --sk-2: #e4e4e4;
-            --sk-3: #d0d0d0;
-            --sk-warm: #ead6d1;
-            --sk-cta: #c45c4c;
-            --sk-text: var(--tables-text);
-            margin: 28px 0 0;
-            padding: 28px 28px 20px;
-            background: #fff;
-            border: 1px solid #e5e5e5;
-            border-radius: 12px;
-            pointer-events: none;
-            user-select: none;
-        }
-
-        .tables-doc .section > .table-skeleton:first-child {
-            margin-top: 0;
-            margin-bottom: 24px;
-        }
-
-        .tables-doc .table-skeleton .sk-live {
-            display: none;
-        }
-
-        .tables-doc .table-skeleton .sk-bone {
-            display: block;
-        }
-
-        .tables-doc .table-skeleton[data-focus="title"] [data-region="title"] .sk-title,
-        .tables-doc .table-skeleton[data-focus="title"] [data-region="title"] .sk-subtitle {
-            color: var(--sk-text);
-            background: none;
-            width: auto;
-            height: auto;
-            max-width: none;
-        }
-
-        .tables-doc .table-skeleton[data-focus="primary"] [data-region="primary"] {
-            width: auto;
-            height: auto;
-            padding: 10px 18px;
-            background: #c45000;
-            color: #fff;
-        }
-
-        .tables-doc .table-skeleton[data-focus="primary"] [data-region="primary"] .sk-live {
-            display: inline-flex;
-        }
-
-        .tables-doc .table-skeleton[data-focus="filters"] [data-region="filters"] .sk-bone,
-        .tables-doc .table-skeleton[data-focus="search"] [data-region="search"] .sk-bone,
-        .tables-doc .table-skeleton[data-focus="bulk"] [data-region="bulk"] .sk-bone,
-        .tables-doc .table-skeleton[data-focus="select"] [data-region="bulk"] .sk-bone,
-        .tables-doc .table-skeleton[data-focus="sorting"] [data-region="sorting"] .sk-bone,
-        .tables-doc .table-skeleton[data-focus="pagination"] [data-region="pagination"] .sk-bone {
-            display: none;
-        }
-
-        .tables-doc .table-skeleton[data-focus="filters"] [data-region="filters"] .sk-live,
-        .tables-doc .table-skeleton[data-focus="search"] [data-region="search"] .sk-live,
-        .tables-doc .table-skeleton[data-focus="bulk"] [data-region="bulk"] .sk-live,
-        .tables-doc .table-skeleton[data-focus="select"] [data-region="bulk"] .sk-live,
-        .tables-doc .table-skeleton[data-focus="sorting"] [data-region="sorting"] .sk-live,
-        .tables-doc .table-skeleton[data-focus="pagination"] [data-region="pagination"] .sk-live {
-            display: flex;
-        }
-
-        .tables-doc .sk-top {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 16px;
-            margin-bottom: 22px;
-        }
-
-        .tables-doc .sk-heading {
-            min-width: 0;
-            flex: 1;
-        }
-
-        .tables-doc .sk-title {
-            height: 28px;
-            width: min(320px, 70%);
-            border-radius: 8px;
-            background: var(--sk-3);
-            color: transparent;
-            overflow: hidden;
-            white-space: nowrap;
-            font-size: 1.75rem;
-            font-weight: 700;
-            letter-spacing: -0.03em;
-            line-height: 1.2;
-            margin: 0;
-        }
-
-        .tables-doc .sk-subtitle {
-            height: 14px;
-            width: min(420px, 92%);
-            margin-top: 10px;
-            border-radius: 7px;
-            background: var(--sk-2);
-            color: transparent;
-            overflow: hidden;
-            font-size: 0.9375rem;
-            line-height: 1.45;
-        }
-
-        .tables-doc .sk-cta {
-            flex-shrink: 0;
-            width: 148px;
-            height: 40px;
-            border-radius: 999px;
-            background: var(--sk-cta);
-            color: transparent;
-        }
-
-        .tables-doc .sk-cta-label {
-            align-items: center;
-            gap: 8px;
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: #fff;
-            line-height: 1;
-        }
-
-        .tables-doc .sk-icon {
-            width: 16px;
-            height: 16px;
-            flex-shrink: 0;
-        }
-
-        .tables-doc .sk-toolbar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-
-        .tables-doc .sk-pill {
-            border-radius: 999px;
-            background: var(--sk-2);
-            height: 36px;
-        }
-
-        .tables-doc .sk-pill-md {
-            width: 128px;
-            background: var(--sk-3);
-        }
-
-        .tables-doc .sk-pill-lg {
-            width: min(260px, 42vw);
-            background: var(--sk-1);
-        }
-
-        .tables-doc .sk-filters-live,
-        .tables-doc .sk-search-live,
-        .tables-doc .sk-bulk-live,
-        .tables-doc .sk-cols-live,
-        .tables-doc .sk-page-live {
-            align-items: center;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .tables-doc .sk-filters-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            border: 1.5px solid var(--sk-text);
-            border-radius: 999px;
-            background: #fff;
-            color: var(--sk-text);
-            font: inherit;
-            font-size: 0.875rem;
-            font-weight: 500;
-            padding: 8px 14px;
-        }
-
-        .tables-doc .sk-chip {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            border-radius: 999px;
-            background: #f3f3f3;
-            color: var(--sk-text);
-            font-size: 0.8125rem;
-            padding: 7px 12px;
-        }
-
-        .tables-doc .sk-chip b {
-            font-weight: 600;
-        }
-
-        .tables-doc .sk-clear {
-            color: #2563eb;
-            font-size: 0.8125rem;
-            font-weight: 500;
-        }
-
-        .tables-doc .sk-search-live {
-            position: relative;
-            width: min(260px, 42vw);
-        }
-
-        .tables-doc .sk-search-live .sk-icon {
-            position: absolute;
-            left: 12px;
-            color: #5c5c5c;
-        }
-
-        .tables-doc .sk-search-field {
-            display: block;
-            width: 100%;
-            border: 1px solid #e5e5e5;
-            border-radius: 999px;
-            background: #fff;
-            color: #9a9a9a;
-            font-size: 0.875rem;
-            padding: 9px 14px 9px 36px;
-        }
-
-        .tables-doc .sk-bulk {
-            display: none;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            margin-bottom: 0;
-            padding: 8px 12px;
-            min-height: 44px;
-            background: #ececec;
-            border-radius: 6px 6px 0 0;
-        }
-
-        .tables-doc .table-skeleton[data-focus="bulk"] .sk-bulk,
-        .tables-doc .table-skeleton[data-focus="select"] .sk-bulk {
-            display: flex;
-        }
-
-        .tables-doc .sk-bulk-bone {
-            display: none;
-        }
-
-        .tables-doc .sk-bulk-live {
-            width: 100%;
-            justify-content: space-between;
-        }
-
-        .tables-doc .sk-bulk-side {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 0.875rem;
-            font-weight: 500;
-            color: var(--sk-text);
-        }
-
-        .tables-doc .sk-link {
-            color: #2563eb;
-            text-decoration: underline;
-            text-underline-offset: 2px;
-        }
-
-        .tables-doc .sk-check {
-            width: 16px;
-            height: 16px;
-            border: 1.5px solid var(--sk-text);
-            border-radius: 3px;
-            background: #fff;
-            flex-shrink: 0;
-        }
-
-        .tables-doc .sk-check.is-checked {
-            background: var(--sk-text);
-            box-shadow: inset 0 0 0 2px #fff;
-        }
-
-        .tables-doc .sk-check.is-mixed {
-            background: var(--sk-text);
-            position: relative;
-        }
-
-        .tables-doc .sk-check.is-mixed::after {
-            content: '';
-            position: absolute;
-            left: 3px;
-            right: 3px;
-            top: 6px;
-            height: 2px;
-            background: #fff;
-        }
-
-        .tables-doc .sk-grid {
-            display: grid;
-            grid-template-columns: 22px minmax(120px, 1.7fr) minmax(70px, 1fr) minmax(70px, 1fr) 22px;
-            gap: 16px;
-            align-items: center;
-        }
-
-        .tables-doc .sk-cols {
-            padding: 12px 4px;
-            background: var(--sk-1);
-            border-radius: 6px;
-        }
-
-        .tables-doc .table-skeleton[data-focus="bulk"] .sk-cols,
-        .tables-doc .table-skeleton[data-focus="select"] .sk-cols {
-            border-radius: 0;
-        }
-
-        .tables-doc .sk-col-live {
-            font-size: 0.8125rem;
-            font-weight: 700;
-            color: var(--sk-text);
-            display: none;
-        }
-
-        .tables-doc .table-skeleton[data-focus="sorting"] .sk-col-live {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .tables-doc .table-skeleton[data-focus="sorting"] .sk-col-live.is-sorted {
-            border-bottom: 2px solid var(--sk-text);
-            padding-bottom: 2px;
-        }
-
-        .tables-doc .sk-row {
-            padding: 14px 4px;
-            border-bottom: 1px solid #ececec;
-        }
-
-        .tables-doc .table-skeleton[data-focus="select"] .sk-row.is-selected {
-            background: #f0f0f0;
-            margin: 0 -12px;
-            padding-left: 16px;
-            padding-right: 16px;
-        }
-
-        .tables-doc .sk-sq {
-            width: 18px;
-            height: 18px;
-            border-radius: 5px;
-            background: var(--sk-2);
-        }
-
-        .tables-doc .sk-name {
-            height: 14px;
-            width: 72%;
-            border-radius: 999px;
-            background: var(--sk-warm);
-        }
-
-        .tables-doc .sk-mid {
-            height: 14px;
-            width: 64%;
-            border-radius: 999px;
-            background: var(--sk-2);
-        }
-
-        .tables-doc .sk-cell-live {
-            display: none;
-            align-items: center;
-            justify-content: center;
-            color: var(--sk-text);
-        }
-
-        .tables-doc .table-skeleton[data-focus="select"] .sk-row .sk-select-live,
-        .tables-doc .table-skeleton[data-focus="expand"] .sk-row .sk-expand-live,
-        .tables-doc .table-skeleton[data-focus="actions"] .sk-row .sk-actions-live {
-            display: inline-flex;
-        }
-
-        .tables-doc .table-skeleton[data-focus="select"] .sk-row .sk-select-bone,
-        .tables-doc .table-skeleton[data-focus="expand"] .sk-row .sk-select-bone,
-        .tables-doc .table-skeleton[data-focus="actions"] .sk-row .sk-actions-bone {
-            display: none;
-        }
-
-        .tables-doc .sk-foot {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            padding: 16px 0 4px;
-        }
-
-        .tables-doc .sk-foot-left,
-        .tables-doc .sk-foot-right {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .tables-doc .sk-pill-sm {
-            width: 72px;
-            height: 28px;
-            background: var(--sk-2);
-        }
-
-        .tables-doc .sk-pill-xs {
-            width: 48px;
-            height: 28px;
-            background: var(--sk-1);
-        }
-
-        .tables-doc .sk-sq-sm {
-            width: 28px;
-            height: 28px;
-            border-radius: 6px;
-            background: var(--sk-2);
-        }
-
-        .tables-doc .sk-page-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 32px;
-            height: 32px;
-            border: 1px solid #e5e5e5;
-            border-radius: 6px;
-            background: #fff;
-            color: var(--sk-text);
-        }
-
-        .tables-doc .sk-page-meta {
-            font-size: 0.8125rem;
-            font-weight: 500;
-            color: var(--sk-text);
-        }
-
-        .tables-doc .sk-page-jump {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            color: #5c5c5c;
-            font-size: 0.8125rem;
-        }
-
-        .tables-doc .sk-page-input {
-            width: 3rem;
-            height: 32px;
-            border: 1px solid #e5e5e5;
-            border-radius: 6px;
-            text-align: center;
-            font-size: 0.8125rem;
-            color: var(--sk-text);
-            background: #fff;
-        }
-
-        @media (max-width: 700px) {
-            .tables-doc .table-skeleton {
-                padding: 20px 16px 16px;
-            }
-
-            .tables-doc .sk-top {
-                flex-direction: column;
-            }
-
-            .tables-doc .sk-grid {
-                grid-template-columns: 18px minmax(80px, 1.4fr) minmax(48px, 0.8fr) 18px;
-            }
-
-            .tables-doc .sk-hide-sm {
-                display: none !important;
-            }
-        }
 
         .tables-doc .task-list {
             margin: 0 0 16px;
@@ -1358,156 +904,28 @@
         </main>
     </div>
 
-    <template id="table-skeleton-template">
-        <div class="table-skeleton" role="img">
-            <div class="sk-top">
-                <div class="sk-heading" data-region="title">
-                    <div class="sk-title"></div>
-                    <div class="sk-subtitle"></div>
-                </div>
-                <div class="sk-cta" data-region="primary">
-                    <span class="sk-live sk-cta-label">
-                        <svg class="sk-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4"/><path d="m7 9 5-5 5 5"/><path d="M20 16.5V19a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2.5"/></svg>
-                        Upload new
-                    </span>
-                </div>
-            </div>
-            <div class="sk-toolbar">
-                <div class="sk-filters" data-region="filters">
-                    <span class="sk-bone sk-pill sk-pill-md"></span>
-                    <span class="sk-live sk-filters-live">
-                        <span class="sk-filters-btn">
-                            <svg class="sk-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
-                            Table filters
-                            <svg class="sk-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
-                        </span>
-                        <span class="sk-chip">Program type : <b>Enterprise</b></span>
-                        <span class="sk-chip">Status : <b>4/5</b></span>
-                        <span class="sk-clear">Clear all filters</span>
-                    </span>
-                </div>
-                <div class="sk-search" data-region="search">
-                    <span class="sk-bone sk-pill sk-pill-lg"></span>
-                    <span class="sk-live sk-search-live">
-                        <svg class="sk-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-                        <span class="sk-search-field">Search table</span>
-                    </span>
-                </div>
-            </div>
-            <div class="sk-bulk" data-region="bulk">
-                <span class="sk-live sk-bulk-live">
-                    <span class="sk-bulk-side">
-                        <span class="sk-check is-mixed"></span>
-                        2/48
-                        <span class="sk-link">Select all 48</span>
-                    </span>
-                    <span class="sk-bulk-side">
-                        <svg class="sk-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="10" y1="9" x2="10" y2="15"/><line x1="14" y1="9" x2="14" y2="15"/></svg>
-                        Pause (2)
-                        <svg class="sk-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><polyline points="9 15 12 18 15 15"/></svg>
-                        Download (PDF)
-                        <svg class="sk-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="5" r="2.4"/><circle cx="12" cy="12" r="2.4"/><circle cx="12" cy="19" r="2.4"/></svg>
-                    </span>
-                </span>
-            </div>
-            <div class="sk-cols sk-grid" data-region="sorting">
-                <span class="sk-bone sk-sq"></span>
-                <span class="sk-bone sk-mid" style="width: 56%"></span>
-                <span class="sk-bone sk-mid sk-hide-sm" style="width: 48%"></span>
-                <span class="sk-bone sk-mid" style="width: 48%"></span>
-                <span class="sk-bone sk-sq"></span>
-                <span class="sk-live sk-col-live"></span>
-                <span class="sk-live sk-col-live is-sorted">
-                    Campaign
-                    <svg class="sk-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 10 12 16 18 10"/></svg>
-                </span>
-                <span class="sk-live sk-col-live sk-hide-sm">Status</span>
-                <span class="sk-live sk-col-live">Start date</span>
-                <span class="sk-live sk-col-live"></span>
-            </div>
-            <div class="sk-row sk-grid is-selected">
-                <span class="sk-select-bone sk-sq"></span>
-                <span class="sk-live sk-cell-live sk-select-live"><span class="sk-check is-checked"></span></span>
-                <span class="sk-live sk-cell-live sk-expand-live">
-                    <svg class="sk-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
-                </span>
-                <span class="sk-name"></span>
-                <span class="sk-mid sk-hide-sm"></span>
-                <span class="sk-mid"></span>
-                <span class="sk-actions-bone sk-sq"></span>
-                <span class="sk-live sk-cell-live sk-actions-live">
-                    <svg class="sk-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="5" r="2.4"/><circle cx="12" cy="12" r="2.4"/><circle cx="12" cy="19" r="2.4"/></svg>
-                </span>
-            </div>
-            <div class="sk-row sk-grid is-selected">
-                <span class="sk-select-bone sk-sq"></span>
-                <span class="sk-live sk-cell-live sk-select-live"><span class="sk-check is-checked"></span></span>
-                <span class="sk-live sk-cell-live sk-expand-live">
-                    <svg class="sk-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
-                </span>
-                <span class="sk-name"></span>
-                <span class="sk-mid sk-hide-sm"></span>
-                <span class="sk-mid"></span>
-                <span class="sk-actions-bone sk-sq"></span>
-                <span class="sk-live sk-cell-live sk-actions-live">
-                    <svg class="sk-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="5" r="2.4"/><circle cx="12" cy="12" r="2.4"/><circle cx="12" cy="19" r="2.4"/></svg>
-                </span>
-            </div>
-            <div class="sk-row sk-grid">
-                <span class="sk-select-bone sk-sq"></span>
-                <span class="sk-live sk-cell-live sk-select-live"><span class="sk-check"></span></span>
-                <span class="sk-live sk-cell-live sk-expand-live">
-                    <svg class="sk-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
-                </span>
-                <span class="sk-name"></span>
-                <span class="sk-mid sk-hide-sm"></span>
-                <span class="sk-mid"></span>
-                <span class="sk-actions-bone sk-sq"></span>
-                <span class="sk-live sk-cell-live sk-actions-live">
-                    <svg class="sk-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="5" r="2.4"/><circle cx="12" cy="12" r="2.4"/><circle cx="12" cy="19" r="2.4"/></svg>
-                </span>
-            </div>
-            <div class="sk-foot" data-region="pagination">
-                <div class="sk-foot-left">
-                    <span class="sk-bone sk-pill sk-pill-sm"></span>
-                    <span class="sk-bone sk-pill sk-pill-xs"></span>
-                    <span class="sk-live sk-page-live">
-                        <span class="sk-page-meta">Items per page</span>
-                        <span class="sk-page-input">10</span>
-                    </span>
-                </div>
-                <div class="sk-foot-right">
-                    <span class="sk-bone sk-sq-sm"></span>
-                    <span class="sk-bone sk-sq-sm"></span>
-                    <span class="sk-bone sk-sq-sm"></span>
-                    <span class="sk-bone sk-sq-sm"></span>
-                    <span class="sk-live sk-page-live">
-                        <span class="sk-page-btn">
-                            <svg class="sk-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="11 17 6 12 11 7"/><polyline points="18 17 13 12 18 7"/></svg>
-                        </span>
-                        <span class="sk-page-btn">
-                            <svg class="sk-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
-                        </span>
-                        <span class="sk-page-jump">1 / 5</span>
-                        <span class="sk-page-btn">
-                            <svg class="sk-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
-                        </span>
-                        <span class="sk-page-btn">
-                            <svg class="sk-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/></svg>
-                        </span>
-                    </span>
-                </div>
-            </div>
-        </div>
-    </template>
-
     <script>
         (function () {
             const layout = document.querySelector('.layout');
             const collapseBtn = document.querySelector('.sidebar-collapse-btn');
             const links = document.querySelectorAll('.sidebar-link[href^="#"]');
-            const sections = [...document.querySelectorAll('.content .section, .content .panel[id]')];
+            const sections = [...document.querySelectorAll('.content .section[id], .content .panel[id]')];
+            const sidebar = document.querySelector('.tables-doc .sidebar');
             const mobileQuery = window.matchMedia('(max-width: 700px)');
+            const sectionOffset = 120;
+            let activeSectionId = '';
+
+            const parentBySection = new Map();
+            document.querySelectorAll('.sidebar-nav > li').forEach((item) => {
+                const parentLink = item.querySelector(':scope > .sidebar-link[href^="#"]');
+                const parentId = parentLink?.getAttribute('href')?.slice(1);
+                if (!parentId) return;
+
+                item.querySelectorAll('.sidebar-group .sidebar-link[href^="#"]').forEach((childLink) => {
+                    const childId = childLink.getAttribute('href')?.slice(1);
+                    if (childId) parentBySection.set(childId, parentId);
+                });
+            });
 
             function setSidebarExpanded(expanded) {
                 if (!layout || !collapseBtn) return;
@@ -1535,53 +953,49 @@
 
             function setActiveLink() {
                 let current = sections[0]?.id;
-                const offset = 120;
 
                 sections.forEach((section) => {
-                    if (section.getBoundingClientRect().top - offset <= 0) {
+                    if (section.getBoundingClientRect().top - sectionOffset <= 0) {
                         current = section.id;
                     }
                 });
 
+                if (current === activeSectionId) return;
+                activeSectionId = current;
+
                 links.forEach((link) => {
-                    const href = link.getAttribute('href');
-                    link.classList.toggle('is-active', href === `#${current}`);
+                    link.classList.remove('is-active', 'is-ancestor-active');
+                    link.removeAttribute('aria-current');
                 });
-            }
 
-            function mountTableSkeletons() {
-                const template = document.getElementById('table-skeleton-template');
-                if (!template) return;
+                const activeLink = document.querySelector(`.sidebar-link[href="#${current}"]`);
+                if (activeLink) {
+                    activeLink.classList.add('is-active');
+                    activeLink.setAttribute('aria-current', 'location');
 
-                document.querySelectorAll('[data-table-skeleton]').forEach((host) => {
-                    const node = template.content.firstElementChild.cloneNode(true);
-                    const focus = host.getAttribute('data-focus') || 'title';
-                    const title = host.getAttribute('data-title') || 'All Campaigns';
-                    const subtitle = host.getAttribute('data-subtitle') || 'Manage all active campaigns or upload and create new ones';
-                    const label = host.getAttribute('data-label') || 'Skeleton table diagram';
-
-                    node.setAttribute('data-focus', focus);
-                    if (host.hasAttribute('data-as-heading')) {
-                        const titleEl = node.querySelector('.sk-title');
-                        const heading = document.createElement('h2');
-                        heading.className = titleEl.className;
-                        titleEl.replaceWith(heading);
-                        node.removeAttribute('role');
-                    } else {
-                        node.setAttribute('aria-label', label);
+                    if (sidebar) {
+                        activeLink.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
                     }
-                    node.querySelector('.sk-title').textContent = title;
-                    node.querySelector('.sk-subtitle').textContent = subtitle;
-                    host.replaceWith(node);
-                });
+                }
+
+                const parentId = parentBySection.get(current);
+                if (parentId) {
+                    const parentLink = document.querySelector(`.sidebar-link[href="#${parentId}"]`);
+                    if (parentLink && !parentLink.classList.contains('is-active')) {
+                        parentLink.classList.add('is-ancestor-active');
+                    }
+                }
             }
 
-            mountTableSkeletons();
+            window.addEventListener('scroll', setActiveLink, { passive: true });
+            window.addEventListener('resize', setActiveLink, { passive: true });
+            setActiveLink();
         })();
     </script>
     <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/@babel/standalone@7.26.9/babel.min.js" crossorigin="anonymous"></script>
     <script type="text/babel" src="js/campaigns-table.jsx"></script>
+    <script type="text/babel" src="js/table-guide-demo.jsx"></script>
 </body>
 </html>
