@@ -1,4 +1,4 @@
-const { useState, useMemo, useRef, useEffect, useId, useCallback } = React;
+const { useState, useMemo, useRef, useEffect, useLayoutEffect, useId, useCallback } = React;
 
 const PROGRAM_TYPES = ['Enterprise', 'Consumer', 'SMB', 'Partner'];
 const STATUSES = ['Live', 'Draft', 'Paused', 'Ended', 'Scheduled'];
