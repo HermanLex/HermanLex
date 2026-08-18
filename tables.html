@@ -100,25 +100,41 @@
             min-width: 0;
         }
 
-        .tables-doc .header-cta {
-            margin-left: auto;
+        .tables-doc .header-cta,
+        .tables-doc .case-study-link {
             display: inline-flex;
             align-items: center;
             gap: 0.35em;
             flex-shrink: 0;
+            margin: 0;
+            padding: 0;
+            border: none;
+            background: none;
             color: var(--tables-text);
+            font: inherit;
             font-size: 0.9375rem;
             font-weight: 600;
             text-decoration: underline;
             text-underline-offset: 3px;
+            cursor: pointer;
         }
 
-        .tables-doc .header-cta:hover {
+        .tables-doc .header-cta {
+            margin-left: auto;
+        }
+
+        .tables-doc .case-study-link {
+            margin: 0 0 16px;
+        }
+
+        .tables-doc .header-cta:hover,
+        .tables-doc .case-study-link:hover {
             color: var(--color-link-hover);
             opacity: 1;
         }
 
-        .tables-doc .header-cta svg {
+        .tables-doc .header-cta svg,
+        .tables-doc .case-study-link svg {
             width: 0.95em;
             height: 0.95em;
             flex-shrink: 0;
@@ -565,26 +581,27 @@
                 <img src="images/H.logo.svg" alt="H" class="header-logo">
             </a>
             <p class="header-title">Re-usable table component</p>
-            <a
-                class="header-cta"
-                href="mc-tables.html"
-                target="_blank"
-                rel="noopener noreferrer"
+            <button
+                type="button"
+                class="header-cta password-trigger"
+                data-password="Letmein"
+                data-url="mc-tables.html"
+                data-newtab="true"
             >
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                     <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
                     <polyline points="15 3 21 3 21 9"/>
                     <line x1="10" y1="14" x2="21" y2="3"/>
                 </svg>
-                check out the case study
-            </a>
+                See the case study
+            </button>
         </div>
     </header>
 
     <div class="layout">
         <aside class="sidebar" id="sidebar-nav" aria-label="Page sections">
             <div class="sidebar-head">
-                <a class="sidebar-link is-parent" href="#data-tables">Data tables</a>
+                <a class="sidebar-link is-parent" href="#data-tables">Cover</a>
                 <button type="button" class="sidebar-collapse-btn" aria-expanded="true" aria-controls="sidebar-nav" aria-label="Collapse section navigation">
                     <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
                         <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -593,7 +610,7 @@
             </div>
             <ul class="sidebar-nav">
                 <li>
-                    <a class="sidebar-link is-parent" href="#use-cases">Use cases</a>
+                    <a class="sidebar-link is-parent" href="#table-users">Table users</a>
                 </li>
                 <li>
                     <a class="sidebar-link is-parent" href="#anatomy">Anatomy</a>
@@ -645,10 +662,24 @@
                 <p class="section-lead" style="margin-top: 20px;">Why a data table design guide?</p>
                 <p class="section-text">After a decade of designing enterprise applications, data tables remain heavily nuanced and create more confusion for designers, PMs, engineers, and end-users than teams expect.</p>
                 <p class="section-text">With hundreds of micro-components they're also expensive to design well. Re-usable Figma and Code components dramatically reduce design and engineering time while creating more consistent user experiences.</p>
+                <button
+                    type="button"
+                    class="case-study-link password-trigger"
+                    data-password="Letmein"
+                    data-url="mc-tables.html"
+                    data-newtab="true"
+                >
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                        <polyline points="15 3 21 3 21 9"/>
+                        <line x1="10" y1="14" x2="21" y2="3"/>
+                    </svg>
+                    See the case study
+                </button>
             </section>
 
-            <section id="use-cases" class="section">
-                <h2 class="section-title">Use cases</h2>
+            <section id="table-users" class="section">
+                <h2 class="section-title">Table users</h2>
                 <p class="section-text">Most tables are designed to support 4 common user tasks:</p>
                 <ul class="task-list use-case-list">
                     <li>find records</li>
@@ -1020,7 +1051,26 @@
             setActiveLink();
         })();
     </script>
-    <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+    <div class="password-modal" id="passwordModal">
+        <div class="password-modal-overlay"></div>
+        <div class="password-modal-content">
+            <button class="password-modal-close" aria-label="Close password modal">&times;</button>
+            <div class="password-modal-body">
+                <h2 class="password-modal-title">Password Required</h2>
+                <p class="password-modal-description">Please enter the password to view projects.</p>
+                <form class="password-form" id="passwordForm">
+                    <div class="form-group">
+                        <label for="password-input">Password:</label>
+                        <input type="password" id="password-input" name="password" required autocomplete="off">
+                    </div>
+                    <button type="submit" class="submit-btn">Submit</button>
+                    <p class="password-error" id="passwordError" style="display: none; color: #d32f2f; margin-top: var(--space-sm); font-size: 0.875rem;">Incorrect password. Please try again.</p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
     <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/@babel/standalone@7.26.9/babel.min.js" crossorigin="anonymous"></script>
     <script type="text/babel" src="js/campaigns-table.jsx?v=5"></script>
