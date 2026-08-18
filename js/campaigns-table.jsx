@@ -397,7 +397,7 @@ function filterHasValue(filterId, values) {
     return false;
 }
 
-const CALLOUT_BADGE_RADIUS = 11;
+const CALLOUT_TIP_RADIUS = 4;
 
 const OPTIONAL_CALLOUTS = [
     { n: 1, label: 'Title header', bx: 0, by: -38, ax: 0.15, ay: 0 },
@@ -410,27 +410,6 @@ const OPTIONAL_CALLOUTS = [
     { n: 8, label: 'Expanding rows', bx: 22, by: -28, ax: 0.5, ay: 0.5 },
     { n: 9, label: 'Pagination', bx: 0, by: -36, ax: 0.5, ay: 0 }
 ];
-
-function pointerPoints(badge, tip) {
-    const dx = tip.x - badge.x;
-    const dy = tip.y - badge.y;
-    const len = Math.hypot(dx, dy);
-    if (len < CALLOUT_BADGE_RADIUS + 6) return null;
-
-    const ux = dx / len;
-    const uy = dy / len;
-    const startX = badge.x + ux * (CALLOUT_BADGE_RADIUS - 1);
-    const startY = badge.y + uy * (CALLOUT_BADGE_RADIUS - 1);
-    const px = -uy;
-    const py = ux;
-    const half = 3.5;
-
-    return [
-        `${startX + px * half},${startY + py * half}`,
-        `${startX - px * half},${startY - py * half}`,
-        `${tip.x},${tip.y}`
-    ].join(' ');
-}
 
 class CalloutBoundary extends React.Component {
     constructor(props) {
@@ -478,8 +457,7 @@ function TableCallouts({ wrapRef, layoutKey }) {
                 n: def.n,
                 label: def.label,
                 tip,
-                badge,
-                points: pointerPoints(badge, tip)
+                badge
             };
         }).filter(Boolean);
 
@@ -517,11 +495,23 @@ function TableCallouts({ wrapRef, layoutKey }) {
     return (
         <div className="ct-callouts" aria-hidden="true">
             <svg className="ct-callouts-svg">
-                {marks.map((mark) =>
-                    mark.points ? (
-                        <polygon key={mark.n} className="ct-callout-pointer" points={mark.points} />
-                    ) : null
-                )}
+                {marks.map((mark) => (
+                    <g key={mark.n}>
+                        <line
+                            className="ct-callout-stem"
+                            x1={mark.badge.x}
+                            y1={mark.badge.y}
+                            x2={mark.tip.x}
+                            y2={mark.tip.y}
+                        />
+                        <circle
+                            className="ct-callout-tip"
+                            cx={mark.tip.x}
+                            cy={mark.tip.y}
+                            r={CALLOUT_TIP_RADIUS}
+                        />
+                    </g>
+                ))}
             </svg>
             {marks.map((mark) => (
                 <span

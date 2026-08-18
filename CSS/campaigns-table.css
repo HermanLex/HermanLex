@@ -789,10 +789,14 @@ body.ct-is-resizing * {
     overflow: visible;
 }
 
-.ct-callout-pointer {
+.ct-callout-stem {
+    stroke: #c45000;
+    stroke-width: 2;
+    stroke-linecap: butt;
+}
+
+.ct-callout-tip {
     fill: #c45000;
-    stroke: #fff;
-    stroke-width: 1;
 }
 
 .ct-callout-badge {
@@ -810,7 +814,6 @@ body.ct-is-resizing * {
     font-weight: 700;
     line-height: 1;
     transform: translate(-50%, -50%);
-    box-shadow: 0 0 0 2px #fff;
 }
 
 .tables-doc .ct-wrap--essential {

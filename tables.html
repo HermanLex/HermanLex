@@ -61,7 +61,7 @@
             position: static;
         }
 
-        .tables-doc .header-inner > a {
+        .tables-doc .header-logo-link {
             display: flex;
             align-items: center;
             flex-shrink: 0;
@@ -77,7 +77,7 @@
             animation: logo-spin-in 0.55s ease-in-out;
         }
 
-        .tables-doc .header-inner > a:hover .header-logo {
+        .tables-doc .header-logo-link:hover .header-logo {
             transform: rotate(380deg);
         }
 
@@ -87,7 +87,7 @@
                 transition: none;
             }
 
-            .tables-doc .header-inner > a:hover .header-logo {
+            .tables-doc .header-logo-link:hover .header-logo {
                 transform: none;
             }
         }
@@ -97,6 +97,35 @@
             font-weight: 700;
             letter-spacing: -0.03em;
             margin: 0;
+            min-width: 0;
+        }
+
+        .tables-doc .header-cta {
+            margin-left: auto;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35em;
+            flex-shrink: 0;
+            color: var(--tables-text);
+            font-size: 0.9375rem;
+            font-weight: 600;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        .tables-doc .header-cta:hover {
+            color: var(--color-link-hover);
+            opacity: 1;
+        }
+
+        .tables-doc .header-cta svg {
+            width: 0.95em;
+            height: 0.95em;
+            flex-shrink: 0;
+        }
+
+        .tables-doc .tagline-title {
+            margin: 0 0 24px;
         }
 
         .tables-doc .layout {
@@ -512,6 +541,18 @@
             .tables-doc .callout-legend--grid {
                 grid-template-columns: 1fr;
             }
+
+            .tables-doc .header-inner {
+                padding: 0 20px;
+            }
+
+            .tables-doc .header-title {
+                font-size: 1.125rem;
+            }
+
+            .tables-doc .header-cta {
+                font-size: 0.8125rem;
+            }
         }
     </style>
 </head>
@@ -520,10 +561,23 @@
 
     <header class="header">
         <div class="header-inner">
-            <a href="index.html" aria-label="HermanLex Home">
+            <a href="index.html" class="header-logo-link" aria-label="HermanLex Home">
                 <img src="images/H.logo.svg" alt="H" class="header-logo">
             </a>
-            <h1 class="header-title">Data tables</h1>
+            <p class="header-title">Re-usable table component</p>
+            <a
+                class="header-cta"
+                href="mc-tables.html"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                    <polyline points="15 3 21 3 21 9"/>
+                    <line x1="10" y1="14" x2="21" y2="3"/>
+                </svg>
+                check out the case study
+            </a>
         </div>
     </header>
 
@@ -582,13 +636,11 @@
 
         <main id="main" class="content">
             <section id="data-tables" class="section">
+                <h1 class="tagline-title">Table design guide</h1>
                 <div
                     data-table-skeleton
-                    data-focus="title"
-                    data-as-heading
-                    data-title="Data table design guide"
-                    data-subtitle="A robust data table design guide and reusable Figma component"
-                    data-label="Skeleton table diagram with the title and subtitle in focus">
+                    data-focus="none"
+                    data-label="Skeleton table diagram with all regions out of focus">
                 </div>
                 <p class="section-lead" style="margin-top: 20px;">Why a data table design guide?</p>
                 <p class="section-text">After a decade of designing enterprise applications, data tables remain heavily nuanced and create more confusion for designers, PMs, engineers, and end-users than teams expect.</p>
@@ -971,7 +1023,7 @@
     <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/@babel/standalone@7.26.9/babel.min.js" crossorigin="anonymous"></script>
-    <script type="text/babel" src="js/campaigns-table.jsx?v=3"></script>
+    <script type="text/babel" src="js/campaigns-table.jsx?v=4"></script>
     <script type="text/babel" src="js/table-guide-demo.jsx?v=3"></script>
 </body>
 </html>
