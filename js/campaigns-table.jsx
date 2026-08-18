@@ -2,8 +2,8 @@ const { useState, useMemo, useRef, useEffect, useId, useCallback } = React;
 
 const PROGRAM_TYPES = ['Enterprise', 'Consumer', 'SMB', 'Partner'];
 const STATUSES = ['Live', 'Draft', 'Paused', 'Ended', 'Scheduled'];
-const PAGE_SIZE_OPTIONS = [10, 20, 30, 40, 50];
-const DEFAULT_PAGE_SIZE = 10;
+const PAGE_SIZE_OPTIONS = [5, 10, 20, 30, 40, 50];
+const DEFAULT_PAGE_SIZE = 5;
 
 const DATA_COLUMNS = [
     { id: 'name', label: 'Campaign', width: 280, minWidth: 140, sortable: true },
@@ -236,7 +236,7 @@ function useClickOutside(open, onClose) {
     return rootRef;
 }
 
-function FilterPicker({ enabledFilters, onToggleFilter, open, onToggle, onClose }) {
+function FilterPicker({ enabledFilters, onToggleFilter, open, onToggle, onClose, callout }) {
     const rootRef = useClickOutside(open, onClose);
     const enabledCount = enabledFilters.length;
 
@@ -248,6 +248,7 @@ function FilterPicker({ enabledFilters, onToggleFilter, open, onToggle, onClose 
                 aria-expanded={open}
                 aria-haspopup="menu"
                 onClick={onToggle}
+                {...(callout ? { 'data-callout': callout } : {})}
             >
                 <Icon name="filter" size={15} />
                 Table filters
@@ -396,7 +397,124 @@ function filterHasValue(filterId, values) {
     return false;
 }
 
-function CampaignsTable() {
+const CALLOUT_BADGE_RADIUS = 11;
+
+const OPTIONAL_CALLOUTS = [
+    { n: 1, label: 'Title header', bx: 0, by: -38, ax: 0.15, ay: 0 },
+    { n: 2, label: 'Primary action', bx: 0, by: -38, ax: 0.5, ay: 0 },
+    { n: 3, label: 'Filters', bx: 0, by: -38, ax: 0.22, ay: 0 },
+    { n: 4, label: 'Search', bx: 0, by: -38, ax: 0.12, ay: 0.5 },
+    { n: 5, label: 'Bulk action bar', bx: 0, by: -36, ax: 0.5, ay: 0 },
+    { n: 6, label: 'Sorting', bx: 0, by: -34, ax: 0.2, ay: 0 },
+    { n: 7, label: 'Multi-select', bx: -22, by: -28, ax: 0.5, ay: 0.5 },
+    { n: 8, label: 'Expanding rows', bx: 22, by: -28, ax: 0.5, ay: 0.5 },
+    { n: 9, label: 'Pagination', bx: 0, by: -36, ax: 0.5, ay: 0 }
+];
+
+function pointerPoints(badge, tip) {
+    const dx = tip.x - badge.x;
+    const dy = tip.y - badge.y;
+    const len = Math.hypot(dx, dy);
+    if (len < CALLOUT_BADGE_RADIUS + 6) return null;
+
+    const ux = dx / len;
+    const uy = dy / len;
+    const startX = badge.x + ux * (CALLOUT_BADGE_RADIUS - 1);
+    const startY = badge.y + uy * (CALLOUT_BADGE_RADIUS - 1);
+    const px = -uy;
+    const py = ux;
+    const half = 3.5;
+
+    return [
+        `${startX + px * half},${startY + py * half}`,
+        `${startX - px * half},${startY - py * half}`,
+        `${tip.x},${tip.y}`
+    ].join(' ');
+}
+
+function TableCallouts({ wrapRef, layoutKey }) {
+    const [marks, setMarks] = useState([]);
+
+    const measure = useCallback(() => {
+        const wrap = wrapRef.current;
+        if (!wrap) return;
+
+        const wrapRect = wrap.getBoundingClientRect();
+        const styles = window.getComputedStyle(wrap);
+        const originX = wrapRect.left + (parseFloat(styles.borderLeftWidth) || 0);
+        const originY = wrapRect.top + (parseFloat(styles.borderTopWidth) || 0);
+
+        const next = OPTIONAL_CALLOUTS.map((def) => {
+            const el = wrap.querySelector(`[data-callout="${def.n}"]`);
+            if (!el) return null;
+
+            const rect = el.getBoundingClientRect();
+            const tip = {
+                x: rect.left - originX + rect.width * def.ax,
+                y: rect.top - originY + rect.height * def.ay
+            };
+            const badge = {
+                x: tip.x + def.bx,
+                y: tip.y + def.by
+            };
+
+            return {
+                n: def.n,
+                label: def.label,
+                tip,
+                badge,
+                points: pointerPoints(badge, tip)
+            };
+        }).filter(Boolean);
+
+        setMarks((prev) => (JSON.stringify(prev) === JSON.stringify(next) ? prev : next));
+    }, [wrapRef]);
+
+    useLayoutEffect(() => {
+        measure();
+        const wrap = wrapRef.current;
+        if (!wrap) return undefined;
+
+        const observer = new ResizeObserver(measure);
+        observer.observe(wrap);
+        const scrollEl = wrap.querySelector('.ct-table-scroll');
+        scrollEl?.addEventListener('scroll', measure, { passive: true });
+        window.addEventListener('resize', measure);
+
+        return () => {
+            observer.disconnect();
+            scrollEl?.removeEventListener('scroll', measure);
+            window.removeEventListener('resize', measure);
+        };
+    }, [measure, layoutKey]);
+
+    if (marks.length === 0) return null;
+
+    return (
+        <div className="ct-callouts" aria-hidden="true">
+            <svg className="ct-callouts-svg">
+                {marks.map((mark) =>
+                    mark.points ? (
+                        <polygon key={mark.n} className="ct-callout-pointer" points={mark.points} />
+                    ) : null
+                )}
+            </svg>
+            {marks.map((mark) => (
+                <span
+                    key={mark.n}
+                    className="ct-callout-badge"
+                    style={{ left: mark.badge.x, top: mark.badge.y }}
+                    title={mark.label}
+                >
+                    {mark.n}
+                </span>
+            ))}
+        </div>
+    );
+}
+
+function CampaignsTable({ showCallouts = false }) {
+    const wrapRef = useRef(null);
     const searchId = useId();
     const pageInputId = useId();
     const [enabledFilters, setEnabledFilters] = useState([]);
@@ -642,10 +760,16 @@ function CampaignsTable() {
     const rangeEnd = Math.min(pageStart + pageSize, filteredRows.length);
 
     return (
-        <div className="ct-wrap" aria-label="All Campaigns data table example">
+        <div
+            className={`ct-wrap${showCallouts ? ' ct-wrap--callouts' : ''}`}
+            ref={wrapRef}
+            aria-label="All Campaigns data table example"
+        >
             <div className="ct-header">
                 <div>
-                    <h3 className="ct-title">All Campaigns</h3>
+                    <h3 className="ct-title" {...(showCallouts ? { 'data-callout': '1' } : {})}>
+                        All Campaigns
+                    </h3>
                     <p className="ct-subtitle">
                         Manage all active campaigns or upload and create new ones
                     </p>
@@ -654,6 +778,7 @@ function CampaignsTable() {
                     type="button"
                     className="ct-upload"
                     onClick={() => flash('Upload new — demo action')}
+                    {...(showCallouts ? { 'data-callout': '2' } : {})}
                 >
                     <Icon name="upload" size={16} />
                     Upload new
@@ -668,6 +793,7 @@ function CampaignsTable() {
                         open={openMenu === 'picker'}
                         onToggle={() => setOpenMenu((menu) => (menu === 'picker' ? null : 'picker'))}
                         onClose={closeMenus}
+                        callout={showCallouts ? '3' : undefined}
                     />
 
                     {FILTER_DEFS.filter((def) => enabledFilters.includes(def.id)).map((def) =>
@@ -682,7 +808,7 @@ function CampaignsTable() {
                     ) : null}
                 </div>
 
-                <div className="ct-search">
+                <div className="ct-search" {...(showCallouts ? { 'data-callout': '4' } : {})}>
                     <span className="ct-search-icon">
                         <Icon name="search" size={20} />
                     </span>
@@ -700,7 +826,12 @@ function CampaignsTable() {
                 </div>
             </div>
 
-            <div className="ct-bulk" role="region" aria-label="Bulk actions">
+            <div
+                className="ct-bulk"
+                role="region"
+                aria-label="Bulk actions"
+                {...(showCallouts ? { 'data-callout': '5' } : {})}
+            >
                 <div className="ct-bulk-left">
                     <input
                         className="ct-checkbox"
@@ -785,6 +916,7 @@ function CampaignsTable() {
                                         scope="col"
                                         className={`ct-th${isSorted ? ' is-sorted' : ''}`}
                                         aria-sort={ariaSort}
+                                        {...(showCallouts && col.id === 'name' ? { 'data-callout': '6' } : {})}
                                     >
                                         <div className="ct-th-inner">
                                             <button
@@ -823,10 +955,11 @@ function CampaignsTable() {
                                 </td>
                             </tr>
                         ) : (
-                            pageRows.map((row) => {
+                            pageRows.map((row, rowIndex) => {
                                 const selected = selectedIds.has(row.id);
                                 const expanded = expandedIds.has(row.id);
                                 const statusClass = `is-${row.status.toLowerCase()}`;
+                                const isCalloutRow = showCallouts && rowIndex === 0;
                                 return (
                                     <React.Fragment key={row.id}>
                                         <tr className={selected ? 'is-selected' : undefined}>
@@ -837,6 +970,7 @@ function CampaignsTable() {
                                                     checked={selected}
                                                     onChange={() => toggleRow(row.id)}
                                                     aria-label={`Select ${row.name}`}
+                                                    {...(isCalloutRow ? { 'data-callout': '7' } : {})}
                                                 />
                                             </td>
                                             <td className="ct-expand-cell">
@@ -846,6 +980,7 @@ function CampaignsTable() {
                                                     aria-expanded={expanded}
                                                     aria-label={`${expanded ? 'Collapse' : 'Expand'} ${row.name}`}
                                                     onClick={() => toggleExpanded(row.id)}
+                                                    {...(isCalloutRow ? { 'data-callout': '8' } : {})}
                                                 >
                                                     <Icon name="chevron" size={14} />
                                                 </button>
@@ -886,7 +1021,12 @@ function CampaignsTable() {
                 </table>
             </div>
 
-            <div className="ct-pagination" role="navigation" aria-label="Table pagination">
+            <div
+                className="ct-pagination"
+                role="navigation"
+                aria-label="Table pagination"
+                {...(showCallouts ? { 'data-callout': '9' } : {})}
+            >
                 <div className="ct-page-size">
                     <label htmlFor={`${pageInputId}-size`}>Items per page</label>
                     <select
@@ -970,10 +1110,28 @@ function CampaignsTable() {
             <div className="ct-footer">
                 <span aria-live="polite">{toast}</span>
             </div>
+            {showCallouts ? (
+                <TableCallouts
+                    wrapRef={wrapRef}
+                    layoutKey={[
+                        selectedIds.size,
+                        expandedIds.size,
+                        enabledFilters.join(','),
+                        search,
+                        pageSize,
+                        currentPage,
+                        sortKey,
+                        sortDir,
+                        toast
+                    ].join('|')}
+                />
+            ) : null}
         </div>
     );
 }
 
 document.querySelectorAll('#campaigns-table-root, [data-campaigns-table]').forEach((mountNode) => {
-    ReactDOM.createRoot(mountNode).render(<CampaignsTable />);
+    ReactDOM.createRoot(mountNode).render(
+        <CampaignsTable showCallouts={mountNode.hasAttribute('data-campaigns-table')} />
+    );
 });

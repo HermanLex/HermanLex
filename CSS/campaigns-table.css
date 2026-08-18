@@ -23,6 +23,7 @@
     padding: 24px 24px 0;
     margin: 28px 0 8px;
     overflow: visible;
+    position: relative;
 }
 
 .ct-header {
@@ -766,6 +767,50 @@ body.ct-is-resizing * {
 
 .tables-doc .panel-stack .ct-wrap {
     margin: 0;
+}
+
+.ct-wrap--callouts {
+    padding-top: 56px;
+}
+
+.ct-callouts {
+    position: absolute;
+    inset: 0;
+    z-index: 30;
+    pointer-events: none;
+    overflow: visible;
+}
+
+.ct-callouts-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+.ct-callout-pointer {
+    fill: #c45000;
+    stroke: #fff;
+    stroke-width: 1;
+}
+
+.ct-callout-badge {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    margin: 0;
+    border-radius: 50%;
+    background: #c45000;
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 0 2px #fff;
 }
 
 .tables-doc .ct-wrap--essential {
