@@ -432,6 +432,22 @@ function pointerPoints(badge, tip) {
     ].join(' ');
 }
 
+class CalloutBoundary extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { hasError: false };
+    }
+
+    static getDerivedStateFromError() {
+        return { hasError: true };
+    }
+
+    render() {
+        if (this.state.hasError) return null;
+        return this.props.children;
+    }
+}
+
 function TableCallouts({ wrapRef, layoutKey }) {
     const [marks, setMarks] = useState([]);
 
@@ -1111,20 +1127,22 @@ function CampaignsTable({ showCallouts = false }) {
                 <span aria-live="polite">{toast}</span>
             </div>
             {showCallouts ? (
-                <TableCallouts
-                    wrapRef={wrapRef}
-                    layoutKey={[
-                        selectedIds.size,
-                        expandedIds.size,
-                        enabledFilters.join(','),
-                        search,
-                        pageSize,
-                        currentPage,
-                        sortKey,
-                        sortDir,
-                        toast
-                    ].join('|')}
-                />
+                <CalloutBoundary>
+                    <TableCallouts
+                        wrapRef={wrapRef}
+                        layoutKey={[
+                            selectedIds.size,
+                            expandedIds.size,
+                            enabledFilters.join(','),
+                            search,
+                            pageSize,
+                            currentPage,
+                            sortKey,
+                            sortDir,
+                            toast
+                        ].join('|')}
+                    />
+                </CalloutBoundary>
             ) : null}
         </div>
     );
