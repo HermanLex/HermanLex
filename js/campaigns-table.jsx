@@ -982,7 +982,6 @@ function CampaignsTable() {
     );
 }
 
-const mountNode = document.getElementById('campaigns-table-root');
-if (mountNode) {
+document.querySelectorAll('#campaigns-table-root, [data-campaigns-table]').forEach((mountNode) => {
     ReactDOM.createRoot(mountNode).render(<CampaignsTable />);
-}
+});

@@ -590,13 +590,9 @@
                     data-subtitle="A robust data table design guide and reusable Figma component"
                     data-label="Skeleton table diagram with the title and subtitle in focus">
                 </div>
-                <p class="section-lead">Why a data table design guide?</p>
+                <p class="section-lead" style="margin-top: 20px;">Why a data table design guide?</p>
                 <p class="section-text">After a decade of designing enterprise applications, data tables remain heavily nuanced and create more confusion for designers, PMs, engineers, and end-users than teams expect.</p>
                 <p class="section-text">With hundreds of micro-components they're also expensive to design well. Re-usable Figma and Code components dramatically reduce design and engineering time while creating more consistent user experiences.</p>
-
-                <p class="section-lead" style="margin-top: 2rem;">Live example</p>
-                <p class="section-text">A client-side React component with demo search, filtering, bulk-actions, pagination and more.</p>
-                <div id="campaigns-table-root"></div>
             </section>
 
             <section id="use-cases" class="section">
@@ -612,7 +608,7 @@
 
             <section id="anatomy" class="section">
                 <h2 class="section-title">Anatomy</h2>
-                <p class="section-text">Here's a breakdown of functional features commonly found in tables:</p>
+                <p class="section-text">Client-side React component with demo search, filtering, bulk-actions, pagination and more.</p>
 
                 <div id="essential" class="panel">
                     <h3 class="panel-title">Essential elements</h3>
@@ -632,7 +628,11 @@
                                 Columns
                             </li>
                         </ul>
-                        <img src="images/essential-table.png" alt="Simple essential data table example" class="figure-image">
+                        <div
+                            data-table-skeleton
+                            data-focus="essential"
+                            data-label="Essential data table with column headers, rows, and columns">
+                        </div>
                     </div>
                 </div>
 
@@ -678,7 +678,10 @@
                                 Pagination
                             </li>
                         </ul>
-                        <img src="images/optional-table.png" alt="Full-featured optional data table example" class="figure-image">
+                        <div
+                            data-campaigns-table
+                            aria-label="Full-featured optional data table example">
+                        </div>
                     </div>
                 </div>
             </section>

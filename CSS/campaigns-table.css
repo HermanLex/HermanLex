@@ -764,6 +764,15 @@ body.ct-is-resizing * {
     pointer-events: none;
 }
 
+.tables-doc .panel-stack .ct-wrap {
+    margin: 0;
+}
+
+.tables-doc .ct-wrap--essential {
+    padding: 8px 24px 16px;
+    pointer-events: auto;
+}
+
 .tables-doc .section > .ct-wrap--guide:first-child {
     margin-top: 0;
     margin-bottom: 24px;

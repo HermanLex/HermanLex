@@ -733,11 +733,73 @@ function TableGuideDemo({ focus, title, subtitle, asHeading = false }) {
     );
 }
 
+const ESSENTIAL_ROW_COUNT = 5;
+
+function EssentialTableDemo({ label }) {
+    const rows = ALL_CAMPAIGNS.slice(0, ESSENTIAL_ROW_COUNT);
+
+    return (
+        <div
+            className="ct-wrap ct-wrap--guide ct-wrap--essential"
+            data-focus="essential"
+            aria-label={label || 'Essential data table'}
+        >
+            <div className="ct-table-scroll is-guide-active">
+                <table className="ct-table">
+                    <colgroup>
+                        {DATA_COLUMNS.map((col) => (
+                            <col key={col.id} style={{ width: col.width, minWidth: col.minWidth }} />
+                        ))}
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            {DATA_COLUMNS.map((col) => (
+                                <th key={col.id} scope="col">
+                                    {col.label}
+                                </th>
+                            ))}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {rows.map((row) => (
+                            <tr key={row.id}>
+                                <td className="ct-cell-name">
+                                    <a
+                                        className="ct-campaign-link"
+                                        href={`#${row.id}`}
+                                        onClick={(event) => event.preventDefault()}
+                                    >
+                                        {row.name}
+                                    </a>
+                                </td>
+                                <td>
+                                    <span className={`ct-status is-${row.status.toLowerCase()}`}>
+                                        {row.status}
+                                    </span>
+                                </td>
+                                <td>{formatShortDate(row.startDate)}</td>
+                                <td>{formatShortDate(row.endDate)}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    );
+}
+
 document.querySelectorAll('[data-table-skeleton]').forEach((host) => {
     const root = ReactDOM.createRoot(host);
+    const focus = host.getAttribute('data-focus') || 'title';
+
+    if (focus === 'essential') {
+        root.render(<EssentialTableDemo label={host.getAttribute('data-label') || undefined} />);
+        return;
+    }
+
     root.render(
         <TableGuideDemo
-            focus={host.getAttribute('data-focus') || 'title'}
+            focus={focus}
             title={host.getAttribute('data-title') || undefined}
             subtitle={host.getAttribute('data-subtitle') || undefined}
             asHeading={host.hasAttribute('data-as-heading')}
