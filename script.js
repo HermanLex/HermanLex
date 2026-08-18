@@ -4,6 +4,8 @@
 
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize all modules
+    initPostHog();
+    initAnalyticsClickTracking();
     initMobileNav();
     initHeaderScroll();
     initClientsTabOrder();
@@ -19,6 +21,104 @@ document.addEventListener('DOMContentLoaded', () => {
     initClickableCards();
     initDisabledLinks();
 });
+
+/**
+ * PostHog Analytics
+ */
+function initPostHog() {
+    const POSTHOG_PROJECT_TOKEN = 'phc_rubBoyNqjnX3JGXshPG6tUbVhWnqy6EQZur7j2yGCJ8M';
+    const POSTHOG_API_HOST = 'https://us.i.posthog.com';
+
+    if (!POSTHOG_PROJECT_TOKEN || window.posthog?.__SV) return;
+
+    // Official lightweight loader pattern for static sites.
+    (function (t, e) {
+        let o;
+        let n;
+        let p;
+        e.__SV || ((window.posthog = e), (e._i = []), (e.init = function (i, s, a) {
+            function g(t, e) {
+                const o = e.split('.');
+                o.length === 2 && ((t = t[o[0]]), (e = o[1]));
+                t[e] = function () {
+                    t.push([e].concat(Array.prototype.slice.call(arguments, 0)));
+                };
+            }
+            ((p = t.createElement('script')).type = 'text/javascript');
+            p.crossOrigin = 'anonymous';
+            p.async = true;
+            p.src = s.api_host.replace('.i.posthog.com', '-assets.i.posthog.com') + '/static/array.js';
+            ((n = t.getElementsByTagName('script')[0]).parentNode || t.head).insertBefore(p, n);
+            let r = e;
+            a !== undefined ? (r = e[a] = []) : (a = 'posthog');
+            r.people = r.people || [];
+            r.toString = function (t) {
+                let e = 'posthog';
+                return a !== 'posthog' && (e += '.' + a), t || (e += ' (stub)'), e;
+            };
+            r.people.toString = function () {
+                return r.toString(1) + '.people (stub)';
+            };
+            o = 'init capture register register_once register_for_session unregister unregister_for_session identify alias set_config reset opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing startSessionRecording stopSessionRecording sessionRecordingStarted captureException capture pageleave'.split(' ');
+            for (let l = 0; l < o.length; l += 1) g(r, o[l]);
+            e._i.push([i, s, a]);
+        }), (e.__SV = 1));
+    })(document, window.posthog || []);
+
+    window.posthog.init(POSTHOG_PROJECT_TOKEN, {
+        api_host: POSTHOG_API_HOST,
+        autocapture: true,
+        capture_pageview: true,
+        capture_pageleave: true,
+        session_recording: {
+            maskAllInputs: true,
+            maskInputOptions: {
+                password: true
+            }
+        },
+        enable_heatmaps: true
+    });
+}
+
+function trackPostHogEvent(eventName, properties = {}) {
+    if (!window.posthog || typeof window.posthog.capture !== 'function') return;
+    window.posthog.capture(eventName, properties);
+}
+
+/**
+ * PostHog custom click events
+ */
+function initAnalyticsClickTracking() {
+    document.querySelectorAll('.nav-link:not(.disabled)').forEach((link) => {
+        link.addEventListener('click', () => {
+            trackPostHogEvent('nav_link_click', {
+                link_text: link.textContent?.trim() || '',
+                href: link.getAttribute('href') || '',
+                from_path: window.location.pathname
+            });
+        });
+    });
+
+    document.querySelectorAll('.case-study-link').forEach((link) => {
+        link.addEventListener('click', () => {
+            trackPostHogEvent('case_study_link_click', {
+                link_text: link.textContent?.trim() || '',
+                href: link.getAttribute('href') || link.dataset.url || '',
+                gated: link.classList.contains('password-trigger')
+            });
+        });
+    });
+
+    document.querySelectorAll('a[download], a[href*="resume" i], a[href*="cv" i], a[data-track="resume"]').forEach((link) => {
+        link.addEventListener('click', () => {
+            trackPostHogEvent('resume_click', {
+                link_text: link.textContent?.trim() || '',
+                href: link.getAttribute('href') || '',
+                download: link.hasAttribute('download')
+            });
+        });
+    });
+}
 
 /**
  * Remove client logos from keyboard tab order on homepage
@@ -882,6 +982,10 @@ function initClickableCards() {
         const visitWebsiteLink = card.querySelector('.project-link-website');
         if (visitWebsiteLink) {
             visitWebsiteLink.addEventListener('click', (e) => {
+                trackPostHogEvent('outbound_project_website_click', {
+                    href: visitWebsiteLink.getAttribute('href') || '',
+                    project_title: card.querySelector('.project-title')?.textContent?.trim() || ''
+                });
                 e.stopPropagation(); // Prevent card click from firing
             });
         }
@@ -937,6 +1041,11 @@ function initPasswordModal() {
     triggers.forEach(trigger => {
         trigger.addEventListener('click', (e) => {
             e.preventDefault();
+            trackPostHogEvent('password_modal_opened', {
+                target_url: trigger.dataset.url || '',
+                trigger_text: trigger.textContent?.trim() || '',
+                open_in_new_tab: trigger.dataset.newtab === 'true'
+            });
             openModal(trigger);
         });
     });
@@ -967,6 +1076,10 @@ function initPasswordModal() {
         if (enteredPassword === requiredPassword) {
             // Check if it should open in new tab (external URL or data-newtab="true")
             const openInNewTab = targetUrl.startsWith('http') || currentTrigger.dataset.newtab === 'true';
+            trackPostHogEvent('password_gate_success', {
+                target_url: targetUrl,
+                open_in_new_tab: openInNewTab
+            });
             
             if (openInNewTab) {
                 // Open in new tab
@@ -978,6 +1091,9 @@ function initPasswordModal() {
             closeModal();
         } else {
             // Show error message
+            trackPostHogEvent('password_gate_failed', {
+                target_url: targetUrl
+            });
             errorMessage.style.display = 'block';
             passwordInput.value = '';
             passwordInput.focus();
