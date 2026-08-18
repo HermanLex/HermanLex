@@ -401,15 +401,15 @@ const CALLOUT_TIP_RADIUS = 4;
 const CALLOUT_COLOR = '#c45000';
 
 const OPTIONAL_CALLOUTS = [
-    { n: 1, label: 'Title header', bx: 0, by: -38, ax: 0.15, ay: 0 },
+    { n: 1, label: 'Title header', bx: 0, by: -38, ax: 0.15, ay: 0, ox: 32 },
     { n: 2, label: 'Primary action', bx: 0, by: -38, ax: 0.5, ay: 0, color: '#FF8D89' },
     { n: 3, label: 'Filters', bx: -22, by: -28, ax: 0, ay: 0.5 },
-    { n: 4, label: 'Search', bx: 0, by: -38, ax: 0.12, ay: 0 },
-    { n: 5, label: 'Bulk action bar', bx: 0, by: -36, ax: 0.5, ay: 0, ox: -40 },
+    { n: 4, label: 'Search', bx: 0, by: -38, ax: 0.12, ay: 0, ox: 32 },
+    { n: 5, label: 'Bulk action bar', bx: 0, by: -36, ax: 0.5, ay: 0, ox: -140 },
     { n: 6, label: 'Sorting', bx: 0, by: -34, ax: 0.2, ay: 0 },
-    { n: 7, label: 'Multi-select', bx: -22, by: -28, ax: 0.5, ay: 0.5 },
+    { n: 7, label: 'Multi-select', bx: -22, by: -28, ax: 0.5, ay: 0.5, ox: -20 },
     { n: 8, label: 'Expanding rows', bx: -22, by: -28, ax: 0.5, ay: 0.5, ox: -16 },
-    { n: 9, label: 'Pagination', bx: 0, by: -36, ax: 0.5, ay: 0, ox: -24 }
+    { n: 9, label: 'Pagination', bx: 0, by: -36, ax: 0.5, ay: 0, ox: -64 }
 ];
 
 const ESSENTIAL_CALLOUTS = [

@@ -8,7 +8,7 @@
     <link rel="shortcut icon" href="/images/H-favi.png" type="image/png">
     <link rel="apple-touch-icon" href="/images/H-favi.png">
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="CSS/campaigns-table.css?v=7">
+    <link rel="stylesheet" href="CSS/campaigns-table.css?v=8">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -434,12 +434,31 @@
             margin: 0 0 16px;
             padding-left: 1.25rem;
             color: var(--tables-muted);
-            line-height: 1.8;
+            line-height: 1.65;
+        }
+
+        .tables-doc .task-list li {
+            margin-bottom: 10px;
+        }
+
+        .tables-doc .task-list li:last-child {
+            margin-bottom: 0;
         }
 
         .tables-doc .task-list ul {
             margin: 8px 0 0;
             padding-left: 1.25rem;
+        }
+
+        .tables-doc .task-list a {
+            color: var(--tables-text);
+            text-decoration: underline;
+            text-underline-offset: 2px;
+        }
+
+        .tables-doc .task-list a:hover {
+            color: var(--color-link-hover);
+            opacity: 1;
         }
 
         .tables-doc .use-case-list {
@@ -616,7 +635,10 @@
             </div>
             <ul class="sidebar-nav">
                 <li>
-                    <a class="sidebar-link is-parent" href="#table-users">Table users</a>
+                    <a class="sidebar-link is-parent" href="#why-this-guide">Why this guide?</a>
+                    <ul class="sidebar-group">
+                        <li><a class="sidebar-link" href="#table-users">Table users</a></li>
+                    </ul>
                 </li>
                 <li>
                     <a class="sidebar-link is-parent" href="#anatomy">Anatomy</a>
@@ -666,7 +688,10 @@
                     data-focus="overview"
                     data-label="Skeleton table diagram with all regions out of focus">
                 </div>
-                <p class="section-lead" style="margin-top: 20px;">Why a data table design guide?</p>
+            </section>
+
+            <section id="why-this-guide" class="section">
+                <h2 class="section-title">Why a table design guide?</h2>
                 <p class="section-text">After a decade of designing enterprise applications, data tables remain heavily nuanced and create more confusion for designers, PMs, engineers, and end-users than teams expect.</p>
                 <p class="section-text">With hundreds of micro-components they're also expensive to design well. Re-usable Figma and Code components dramatically reduce design and engineering time while creating more consistent user experiences.</p>
                 <button
@@ -686,8 +711,8 @@
             </section>
 
             <section id="table-users" class="section">
-                <h2 class="section-title">Table users</h2>
-                <p class="section-text">Most tables are designed to support 4 common user tasks:</p>
+                <h3 class="section-subtitle">Table users</h3>
+                <p class="section-text">Data tables support 4 common user tasks:</p>
                 <ul class="task-list use-case-list">
                     <li>find records</li>
                     <li>compare data</li>
@@ -803,7 +828,7 @@
 
             <section id="filters" class="section">
                 <h3 class="section-subtitle">Filters</h3>
-                <p class="section-text">In large data sets filters allow users to narrow their table results down to a smaller set of records with some shared characteristic(s).</p>
+                <p class="section-text">In large data sets filters can help users narrow the table view down to a smaller set of records that share some confined characteristic(s).</p>
                 <ul class="task-list">
                     <li>Table filters usually correspond to visible columns in the table but are not required to.</li>
                     <li>Each workflow will have different filtering needs, and not every column will always deserve a filter.</li>
@@ -1081,7 +1106,7 @@
     <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/@babel/standalone@7.26.9/babel.min.js" crossorigin="anonymous"></script>
-    <script type="text/babel" src="js/campaigns-table.jsx?v=7"></script>
-    <script type="text/babel" src="js/table-guide-demo.jsx?v=7"></script>
+    <script type="text/babel" src="js/campaigns-table.jsx?v=8"></script>
+    <script type="text/babel" src="js/table-guide-demo.jsx?v=8"></script>
 </body>
 </html>

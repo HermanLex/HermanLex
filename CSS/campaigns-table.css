@@ -877,6 +877,16 @@ body.ct-is-resizing * {
     background: #e4e4e4;
 }
 
+#cover-table-skeleton .ct-sk-title {
+    width: 280px;
+    max-width: 70%;
+}
+
+#cover-table-skeleton .ct-sk-subtitle {
+    width: 358px;
+    max-width: 60%;
+}
+
 .ct-sk-cta {
     width: 148px;
     height: 40px;

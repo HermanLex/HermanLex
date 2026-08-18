@@ -14,6 +14,8 @@ function getGuideDefaults(focus) {
                     status: ['Live', 'Draft', 'Paused', 'Ended']
                 }
             };
+        case 'expand':
+            return { expandedIds: new Set(['cmp-01']) };
         case 'select':
         case 'bulk':
             return { selectedIds: new Set(['cmp-01', 'cmp-02']) };
@@ -155,7 +157,7 @@ function TableGuideDemo({ focus, title, subtitle, asHeading = false }) {
     const [filterValues, setFilterValues] = useState(() => defaults.filterValues || EMPTY_FILTER_VALUES);
     const [search, setSearch] = useState('');
     const [selectedIds, setSelectedIds] = useState(() => defaults.selectedIds || new Set());
-    const [expandedIds, setExpandedIds] = useState(() => new Set());
+    const [expandedIds, setExpandedIds] = useState(() => defaults.expandedIds || new Set());
     const [openMenu, setOpenMenu] = useState(null);
     const [openRowMenu, setOpenRowMenu] = useState(null);
     const [toast, setToast] = useState('');
