@@ -452,7 +452,7 @@ function TableCallouts({ wrapRef, layoutKey }) {
     const [marks, setMarks] = useState([]);
 
     const measure = useCallback(() => {
-        const wrap = wrapRef.current;
+        const wrap = wrapRef.current || document.querySelector('.ct-wrap--callouts');
         if (!wrap) return;
 
         const wrapRect = wrap.getBoundingClientRect();
@@ -487,22 +487,30 @@ function TableCallouts({ wrapRef, layoutKey }) {
     }, [wrapRef]);
 
     useLayoutEffect(() => {
-        measure();
-        const wrap = wrapRef.current;
-        if (!wrap) return undefined;
+        let cancelled = false;
+        const run = () => {
+            if (!cancelled) measure();
+        };
 
-        const observer = new ResizeObserver(measure);
-        observer.observe(wrap);
-        const scrollEl = wrap.querySelector('.ct-table-scroll');
-        scrollEl?.addEventListener('scroll', measure, { passive: true });
-        window.addEventListener('resize', measure);
+        run();
+        const frame = window.requestAnimationFrame(run);
+        const timeout = window.setTimeout(run, 0);
+        const wrap = wrapRef.current || document.querySelector('.ct-wrap--callouts');
+        const observer = wrap ? new ResizeObserver(run) : null;
+        if (wrap) observer.observe(wrap);
+        const scrollEl = wrap?.querySelector('.ct-table-scroll');
+        scrollEl?.addEventListener('scroll', run, { passive: true });
+        window.addEventListener('resize', run);
 
         return () => {
-            observer.disconnect();
-            scrollEl?.removeEventListener('scroll', measure);
-            window.removeEventListener('resize', measure);
+            cancelled = true;
+            window.cancelAnimationFrame(frame);
+            window.clearTimeout(timeout);
+            observer?.disconnect();
+            scrollEl?.removeEventListener('scroll', run);
+            window.removeEventListener('resize', run);
         };
-    }, [measure, layoutKey]);
+    }, [measure, layoutKey, wrapRef]);
 
     if (marks.length === 0) return null;
 
