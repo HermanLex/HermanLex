@@ -821,7 +821,8 @@ body.ct-is-resizing * {
     pointer-events: auto;
 }
 
-.tables-doc .section > .ct-wrap--guide:first-child {
+.tables-doc .section > .ct-wrap--guide:first-child,
+.tables-doc #cover-table-skeleton .ct-wrap--guide {
     margin-top: 0;
     margin-bottom: 24px;
 }

@@ -799,6 +799,8 @@ function EssentialTableDemo({ label }) {
 }
 
 document.querySelectorAll('[data-table-skeleton]').forEach((host) => {
+    if (host.dataset.mounted === 'true') return;
+    host.dataset.mounted = 'true';
     const root = ReactDOM.createRoot(host);
     const focus = host.getAttribute('data-focus') || 'title';
 
@@ -809,7 +811,7 @@ document.querySelectorAll('[data-table-skeleton]').forEach((host) => {
 
     root.render(
         <TableGuideDemo
-            focus={focus}
+            focus={focus === 'overview' || focus === 'none' ? 'overview' : focus}
             title={host.getAttribute('data-title') || undefined}
             subtitle={host.getAttribute('data-subtitle') || undefined}
             asHeading={host.hasAttribute('data-as-heading')}
