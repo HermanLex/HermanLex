@@ -398,17 +398,18 @@ function filterHasValue(filterId, values) {
 }
 
 const CALLOUT_TIP_RADIUS = 4;
+const CALLOUT_COLOR = '#c45000';
 
 const OPTIONAL_CALLOUTS = [
     { n: 1, label: 'Title header', bx: 0, by: -38, ax: 0.15, ay: 0 },
-    { n: 2, label: 'Primary action', bx: 0, by: -38, ax: 0.5, ay: 0 },
-    { n: 3, label: 'Filters', bx: 0, by: -38, ax: 0.22, ay: 0 },
-    { n: 4, label: 'Search', bx: 0, by: -38, ax: 0.12, ay: 0.5 },
-    { n: 5, label: 'Bulk action bar', bx: 0, by: -36, ax: 0.5, ay: 0 },
+    { n: 2, label: 'Primary action', bx: 0, by: -38, ax: 0.5, ay: 0, color: '#FF8D89' },
+    { n: 3, label: 'Filters', bx: -22, by: -28, ax: 0, ay: 0.5 },
+    { n: 4, label: 'Search', bx: 0, by: -38, ax: 0.12, ay: 0 },
+    { n: 5, label: 'Bulk action bar', bx: 0, by: -36, ax: 0.5, ay: 0, ox: -40 },
     { n: 6, label: 'Sorting', bx: 0, by: -34, ax: 0.2, ay: 0 },
     { n: 7, label: 'Multi-select', bx: -22, by: -28, ax: 0.5, ay: 0.5 },
-    { n: 8, label: 'Expanding rows', bx: 22, by: -28, ax: 0.5, ay: 0.5 },
-    { n: 9, label: 'Pagination', bx: 0, by: -36, ax: 0.5, ay: 0 }
+    { n: 8, label: 'Expanding rows', bx: -22, by: -28, ax: 0.5, ay: 0.5, ox: -16 },
+    { n: 9, label: 'Pagination', bx: 0, by: -36, ax: 0.5, ay: 0, ox: -24 }
 ];
 
 class CalloutBoundary extends React.Component {
@@ -445,8 +446,8 @@ function TableCallouts({ wrapRef, layoutKey }) {
 
             const rect = el.getBoundingClientRect();
             const tip = {
-                x: rect.left - originX + rect.width * def.ax,
-                y: rect.top - originY + rect.height * def.ay
+                x: rect.left - originX + rect.width * def.ax + (def.ox || 0),
+                y: rect.top - originY + rect.height * def.ay + (def.oy || 0)
             };
             const badge = {
                 x: tip.x + def.bx,
@@ -456,6 +457,7 @@ function TableCallouts({ wrapRef, layoutKey }) {
             return {
                 n: def.n,
                 label: def.label,
+                color: def.color || CALLOUT_COLOR,
                 tip,
                 badge
             };
@@ -503,12 +505,14 @@ function TableCallouts({ wrapRef, layoutKey }) {
                             y1={mark.badge.y}
                             x2={mark.tip.x}
                             y2={mark.tip.y}
+                            stroke={mark.color}
                         />
                         <circle
                             className="ct-callout-tip"
                             cx={mark.tip.x}
                             cy={mark.tip.y}
                             r={CALLOUT_TIP_RADIUS}
+                            fill={mark.color}
                         />
                     </g>
                 ))}
@@ -930,7 +934,7 @@ function CampaignsTable({ showCallouts = false }) {
                                         scope="col"
                                         className={`ct-th${isSorted ? ' is-sorted' : ''}`}
                                         aria-sort={ariaSort}
-                                        {...(showCallouts && col.id === 'name' ? { 'data-callout': '6' } : {})}
+                                        {...(showCallouts && col.id === 'status' ? { 'data-callout': '6' } : {})}
                                     >
                                         <div className="ct-th-inner">
                                             <button
@@ -973,7 +977,8 @@ function CampaignsTable({ showCallouts = false }) {
                                 const selected = selectedIds.has(row.id);
                                 const expanded = expandedIds.has(row.id);
                                 const statusClass = `is-${row.status.toLowerCase()}`;
-                                const isCalloutRow = showCallouts && rowIndex === 0;
+                                const isSelectCalloutRow = showCallouts && rowIndex === 0;
+                                const isExpandCalloutRow = showCallouts && rowIndex === 2;
                                 return (
                                     <React.Fragment key={row.id}>
                                         <tr className={selected ? 'is-selected' : undefined}>
@@ -984,7 +989,7 @@ function CampaignsTable({ showCallouts = false }) {
                                                     checked={selected}
                                                     onChange={() => toggleRow(row.id)}
                                                     aria-label={`Select ${row.name}`}
-                                                    {...(isCalloutRow ? { 'data-callout': '7' } : {})}
+                                                    {...(isSelectCalloutRow ? { 'data-callout': '7' } : {})}
                                                 />
                                             </td>
                                             <td className="ct-expand-cell">
@@ -994,7 +999,7 @@ function CampaignsTable({ showCallouts = false }) {
                                                     aria-expanded={expanded}
                                                     aria-label={`${expanded ? 'Collapse' : 'Expand'} ${row.name}`}
                                                     onClick={() => toggleExpanded(row.id)}
-                                                    {...(isCalloutRow ? { 'data-callout': '8' } : {})}
+                                                    {...(isExpandCalloutRow ? { 'data-callout': '8' } : {})}
                                                 >
                                                     <Icon name="chevron" size={14} />
                                                 </button>
