@@ -34,13 +34,19 @@ function GuideSkBone({ className = '', style }) {
     return <span className={`ct-sk-bone ${className}`.trim()} style={style} aria-hidden="true" />;
 }
 
+function GuideSkHeading() {
+    return (
+        <div className="ct-sk-heading">
+            <GuideSkBone className="ct-sk-title" />
+            <GuideSkBone className="ct-sk-subtitle" />
+        </div>
+    );
+}
+
 function GuideSkHeader() {
     return (
         <div className="ct-header ct-guide-sk">
-            <div>
-                <GuideSkBone className="ct-sk-title" />
-                <GuideSkBone className="ct-sk-subtitle" />
-            </div>
+            <GuideSkHeading />
             <GuideSkBone className="ct-sk-cta" />
         </div>
     );
@@ -73,15 +79,13 @@ function GuideSkTableRows({ withActions = false }) {
             {Array.from({ length: GUIDE_PAGE_SIZE }, (_, index) => (
                 <tr key={index} className="ct-guide-sk-row">
                     <td><GuideSkBone className="ct-sk-sq" /></td>
-                    <td><GuideSkBone className="ct-sk-sq" /></td>
                     <td><GuideSkBone className="ct-sk-name" /></td>
                     <td className="ct-guide-sk-hide-sm"><GuideSkBone className="ct-sk-mid" /></td>
                     <td><GuideSkBone className="ct-sk-mid" /></td>
+                    <td><GuideSkBone className="ct-sk-mid" /></td>
                     {withActions ? (
                         <td><GuideSkBone className="ct-sk-sq" /></td>
-                    ) : (
-                        <td><GuideSkBone className="ct-sk-sq" /></td>
-                    )}
+                    ) : null}
                 </tr>
             ))}
         </>
@@ -351,7 +355,8 @@ function TableGuideDemo({ focus, title, subtitle, asHeading = false }) {
 
     const TitleTag = asHeading ? 'h2' : 'h3';
     const showActionsCol = focus === 'actions';
-    const tableColSpan = 2 + DATA_COLUMNS.length + (showActionsCol ? 1 : 0);
+    const showExpandCol = focus === 'expand';
+    const tableColSpan = (showExpandCol ? 2 : 1) + DATA_COLUMNS.length + (showActionsCol ? 1 : 0);
 
     return (
         <div className="ct-wrap ct-wrap--guide" data-focus={focus} aria-label="Table guide demo">
@@ -363,10 +368,7 @@ function TableGuideDemo({ focus, title, subtitle, asHeading = false }) {
                             <p className="ct-subtitle">{displaySubtitle}</p>
                         </div>
                     ) : (
-                        <div className="ct-guide-sk">
-                            <GuideSkBone className="ct-sk-title" />
-                            <GuideSkBone className="ct-sk-subtitle" />
-                        </div>
+                        <GuideSkHeading />
                     )}
                     {isGuideRegionActive(focus, 'primary') ? (
                         <button
@@ -498,7 +500,7 @@ function TableGuideDemo({ focus, title, subtitle, asHeading = false }) {
                 <table className="ct-table">
                     <colgroup>
                         <col className="ct-col-check" />
-                        <col className="ct-col-expand" />
+                        {showExpandCol ? <col className="ct-col-expand" /> : null}
                         {DATA_COLUMNS.map((col) => (
                             <col key={col.id} style={{ width: col.width, minWidth: col.minWidth }} />
                         ))}
@@ -509,9 +511,11 @@ function TableGuideDemo({ focus, title, subtitle, asHeading = false }) {
                             <th className="ct-check-cell" scope="col">
                                 <span className="visually-hidden">Select</span>
                             </th>
-                            <th className="ct-expand-cell" scope="col">
-                                <span className="visually-hidden">Expand</span>
-                            </th>
+                            {showExpandCol ? (
+                                <th className="ct-expand-cell" scope="col">
+                                    <span className="visually-hidden">Expand</span>
+                                </th>
+                            ) : null}
                             {isGuideRegionActive(focus, 'sorting') ? (
                                 DATA_COLUMNS.map((col) => {
                                     const isSorted = sortKey === col.id;
@@ -584,8 +588,8 @@ function TableGuideDemo({ focus, title, subtitle, asHeading = false }) {
                                                     <GuideSkBone className="ct-sk-sq" />
                                                 )}
                                             </td>
-                                            <td className="ct-expand-cell">
-                                                {focus === 'expand' ? (
+                                            {showExpandCol ? (
+                                                <td className="ct-expand-cell">
                                                     <button
                                                         type="button"
                                                         className="ct-expand"
@@ -595,10 +599,8 @@ function TableGuideDemo({ focus, title, subtitle, asHeading = false }) {
                                                     >
                                                         <Icon name="chevron" size={14} />
                                                     </button>
-                                                ) : (
-                                                    <GuideSkBone className="ct-sk-sq" />
-                                                )}
-                                            </td>
+                                                </td>
+                                            ) : null}
                                             <td className="ct-cell-name">
                                                 <GuideSkBone className="ct-sk-name" />
                                             </td>

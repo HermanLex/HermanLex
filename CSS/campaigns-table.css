@@ -765,6 +765,23 @@ body.ct-is-resizing * {
     pointer-events: none;
 }
 
+.tables-doc .ct-wrap--guide:not(.ct-wrap--essential) {
+    border: 16px solid #F8F8F8;
+    border-radius: 32px;
+    background: #fff;
+}
+
+.tables-doc .ct-wrap--guide .ct-bulk {
+    background: #fafafa;
+}
+
+.tables-doc .ct-wrap--guide:not(.ct-wrap--essential) .ct-bulk {
+    margin: 0 -24px;
+    padding-left: 24px;
+    padding-right: 24px;
+    border-radius: 0;
+}
+
 .tables-doc .panel-stack .ct-wrap {
     margin: 0;
 }
@@ -838,16 +855,23 @@ body.ct-is-resizing * {
     background: #e4e4e4;
 }
 
+.ct-sk-heading {
+    flex: 1;
+    min-width: 0;
+}
+
 .ct-sk-title {
-    height: 28px;
-    width: min(320px, 70%);
-    border-radius: 8px;
-    background: #d0d0d0;
+    height: 32px;
+    width: 220px;
+    max-width: 70%;
+    border-radius: 10px;
+    background: #d8d8d8;
 }
 
 .ct-sk-subtitle {
-    height: 14px;
-    width: min(420px, 92%);
+    height: 12px;
+    width: 168px;
+    max-width: 50%;
     margin-top: 10px;
     border-radius: 7px;
     background: #e4e4e4;
@@ -1008,6 +1032,13 @@ body.ct-is-resizing * {
     .ct-table-scroll {
         margin: 0 -14px;
         padding: 0 14px 8px;
+    }
+
+    .tables-doc .ct-wrap--guide:not(.ct-wrap--essential) .ct-bulk {
+        margin-left: -14px;
+        margin-right: -14px;
+        padding-left: 14px;
+        padding-right: 14px;
     }
 
     .ct-detail-row td {
