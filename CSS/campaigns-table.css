@@ -817,7 +817,7 @@ body.ct-is-resizing * {
 }
 
 .tables-doc .ct-wrap--essential {
-    padding: 8px 24px 16px;
+    padding: 56px 24px 20px 56px;
     pointer-events: auto;
 }
 

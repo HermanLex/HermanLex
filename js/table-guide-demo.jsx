@@ -736,11 +736,13 @@ function TableGuideDemo({ focus, title, subtitle, asHeading = false }) {
 const ESSENTIAL_ROW_COUNT = 5;
 
 function EssentialTableDemo({ label }) {
+    const wrapRef = useRef(null);
     const rows = ALL_CAMPAIGNS.slice(0, ESSENTIAL_ROW_COUNT);
 
     return (
         <div
-            className="ct-wrap ct-wrap--guide ct-wrap--essential"
+            className="ct-wrap ct-wrap--guide ct-wrap--essential ct-wrap--callouts"
+            ref={wrapRef}
             data-focus="essential"
             aria-label={label || 'Essential data table'}
         >
@@ -754,25 +756,30 @@ function EssentialTableDemo({ label }) {
                     <thead>
                         <tr>
                             {DATA_COLUMNS.map((col) => (
-                                <th key={col.id} scope="col">
+                                <th
+                                    key={col.id}
+                                    scope="col"
+                                    {...(col.id === 'name' ? { 'data-callout': '1' } : {})}
+                                >
                                     {col.label}
                                 </th>
                             ))}
                         </tr>
                     </thead>
                     <tbody>
-                        {rows.map((row) => (
+                        {rows.map((row, rowIndex) => (
                             <tr key={row.id}>
                                 <td className="ct-cell-name">
                                     <a
                                         className="ct-campaign-link"
                                         href={`#${row.id}`}
                                         onClick={(event) => event.preventDefault()}
+                                        {...(rowIndex === 0 ? { 'data-callout': '2' } : {})}
                                     >
                                         {row.name}
                                     </a>
                                 </td>
-                                <td>
+                                <td {...(rowIndex === 0 ? { 'data-callout': '3' } : {})}>
                                     <span className={`ct-status is-${row.status.toLowerCase()}`}>
                                         {row.status}
                                     </span>
@@ -784,6 +791,9 @@ function EssentialTableDemo({ label }) {
                     </tbody>
                 </table>
             </div>
+            <CalloutBoundary>
+                <TableCallouts wrapRef={wrapRef} defs={ESSENTIAL_CALLOUTS} layoutKey="essential" />
+            </CalloutBoundary>
         </div>
     );
 }

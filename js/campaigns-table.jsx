@@ -412,6 +412,12 @@ const OPTIONAL_CALLOUTS = [
     { n: 9, label: 'Pagination', bx: 0, by: -36, ax: 0.5, ay: 0, ox: -24 }
 ];
 
+const ESSENTIAL_CALLOUTS = [
+    { n: 1, label: 'Column header', bx: 0, by: -38, ax: 0.08, ay: 0 },
+    { n: 2, label: 'Rows', bx: -42, by: 0, ax: 0, ay: 0.5 },
+    { n: 3, label: 'Columns', bx: 0, by: -100, ax: 1, ay: 0.5 }
+];
+
 class CalloutBoundary extends React.Component {
     constructor(props) {
         super(props);
@@ -428,11 +434,11 @@ class CalloutBoundary extends React.Component {
     }
 }
 
-function TableCallouts({ wrapRef, layoutKey }) {
+function TableCallouts({ wrapRef, layoutKey, defs = OPTIONAL_CALLOUTS }) {
     const [marks, setMarks] = useState([]);
 
     const measure = useCallback(() => {
-        const wrap = wrapRef.current || document.querySelector('.ct-wrap--callouts');
+        const wrap = wrapRef.current;
         if (!wrap) return;
 
         const wrapRect = wrap.getBoundingClientRect();
@@ -440,7 +446,7 @@ function TableCallouts({ wrapRef, layoutKey }) {
         const originX = wrapRect.left + (parseFloat(styles.borderLeftWidth) || 0);
         const originY = wrapRect.top + (parseFloat(styles.borderTopWidth) || 0);
 
-        const next = OPTIONAL_CALLOUTS.map((def) => {
+        const next = defs.map((def) => {
             const el = wrap.querySelector(`[data-callout="${def.n}"]`);
             if (!el) return null;
 
@@ -464,7 +470,7 @@ function TableCallouts({ wrapRef, layoutKey }) {
         }).filter(Boolean);
 
         setMarks((prev) => (JSON.stringify(prev) === JSON.stringify(next) ? prev : next));
-    }, [wrapRef]);
+    }, [wrapRef, defs]);
 
     useLayoutEffect(() => {
         let cancelled = false;
@@ -475,7 +481,7 @@ function TableCallouts({ wrapRef, layoutKey }) {
         run();
         const frame = window.requestAnimationFrame(run);
         const timeout = window.setTimeout(run, 0);
-        const wrap = wrapRef.current || document.querySelector('.ct-wrap--callouts');
+        const wrap = wrapRef.current;
         const observer = wrap ? new ResizeObserver(run) : null;
         if (wrap) observer.observe(wrap);
         const scrollEl = wrap?.querySelector('.ct-table-scroll');
@@ -1133,6 +1139,7 @@ function CampaignsTable({ showCallouts = false }) {
                 <CalloutBoundary>
                     <TableCallouts
                         wrapRef={wrapRef}
+                        defs={OPTIONAL_CALLOUTS}
                         layoutKey={[
                             selectedIds.size,
                             expandedIds.size,
