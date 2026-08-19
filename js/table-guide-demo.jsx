@@ -874,7 +874,7 @@ function CoverFeatureToggle({ id, label, checked, onToggle }) {
 }
 
 function CoverTablePlayground({ label }) {
-    const [activeRegions, setActiveRegions] = useState(() => new Set());
+    const [activeRegions, setActiveRegions] = useState(() => new Set(['title']));
 
     function toggleRegion(id) {
         setActiveRegions((prev) => {
@@ -895,6 +895,12 @@ function CoverTablePlayground({ label }) {
 
     return (
         <div className="cover-table-playground" aria-label={label || 'Interactive table skeleton'}>
+            <TableGuideDemo
+                focus={activeRegions}
+                title="Interactive table demo"
+                subtitle="Toggle various table features on/off below to activate interactive features"
+                asHeading
+            />
             <ul className="callout-legend cover-feature-toggles" aria-label="Optional table features">
                 {COVER_OPTIONAL_FEATURES.map((feature) => (
                     <CoverFeatureToggle
@@ -906,7 +912,6 @@ function CoverTablePlayground({ label }) {
                     />
                 ))}
             </ul>
-            <TableGuideDemo focus={activeRegions} />
         </div>
     );
 }
