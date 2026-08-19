@@ -775,7 +775,7 @@ function TableGuideDemo({ focus, title, subtitle, asHeading = false }) {
     );
 }
 
-const ESSENTIAL_ROW_COUNT = 5;
+const ESSENTIAL_ROW_COUNT = 3;
 
 function EssentialTableDemo({ label }) {
     const wrapRef = useRef(null);
