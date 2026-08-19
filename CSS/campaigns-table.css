@@ -786,6 +786,10 @@ body.ct-is-resizing * {
     margin: 0;
 }
 
+.tables-doc .panel-stack .ct-wrap--callouts {
+    padding: 56px 24px 20px 56px;
+}
+
 .ct-wrap--callouts {
     padding-top: 56px;
 }
@@ -821,15 +825,17 @@ body.ct-is-resizing * {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 22px;
+    min-width: 22px;
     height: 22px;
+    padding: 0 6px;
     margin: 0;
-    border-radius: 50%;
+    border-radius: 999px;
     background: #c45000;
     color: #fff;
     font-size: 0.75rem;
     font-weight: 700;
     line-height: 1;
+    box-sizing: border-box;
     transform: translate(-50%, -50%);
 }
 

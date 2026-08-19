@@ -400,17 +400,22 @@ function filterHasValue(filterId, values) {
 const CALLOUT_TIP_RADIUS = 4;
 const CALLOUT_COLOR = '#c45000';
 
-const OPTIONAL_CALLOUTS = [
-    { n: 1, label: 'Title header', bx: 0, by: -38, ax: 0.15, ay: 0, ox: 32 },
-    { n: 2, label: 'Primary action', bx: 0, by: -38, ax: 0.5, ay: 0, color: '#FF8D89' },
-    { n: 3, label: 'Filters', bx: -22, by: -28, ax: 0, ay: 0.5 },
-    { n: 4, label: 'Search', bx: 0, by: -38, ax: 0.12, ay: 0, ox: 32 },
-    { n: 5, label: 'Bulk action bar', bx: 0, by: -36, ax: 0.5, ay: 0, ox: -140 },
-    { n: 6, label: 'Sorting', bx: 0, by: -34, ax: 0.2, ay: 0 },
-    { n: 7, label: 'Multi-select', bx: -22, by: -28, ax: 0.5, ay: 0.5, ox: -20 },
-    { n: 8, label: 'Expanding rows', bx: -22, by: -28, ax: 0.5, ay: 0.5, ox: -16 },
-    { n: 9, label: 'Pagination', bx: 0, by: -36, ax: 0.5, ay: 0, ox: -64 }
+const ANATOMY_CALLOUTS = [
+    { n: 1, label: 'Column header', bx: 0, by: -38, ax: 0.08, ay: 0 },
+    { n: 2, label: 'Rows', bx: -42, by: 0, ax: 0, ay: 0.5 },
+    { n: 3, label: 'Columns', bx: 20, by: -88, ax: 1, ay: 0.5 },
+    { n: 4, label: 'Title header', bx: 0, by: -38, ax: 0.15, ay: 0, ox: 32 },
+    { n: 5, label: 'Primary action', bx: 0, by: -38, ax: 0.5, ay: 0, color: '#FF8D89' },
+    { n: 6, label: 'Filters', bx: -22, by: -28, ax: 0, ay: 0.5 },
+    { n: 7, label: 'Search', bx: 0, by: -38, ax: 0.12, ay: 0, ox: 32 },
+    { n: 8, label: 'Bulk action bar', bx: 0, by: -36, ax: 0.5, ay: 0, ox: -140 },
+    { n: 9, label: 'Sorting', bx: 0, by: -34, ax: 0.2, ay: 0 },
+    { n: 10, label: 'Multi-select', bx: -22, by: -28, ax: 0.5, ay: 0.5, ox: -20 },
+    { n: 11, label: 'Expanding rows', bx: -22, by: -28, ax: 0.5, ay: 0.5, ox: -16 },
+    { n: 12, label: 'Pagination', bx: 0, by: -36, ax: 0.5, ay: 0, ox: -64 }
 ];
+
+const OPTIONAL_CALLOUTS = ANATOMY_CALLOUTS;
 
 const ESSENTIAL_CALLOUTS = [
     { n: 1, label: 'Column header', bx: 0, by: -38, ax: 0.08, ay: 0 },
@@ -434,7 +439,7 @@ class CalloutBoundary extends React.Component {
     }
 }
 
-function TableCallouts({ wrapRef, layoutKey, defs = OPTIONAL_CALLOUTS }) {
+function TableCallouts({ wrapRef, layoutKey, defs = ANATOMY_CALLOUTS }) {
     const [marks, setMarks] = useState([]);
 
     const measure = useCallback(() => {
@@ -791,7 +796,7 @@ function CampaignsTable({ showCallouts = false }) {
         >
             <div className="ct-header">
                 <div>
-                    <h3 className="ct-title" {...(showCallouts ? { 'data-callout': '1' } : {})}>
+                    <h3 className="ct-title" {...(showCallouts ? { 'data-callout': '4' } : {})}>
                         All Campaigns
                     </h3>
                     <p className="ct-subtitle">
@@ -802,7 +807,7 @@ function CampaignsTable({ showCallouts = false }) {
                     type="button"
                     className="ct-upload"
                     onClick={() => flash('Upload new — demo action')}
-                    {...(showCallouts ? { 'data-callout': '2' } : {})}
+                    {...(showCallouts ? { 'data-callout': '5' } : {})}
                 >
                     <Icon name="upload" size={16} />
                     Upload new
@@ -817,7 +822,7 @@ function CampaignsTable({ showCallouts = false }) {
                         open={openMenu === 'picker'}
                         onToggle={() => setOpenMenu((menu) => (menu === 'picker' ? null : 'picker'))}
                         onClose={closeMenus}
-                        callout={showCallouts ? '3' : undefined}
+                        callout={showCallouts ? '6' : undefined}
                     />
 
                     {FILTER_DEFS.filter((def) => enabledFilters.includes(def.id)).map((def) =>
@@ -832,7 +837,7 @@ function CampaignsTable({ showCallouts = false }) {
                     ) : null}
                 </div>
 
-                <div className="ct-search" {...(showCallouts ? { 'data-callout': '4' } : {})}>
+                <div className="ct-search" {...(showCallouts ? { 'data-callout': '7' } : {})}>
                     <span className="ct-search-icon">
                         <Icon name="search" size={20} />
                     </span>
@@ -854,7 +859,7 @@ function CampaignsTable({ showCallouts = false }) {
                 className="ct-bulk"
                 role="region"
                 aria-label="Bulk actions"
-                {...(showCallouts ? { 'data-callout': '5' } : {})}
+                {...(showCallouts ? { 'data-callout': '8' } : {})}
             >
                 <div className="ct-bulk-left">
                     <input
@@ -940,7 +945,8 @@ function CampaignsTable({ showCallouts = false }) {
                                         scope="col"
                                         className={`ct-th${isSorted ? ' is-sorted' : ''}`}
                                         aria-sort={ariaSort}
-                                        {...(showCallouts && col.id === 'status' ? { 'data-callout': '6' } : {})}
+                                        {...(showCallouts && col.id === 'name' ? { 'data-callout': '1' } : {})}
+                                        {...(showCallouts && col.id === 'status' ? { 'data-callout': '9' } : {})}
                                     >
                                         <div className="ct-th-inner">
                                             <button
@@ -995,7 +1001,7 @@ function CampaignsTable({ showCallouts = false }) {
                                                     checked={selected}
                                                     onChange={() => toggleRow(row.id)}
                                                     aria-label={`Select ${row.name}`}
-                                                    {...(isSelectCalloutRow ? { 'data-callout': '7' } : {})}
+                                                    {...(isSelectCalloutRow ? { 'data-callout': '10' } : {})}
                                                 />
                                             </td>
                                             <td className="ct-expand-cell">
@@ -1005,7 +1011,7 @@ function CampaignsTable({ showCallouts = false }) {
                                                     aria-expanded={expanded}
                                                     aria-label={`${expanded ? 'Collapse' : 'Expand'} ${row.name}`}
                                                     onClick={() => toggleExpanded(row.id)}
-                                                    {...(isExpandCalloutRow ? { 'data-callout': '8' } : {})}
+                                                    {...(isExpandCalloutRow ? { 'data-callout': '11' } : {})}
                                                 >
                                                     <Icon name="chevron" size={14} />
                                                 </button>
@@ -1018,11 +1024,12 @@ function CampaignsTable({ showCallouts = false }) {
                                                         event.preventDefault();
                                                         flash(`Open ${row.name}`);
                                                     }}
+                                                    {...(isSelectCalloutRow ? { 'data-callout': '2' } : {})}
                                                 >
                                                     {row.name}
                                                 </a>
                                             </td>
-                                            <td>
+                                            <td {...(isSelectCalloutRow ? { 'data-callout': '3' } : {})}>
                                                 <span className={`ct-status ${statusClass}`}>
                                                     {row.status}
                                                 </span>
@@ -1050,7 +1057,7 @@ function CampaignsTable({ showCallouts = false }) {
                 className="ct-pagination"
                 role="navigation"
                 aria-label="Table pagination"
-                {...(showCallouts ? { 'data-callout': '9' } : {})}
+                {...(showCallouts ? { 'data-callout': '12' } : {})}
             >
                 <div className="ct-page-size">
                     <label htmlFor={`${pageInputId}-size`}>Items per page</label>
@@ -1139,7 +1146,7 @@ function CampaignsTable({ showCallouts = false }) {
                 <CalloutBoundary>
                     <TableCallouts
                         wrapRef={wrapRef}
-                        defs={OPTIONAL_CALLOUTS}
+                        defs={ANATOMY_CALLOUTS}
                         layoutKey={[
                             selectedIds.size,
                             expandedIds.size,
