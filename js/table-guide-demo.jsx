@@ -901,6 +901,7 @@ function CoverTablePlayground({ label }) {
                 subtitle="Toggle various table features on/off below to activate interactive features"
                 asHeading
             />
+            <p className="cover-feature-note">Toggle the various features below to try them in the above table graphic</p>
             <ul className="callout-legend cover-feature-toggles" aria-label="Optional table features">
                 {COVER_OPTIONAL_FEATURES.map((feature) => (
                     <CoverFeatureToggle
