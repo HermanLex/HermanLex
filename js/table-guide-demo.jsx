@@ -477,26 +477,30 @@ function TableGuideDemo({ focus, title, subtitle, asHeading = false }) {
 
             {isGuideRegionActive(focus, 'bulk') || isGuideRegionActive(focus, 'select') ? (
                 <div className="ct-bulk is-guide-active" role="region" aria-label="Bulk actions">
-                    <div className="ct-bulk-left">
-                        <input
-                            className="ct-checkbox"
-                            type="checkbox"
-                            checked={allVisibleSelected}
-                            ref={(node) => {
-                                if (node) node.indeterminate = someVisibleSelected;
-                            }}
-                            onChange={toggleSelectAllVisible}
-                            aria-label="Select all rows on this page"
-                        />
-                        <span className="ct-bulk-count">
-                            {selectedCount}/{ALL_CAMPAIGNS.length}
-                        </span>
-                        {selectedCount < filteredIds.length ? (
-                            <button type="button" className="ct-select-all" onClick={selectAllFiltered}>
-                                Select all {filteredIds.length}
-                            </button>
-                        ) : null}
-                    </div>
+                    {isGuideRegionActive(focus, 'select') || !(focus instanceof Set) ? (
+                        <div className="ct-bulk-left">
+                            <input
+                                className="ct-checkbox"
+                                type="checkbox"
+                                checked={allVisibleSelected}
+                                ref={(node) => {
+                                    if (node) node.indeterminate = someVisibleSelected;
+                                }}
+                                onChange={toggleSelectAllVisible}
+                                aria-label="Select all rows on this page"
+                            />
+                            <span className="ct-bulk-count">
+                                {selectedCount}/{ALL_CAMPAIGNS.length}
+                            </span>
+                            {selectedCount < filteredIds.length ? (
+                                <button type="button" className="ct-select-all" onClick={selectAllFiltered}>
+                                    Select all {filteredIds.length}
+                                </button>
+                            ) : null}
+                        </div>
+                    ) : (
+                        <div className="ct-bulk-left" />
+                    )}
                     {isGuideRegionActive(focus, 'bulk') ? (
                         <div className="ct-bulk-right">
                             <button
@@ -511,8 +515,8 @@ function TableGuideDemo({ focus, title, subtitle, asHeading = false }) {
                             <button
                                 type="button"
                                 className="ct-bulk-action"
-                                disabled={selectedCount === 0}
-                                onClick={() => flash(`Download PDF for ${selectedCount} row(s)`)}
+                                disabled={selectedCount === 0 && isGuideRegionActive(focus, 'select')}
+                                onClick={() => flash(`Download PDF for ${isGuideRegionActive(focus, 'select') ? `${selectedCount} row(s)` : 'table'}`)}
                             >
                                 <Icon name="download" size={20} />
                                 Download (PDF)
@@ -875,8 +879,16 @@ function CoverTablePlayground({ label }) {
     function toggleRegion(id) {
         setActiveRegions((prev) => {
             const next = new Set(prev);
-            if (next.has(id)) next.delete(id);
-            else next.add(id);
+            const turningOff = next.has(id);
+
+            if (turningOff) {
+                next.delete(id);
+                if (id === 'bulk') next.delete('select');
+            } else {
+                next.add(id);
+                if (id === 'select') next.add('bulk');
+            }
+
             return next;
         });
     }
