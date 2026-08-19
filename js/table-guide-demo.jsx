@@ -3,32 +3,42 @@
 const GUIDE_PAGE_SIZE = 3;
 const ROW_ACTION_OPTIONS = ['Edit', 'Duplicate', 'Archive', 'Delete'];
 
+function focusRegions(focus) {
+    if (focus instanceof Set) return focus;
+    if (!focus || focus === 'overview' || focus === 'none') return new Set();
+    return new Set([focus]);
+}
+
 function getGuideDefaults(focus) {
-    switch (focus) {
-        case 'filters':
-            return {
-                enabledFilters: ['program', 'status'],
-                filterValues: {
-                    ...EMPTY_FILTER_VALUES,
-                    program: ['Enterprise'],
-                    status: ['Live', 'Draft', 'Paused', 'Ended']
-                }
-            };
-        case 'expand':
-            return { expandedIds: new Set(['cmp-01']) };
-        case 'select':
-        case 'bulk':
-            return { selectedIds: new Set(['cmp-01', 'cmp-02']) };
-        case 'sorting':
-            return { sortKey: 'name', sortDir: 'asc' };
-        default:
-            return {};
+    const regions = focusRegions(focus);
+    const defaults = {};
+
+    if (regions.has('filters')) {
+        defaults.enabledFilters = ['program', 'status'];
+        defaults.filterValues = {
+            ...EMPTY_FILTER_VALUES,
+            program: ['Enterprise'],
+            status: ['Live', 'Draft', 'Paused', 'Ended']
+        };
     }
+    if (regions.has('expand')) {
+        defaults.expandedIds = new Set(['cmp-01']);
+    }
+    if (regions.has('select') || regions.has('bulk')) {
+        defaults.selectedIds = new Set(['cmp-01', 'cmp-02']);
+    }
+    if (regions.has('sorting')) {
+        defaults.sortKey = 'name';
+        defaults.sortDir = 'asc';
+    }
+
+    return defaults;
 }
 
 function isGuideRegionActive(focus, region) {
-    if (focus === region) return true;
-    if (focus === 'select' && (region === 'bulk' || region === 'select-col')) return true;
+    const regions = focusRegions(focus);
+    if (regions.has(region)) return true;
+    if (regions.has('select') && (region === 'bulk' || region === 'select-col')) return true;
     return false;
 }
 
@@ -244,6 +254,29 @@ function TableGuideDemo({ focus, title, subtitle, asHeading = false }) {
         return () => window.clearTimeout(timer);
     }, [toast]);
 
+    const prevRegionsRef = useRef(null);
+    useEffect(() => {
+        if (!(focus instanceof Set)) return undefined;
+
+        const prev = prevRegionsRef.current;
+        prevRegionsRef.current = new Set(focus);
+        if (!prev) return undefined;
+
+        const added = new Set([...focus].filter((id) => !prev.has(id)));
+        if (added.size === 0) return undefined;
+
+        const nextDefaults = getGuideDefaults(added);
+        if (nextDefaults.enabledFilters) setEnabledFilters(nextDefaults.enabledFilters);
+        if (nextDefaults.filterValues) setFilterValues(nextDefaults.filterValues);
+        if (nextDefaults.selectedIds) setSelectedIds(nextDefaults.selectedIds);
+        if (nextDefaults.expandedIds) setExpandedIds(nextDefaults.expandedIds);
+        if (nextDefaults.sortKey) {
+            setSortKey(nextDefaults.sortKey);
+            setSortDir(nextDefaults.sortDir || 'asc');
+        }
+        return undefined;
+    }, [focus]);
+
     function flash(message) {
         setToast(message);
     }
@@ -356,12 +389,13 @@ function TableGuideDemo({ focus, title, subtitle, asHeading = false }) {
     }
 
     const TitleTag = asHeading ? 'h2' : 'h3';
-    const showActionsCol = focus === 'actions';
-    const showExpandCol = focus === 'expand';
+    const showActionsCol = isGuideRegionActive(focus, 'actions');
+    const showExpandCol = isGuideRegionActive(focus, 'expand');
     const tableColSpan = (showExpandCol ? 2 : 1) + DATA_COLUMNS.length + (showActionsCol ? 1 : 0);
+    const focusAttr = focus instanceof Set ? ([...focus].join(' ') || 'overview') : focus;
 
     return (
-        <div className="ct-wrap ct-wrap--guide" data-focus={focus} aria-label="Table guide demo">
+        <div className="ct-wrap ct-wrap--guide" data-focus={focusAttr} aria-label="Table guide demo">
             {isGuideRegionActive(focus, 'title') || isGuideRegionActive(focus, 'primary') ? (
                 <div className={`ct-header${isGuideRegionActive(focus, 'title') || isGuideRegionActive(focus, 'primary') ? ' is-guide-active' : ''}`}>
                     {isGuideRegionActive(focus, 'title') ? (
@@ -463,7 +497,7 @@ function TableGuideDemo({ focus, title, subtitle, asHeading = false }) {
                             </button>
                         ) : null}
                     </div>
-                    {focus === 'bulk' ? (
+                    {isGuideRegionActive(focus, 'bulk') ? (
                         <div className="ct-bulk-right">
                             <button
                                 type="button"
@@ -569,7 +603,7 @@ function TableGuideDemo({ focus, title, subtitle, asHeading = false }) {
                         </tr>
                     </thead>
                     <tbody>
-                        {focus === 'expand' || focus === 'select' || focus === 'actions' ? (
+                        {isGuideRegionActive(focus, 'expand') || isGuideRegionActive(focus, 'select') || isGuideRegionActive(focus, 'actions') ? (
                             pageRows.map((row) => {
                                 const selected = selectedIds.has(row.id);
                                 const expanded = expandedIds.has(row.id);
@@ -630,7 +664,7 @@ function TableGuideDemo({ focus, title, subtitle, asHeading = false }) {
                                                 </td>
                                             ) : null}
                                         </tr>
-                                        {expanded && focus === 'expand' ? (
+                                        {expanded && isGuideRegionActive(focus, 'expand') ? (
                                             <tr className="ct-detail-row">
                                                 <td colSpan={tableColSpan}>
                                                     {row.programType} program · Owner {row.owner} · Budget{' '}
@@ -802,6 +836,69 @@ function EssentialTableDemo({ label }) {
     );
 }
 
+const COVER_OPTIONAL_FEATURES = [
+    { id: 'title', label: 'Title header' },
+    { id: 'primary', label: 'Primary action' },
+    { id: 'filters', label: 'Filters' },
+    { id: 'search', label: 'Search' },
+    { id: 'bulk', label: 'Bulk action bar' },
+    { id: 'sorting', label: 'Sorting' },
+    { id: 'select', label: 'Multi-select' },
+    { id: 'expand', label: 'Expanding rows' },
+    { id: 'pagination', label: 'Pagination' }
+];
+
+function CoverFeatureToggle({ id, label, checked, onToggle }) {
+    const inputId = useId();
+
+    return (
+        <li>
+            <label className="callout-legend-item cover-feature-toggle" htmlFor={inputId}>
+                <span className="cover-toggle">
+                    <input
+                        id={inputId}
+                        type="checkbox"
+                        checked={checked}
+                        onChange={() => onToggle(id)}
+                    />
+                    <span className="cover-toggle-ui" aria-hidden="true" />
+                </span>
+                <span>{label}</span>
+            </label>
+        </li>
+    );
+}
+
+function CoverTablePlayground({ label }) {
+    const [activeRegions, setActiveRegions] = useState(() => new Set());
+
+    function toggleRegion(id) {
+        setActiveRegions((prev) => {
+            const next = new Set(prev);
+            if (next.has(id)) next.delete(id);
+            else next.add(id);
+            return next;
+        });
+    }
+
+    return (
+        <div className="cover-table-playground" aria-label={label || 'Interactive table skeleton'}>
+            <ul className="callout-legend cover-feature-toggles" aria-label="Optional table features">
+                {COVER_OPTIONAL_FEATURES.map((feature) => (
+                    <CoverFeatureToggle
+                        key={feature.id}
+                        id={feature.id}
+                        label={feature.label}
+                        checked={activeRegions.has(feature.id)}
+                        onToggle={toggleRegion}
+                    />
+                ))}
+            </ul>
+            <TableGuideDemo focus={activeRegions} />
+        </div>
+    );
+}
+
 document.querySelectorAll('[data-table-skeleton]').forEach((host) => {
     if (host.dataset.mounted === 'true') return;
     host.dataset.mounted = 'true';
@@ -813,9 +910,16 @@ document.querySelectorAll('[data-table-skeleton]').forEach((host) => {
         return;
     }
 
+    if (focus === 'overview' || focus === 'playground' || host.id === 'cover-table-skeleton') {
+        root.render(
+            <CoverTablePlayground label={host.getAttribute('data-label') || undefined} />
+        );
+        return;
+    }
+
     root.render(
         <TableGuideDemo
-            focus={focus === 'overview' || focus === 'none' ? 'overview' : focus}
+            focus={focus === 'none' ? 'overview' : focus}
             title={host.getAttribute('data-title') || undefined}
             subtitle={host.getAttribute('data-subtitle') || undefined}
             asHeading={host.hasAttribute('data-as-heading')}

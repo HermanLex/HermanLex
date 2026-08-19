@@ -844,6 +844,10 @@ body.ct-is-resizing * {
     margin-bottom: 24px;
 }
 
+.tables-doc .cover-table-playground .ct-wrap--guide {
+    margin-top: 0;
+}
+
 .ct-wrap--guide .is-guide-active,
 .ct-wrap--guide .is-guide-active * {
     pointer-events: auto;
