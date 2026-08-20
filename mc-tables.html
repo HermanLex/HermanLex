@@ -22,6 +22,17 @@
             padding: 24px;
             border-radius: 24px;
             background-color: rgba(255, 255, 255, 0.93);
+            transition: background-color var(--transition-fast), opacity var(--transition-fast);
+        }
+
+        .back-nav-link:hover {
+            opacity: 1;
+            background-color: #e5e5e5;
+        }
+
+        .back-nav-link:hover .back-text {
+            text-decoration: underline;
+            text-underline-offset: 3px;
         }
         .presentation-image-full,
         .presentation-images img {

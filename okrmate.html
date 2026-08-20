@@ -20,6 +20,17 @@
             padding: 24px;
             border-radius: 24px;
             background-color: rgba(255, 255, 255, 0.93);
+            transition: background-color var(--transition-fast), opacity var(--transition-fast);
+        }
+
+        .back-nav-link:hover {
+            opacity: 1;
+            background-color: #e5e5e5;
+        }
+
+        .back-nav-link:hover .back-text {
+            text-decoration: underline;
+            text-underline-offset: 3px;
         }
         .presentation-image-full {
             width: 100%;
@@ -93,7 +104,10 @@
         <section class="tagline">
             <div class="container">
                 <h1 class="tagline-title">OKRmate.com (by Careerjump)</h1>
-                <p class="tagline-subtitle">As founding designer turned CTO - I designed everything from the concept and logo to marketing and mobile-first clickable prototypes. Eventually, I moved into developing and shipping a fully-functional web application with cutting edge AI-coding workflows. <a class="okrmate-try-link" href="https://okrmate.com" target="_blank" rel="noopener noreferrer">Try it out<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a></p>
+                <p class="tagline-subtitle">I built OKRmate as a solo-founder product experiment, owning the work across research, strategy, design, branding, and development.</p>
+                <p class="tagline-subtitle">I began by connecting with OKR coaches and potential users to understand the problem space, then developed the product concept, positioning, brand messaging, and UX/UI. From there, I wanted to challenge myself to go beyond Figma and explore what a product designer could realistically build with generative AI.</p>
+                <p class="tagline-subtitle">Using AI-assisted coding, I translated the designs into a modern full-stack web application, working with GitHub, Vercel, Supabase, APIs, authentication, databases, and separate staging and production environments.</p>
+                <p class="tagline-subtitle">The project became both a real product and a learning exercise: an opportunity to understand the technical architecture behind the experiences I design, while exploring a more AI-native approach to building software. <a class="okrmate-try-link" href="https://okrmate.com" target="_blank" rel="noopener noreferrer">Try it out<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a></p>
             </div>
         </section>
 
