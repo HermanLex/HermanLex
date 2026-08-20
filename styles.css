@@ -169,13 +169,19 @@ ul {
     font-weight: 500;
     color: var(--color-text);
     text-decoration: none;
-    transition: opacity var(--transition-fast);
+    transition: background-color var(--transition-fast), opacity var(--transition-fast);
     position: relative;
     padding-left: 0;
 }
 
 .back-nav-link:hover {
-    opacity: 0.7;
+    opacity: 1;
+    background-color: #e5e5e5;
+}
+
+.back-nav-link:hover .back-text {
+    text-decoration: underline;
+    text-underline-offset: 3px;
 }
 
 .back-arrow {
@@ -731,6 +737,7 @@ ul {
 .projects {
     padding: var(--space-md) var(--space-md) 40px;
     padding-bottom: 40px !important;
+    overflow: visible;
 }
 
 .projects .section-title {
@@ -818,6 +825,10 @@ h1.section-title,
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: clamp(24px, 2.5vw, 40px);
+    /* Room for card hover lift so tops aren't clipped */
+    padding-top: 8px;
+    margin-top: -8px;
+    overflow: visible;
 }
 
 .projects-carousel {
@@ -840,6 +851,9 @@ h1.section-title,
     width: 100%;
     overflow: hidden;
     touch-action: pan-y;
+    /* Room for card hover lift so tops aren't clipped by overflow:hidden */
+    padding-top: 8px;
+    margin-top: -8px;
 }
 
 .projects-carousel-track {
@@ -917,6 +931,21 @@ h1.section-title,
     object-fit: cover;
     border-radius: 0;
     display: block;
+}
+
+/* Work hub cards: dimmed at rest, full strength on hover */
+.projects-grid .project-card > a:hover {
+    opacity: 1;
+}
+
+.projects-grid .project-card .project-photo {
+    opacity: 0.72;
+    transition: opacity var(--transition-slow);
+}
+
+.projects-grid .project-card:hover .project-photo,
+.projects-grid .project-card:focus-within .project-photo {
+    opacity: 1;
 }
 
 .project-image-animated {
