@@ -173,7 +173,7 @@
         .slider-labels {
             display: flex;
             justify-content: space-between;
-            margin-top: 16px;
+            margin-bottom: 16px;
             font-size: 14px;
             color: #666;
             font-weight: 500;
@@ -253,6 +253,10 @@
                 <!-- Before/After Image Slider -->
                 <div class="image-slider-container">
                     <div class="image-slider">
+                        <div class="slider-labels">
+                            <button type="button" class="slider-label" data-slider-jump="before" aria-label="Show before image">Before</button>
+                            <button type="button" class="slider-label" data-slider-jump="after" aria-label="Show after image">After</button>
+                        </div>
                         <div class="slider-wrapper">
                             <div class="slider-after-container">
                                 <img src="images/EOP-after.png" alt="After" class="slider-image slider-after">
@@ -270,10 +274,6 @@
                                 </div>
                             </div>
                             <input type="range" min="0" max="100" value="25" class="slider-input" aria-label="Adjust before and after comparison">
-                        </div>
-                        <div class="slider-labels">
-                            <button type="button" class="slider-label" data-slider-jump="before" aria-label="Show before image">Before</button>
-                            <button type="button" class="slider-label" data-slider-jump="after" aria-label="Show after image">After</button>
                         </div>
                     </div>
                 </div>
