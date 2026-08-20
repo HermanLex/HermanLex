@@ -938,7 +938,7 @@ function EssentialTableDemo({ label }) {
 }
 
 const COVER_OPTIONAL_FEATURES = [
-    { id: 'title', label: 'Title header' },
+    { id: 'title', label: 'Title / description' },
     { id: 'primary', label: 'Primary action' },
     { id: 'filters', label: 'Filters' },
     { id: 'search', label: 'Search' },
@@ -971,7 +971,7 @@ function CoverFeatureToggle({ id, label, checked, onToggle }) {
 }
 
 function CoverTablePlayground({ label }) {
-    const [activeRegions, setActiveRegions] = useState(() => new Set(['title']));
+    const [activeRegions, setActiveRegions] = useState(() => new Set());
 
     function toggleRegion(id) {
         setActiveRegions((prev) => {
@@ -1004,8 +1004,8 @@ function CoverTablePlayground({ label }) {
         <div className="cover-table-playground" aria-label={label || 'Interactive table skeleton'}>
             <TableGuideDemo
                 focus={activeRegions}
-                title="Interactive table demo"
-                subtitle="Use the toggles above or click skeleton areas to turn features on. Use toggles to turn them off."
+                title="Clear descriptive table titles..."
+                subtitle="Improve scanability and help users understand what to expect in the table below"
                 asHeading
                 onActivateRegion={activateRegion}
                 leading={

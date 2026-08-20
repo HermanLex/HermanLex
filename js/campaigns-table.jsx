@@ -404,7 +404,7 @@ const ANATOMY_CALLOUTS = [
     { n: 1, label: 'Column header', bx: 0, by: -38, ax: 0.08, ay: 0 },
     { n: 2, label: 'Rows', bx: -42, by: 0, ax: 0, ay: 0.5 },
     { n: 3, label: 'Columns', bx: 20, by: -88, ax: 1, ay: 0.5 },
-    { n: 4, label: 'Title header', bx: 0, by: -38, ax: 0.15, ay: 0, ox: 32 },
+    { n: 4, label: 'Title / description', bx: 0, by: -38, ax: 0.15, ay: 0, ox: 32 },
     { n: 5, label: 'Primary action', bx: 0, by: -38, ax: 0.5, ay: 0, color: '#FF8D89' },
     { n: 6, label: 'Filters', bx: -22, by: -28, ax: 0, ay: 0.5 },
     { n: 7, label: 'Search', bx: 0, by: -38, ax: 0.12, ay: 0, ox: 32 },

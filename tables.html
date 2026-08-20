@@ -8,7 +8,7 @@
     <link rel="shortcut icon" href="/images/H-favi.png" type="image/png">
     <link rel="apple-touch-icon" href="/images/H-favi.png">
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="CSS/campaigns-table.css?v=16">
+    <link rel="stylesheet" href="CSS/campaigns-table.css?v=18">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -148,7 +148,6 @@
         .tables-doc .tagline-subtitle {
             margin: 0 0 28px;
             padding-bottom: 0;
-            max-width: 42rem;
         }
 
         .tables-doc #cover-table-skeleton {
@@ -453,6 +452,7 @@
             gap: 14px 20px;
             margin: 0 0 24px;
             padding: 20px;
+            max-width: 680px;
             pointer-events: auto;
             background: #f8f8f8;
             border: none;
@@ -789,7 +789,7 @@
                 <li>
                     <a class="sidebar-link is-parent" href="#table-features">Table features</a>
                     <ul class="sidebar-group">
-                        <li><a class="sidebar-link" href="#title-header">Title header</a></li>
+                        <li><a class="sidebar-link" href="#title-description">Title / description</a></li>
                         <li><a class="sidebar-link" href="#primary-action">Primary action</a></li>
                         <li><a class="sidebar-link" href="#expanding-rows">Expanding rows</a></li>
                         <li><a class="sidebar-link" href="#filters">Filters</a></li>
@@ -882,7 +882,7 @@
                             </li>
                             <li class="callout-legend-item">
                                 <span class="callout-legend-badge" aria-hidden="true">4</span>
-                                Title header
+                                Title / description
                             </li>
                             <li class="callout-legend-item">
                                 <span class="callout-legend-badge" aria-hidden="true">5</span>
@@ -929,10 +929,10 @@
                 <h2 class="section-title">Table features</h2>
             </section>
 
-            <section id="title-header" class="section">
-                <h3 class="section-subtitle">Title header (and/or sub-title description)</h3>
+            <section id="title-description" class="section">
+                <h3 class="section-subtitle">Title / description</h3>
                 <p class="section-text">Every table deserves a descriptive header so users can quickly identify the intended value before digging into dense details. A header tag can belong to the entire screen if the screen is centered around a table or can go directly on the table itself. Just don't leave tables floating half way down a screen without a title in sight.</p>
-                <div data-table-skeleton data-focus="title" data-label="Skeleton table diagram highlighting the title header"></div>
+                <div data-table-skeleton data-focus="title" data-label="Skeleton table diagram highlighting the title / description"></div>
             </section>
 
             <section id="primary-action" class="section">
@@ -1258,7 +1258,7 @@
     <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/@babel/standalone@7.26.9/babel.min.js" crossorigin="anonymous"></script>
-    <script type="text/babel" src="js/campaigns-table.jsx?v=16"></script>
-    <script type="text/babel" src="js/table-guide-demo.jsx?v=16"></script>
+    <script type="text/babel" src="js/campaigns-table.jsx?v=18"></script>
+    <script type="text/babel" src="js/table-guide-demo.jsx?v=18"></script>
 </body>
 </html>
