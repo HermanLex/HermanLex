@@ -475,10 +475,9 @@ function TableGuideDemo({ focus, title, subtitle, asHeading = false, onActivateR
                         <button
                             type="button"
                             className="ct-upload"
-                            onClick={() => flash('Upload new — demo action')}
+                            onClick={() => flash('Create new — demo action')}
                         >
-                            <Icon name="upload" size={16} />
-                            Upload new
+                            + Create new...
                         </button>
                     ) : (
                         <GuideSkActivate region="primary" focus={focus} onActivate={onActivateRegion}>

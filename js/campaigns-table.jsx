@@ -806,11 +806,10 @@ function CampaignsTable({ showCallouts = false }) {
                 <button
                     type="button"
                     className="ct-upload"
-                    onClick={() => flash('Upload new — demo action')}
+                    onClick={() => flash('Create new — demo action')}
                     {...(showCallouts ? { 'data-callout': '5' } : {})}
                 >
-                    <Icon name="upload" size={16} />
-                    Upload new
+                    + Create new...
                 </button>
             </div>
 
