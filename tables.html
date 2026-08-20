@@ -521,10 +521,19 @@
             padding-left: 1.25rem;
             color: var(--tables-muted);
             line-height: 1.65;
+            list-style: disc;
+        }
+
+        .tables-doc ol.task-list {
+            list-style: decimal;
         }
 
         .tables-doc .task-list li {
             margin-bottom: 10px;
+        }
+
+        .tables-doc .task-list li::marker {
+            color: #000;
         }
 
         .tables-doc .task-list li:last-child {
@@ -534,6 +543,7 @@
         .tables-doc .task-list ul {
             margin: 8px 0 0;
             padding-left: 1.25rem;
+            list-style: disc;
         }
 
         .tables-doc .task-list a {
@@ -791,7 +801,6 @@
                     <ul class="sidebar-group">
                         <li><a class="sidebar-link" href="#title-description">Title / description</a></li>
                         <li><a class="sidebar-link" href="#primary-action">Primary action</a></li>
-                        <li><a class="sidebar-link" href="#expanding-rows">Expanding rows</a></li>
                         <li><a class="sidebar-link" href="#filters">Filters</a></li>
                         <li><a class="sidebar-link" href="#table-search">Table search</a></li>
                         <li><a class="sidebar-link" href="#saved-searches">Saved searches</a></li>
@@ -800,6 +809,7 @@
                         <li><a class="sidebar-link" href="#table-actions">Table actions</a></li>
                         <li><a class="sidebar-link" href="#row-level-actions">Row-level actions</a></li>
                         <li><a class="sidebar-link" href="#bulk-actions-bar">Bulk actions bar</a></li>
+                        <li><a class="sidebar-link" href="#expanding-rows">Expanding rows</a></li>
                         <li><a class="sidebar-link" href="#table-settings">Table settings</a></li>
                         <li><a class="sidebar-link" href="#pagination-bar">Pagination bar</a></li>
                         <li><a class="sidebar-link" href="#items-per-page">Items per page</a></li>
@@ -832,7 +842,7 @@
 
             <section id="why-this-guide" class="section">
                 <h2 class="section-title">Why a table design guide?</h2>
-                <p class="section-text">Data tables are expensive to design and develop well. With hundreds of micro-components and countless edge cases, reusable Figma and code components can dramatically reduce design and engineering time, prevent bugs, and create more consistent experiences.</p>
+                <p class="section-text">With dozens of micro-components and countless edge cases, a solid table system is expensive to design well (for scale) and develop (without bugs). An intuitive design guide and configurable component code-base can dramatically reduce design and engineering time, prevent bugs, and create more consistent end-user experiences.</p>
                 <p class="section-text">They’re also more nuanced than they appear, creating confusion for designers, PMs, engineers, and end-users alike. After a decade of designing enterprise applications—and reviewing dozens of solutions for individual table features—I’ve hand-picked these patterns to balance scale, usability, and consistency.</p>
                 <button
                     type="button"
@@ -941,15 +951,6 @@
                 <div data-table-skeleton data-focus="primary" data-label="Skeleton table diagram highlighting the primary action"></div>
             </section>
 
-            <section id="expanding-rows" class="section">
-                <h3 class="section-subtitle">Expanding rows</h3>
-                <ul class="task-list">
-                    <li>Expanding rows allow a user to quickly access additional row-level information without navigating off to a details screen.</li>
-                    <li>This is a flexible i-frame to support a variety of content.</li>
-                </ul>
-                <div data-table-skeleton data-focus="expand" data-label="Skeleton table diagram highlighting expanding rows"></div>
-            </section>
-
             <section id="filters" class="section">
                 <h3 class="section-subtitle">Filters</h3>
                 <p class="section-text">In large data sets filters can help users narrow the table view down to a smaller set of records that share some confined characteristic(s).</p>
@@ -1034,6 +1035,15 @@
                     <li>All toolbar buttons should have icons. Also more compact icon only buttons may also work well depending on user context and icon choices.</li>
                 </ul>
                 <div data-table-skeleton data-focus="bulk" data-label="Skeleton table diagram highlighting the bulk actions bar"></div>
+            </section>
+
+            <section id="expanding-rows" class="section">
+                <h3 class="section-subtitle">Expanding rows</h3>
+                <ul class="task-list">
+                    <li>Expanding rows allow a user to quickly access additional row-level information without navigating off to a details screen.</li>
+                    <li>This is a flexible i-frame to support a variety of content.</li>
+                </ul>
+                <div data-table-skeleton data-focus="expand" data-label="Skeleton table diagram highlighting expanding rows"></div>
             </section>
 
             <section id="table-settings" class="section">
