@@ -172,42 +172,18 @@
         
         .slider-labels {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-start;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
             margin-bottom: 16px;
-            font-size: 14px;
-            color: #666;
-            font-weight: 500;
-        }
-        
-        .slider-label {
-            padding: 8px 16px;
-            background-color: #f5f5f5;
-            border: none;
-            border-radius: 4px;
-            font: inherit;
-            color: inherit;
-            cursor: pointer;
-            transition: background-color 150ms ease, color 150ms ease, text-decoration-color 150ms ease;
-            text-decoration: underline solid transparent;
-            text-underline-offset: 3px;
         }
 
-        .slider-label:hover {
-            background-color: #ebebeb;
-            color: #222;
-            text-decoration-color: currentColor;
-        }
-
-        .slider-label:focus-visible {
-            outline: 2px solid #222;
-            outline-offset: 2px;
-        }
-
-        .slider-label:active {
-            background-color: #dcdcdc;
-            color: #111;
-            text-decoration-color: currentColor;
-            transform: translateY(1px);
+        .slider-labels .project-link-ghost .slider-jump-icon {
+            display: inline-block;
+            flex-shrink: 0;
+            width: 16px;
+            height: 16px;
         }
         
         @media (max-width: 800px) {
@@ -249,13 +225,27 @@
         <!-- Content Section -->
         <section class="projects">
             <div class="container">
-                <h2 class="section-title">Drag the slider to see before and after</h2>
+                <h2 class="section-title">Drag the slider (or click) to see before and after</h2>
                 <!-- Before/After Image Slider -->
                 <div class="image-slider-container">
                     <div class="image-slider">
                         <div class="slider-labels">
-                            <button type="button" class="slider-label" data-slider-jump="before" aria-label="Show before image">Before</button>
-                            <button type="button" class="slider-label" data-slider-jump="after" aria-label="Show after image">After</button>
+                            <button type="button" class="project-link-ghost" data-slider-jump="before" aria-label="Show before image">
+                                Before
+                                <svg class="slider-jump-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M3 3v5h5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M12 7v5l3 1.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                            <button type="button" class="project-link-ghost" data-slider-jump="after" aria-label="Show after image">
+                                After
+                                <svg class="slider-jump-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                    <path d="M21 12a9 9 0 1 1-9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M21 3v5h-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M12 7v5l3 1.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
                         </div>
                         <div class="slider-wrapper">
                             <div class="slider-after-container">

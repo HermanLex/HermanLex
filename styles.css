@@ -2215,6 +2215,14 @@ h1.section-title,
     opacity: 1;
 }
 
+.project-link-ghost:active:not(:disabled):not(.project-link-ghost--disabled) {
+    background-color: #c45000;
+    border-color: #c45000;
+    color: #fff;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
 .project-link-ghost .arrow {
     display: inline-block;
     transition: transform var(--transition-fast);
