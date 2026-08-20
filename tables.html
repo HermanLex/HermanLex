@@ -8,7 +8,7 @@
     <link rel="shortcut icon" href="/images/H-favi.png" type="image/png">
     <link rel="apple-touch-icon" href="/images/H-favi.png">
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="CSS/campaigns-table.css?v=15">
+    <link rel="stylesheet" href="CSS/campaigns-table.css?v=16">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -142,7 +142,13 @@
         }
 
         .tables-doc .tagline-title {
-            margin: 0 0 24px;
+            margin: 0 0 12px;
+        }
+
+        .tables-doc .tagline-subtitle {
+            margin: 0 0 28px;
+            padding-bottom: 0;
+            max-width: 42rem;
         }
 
         .tables-doc #cover-table-skeleton {
@@ -436,10 +442,7 @@
         }
 
         .tables-doc .cover-table-playground {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 24px;
-            align-items: start;
+            display: block;
         }
 
         .tables-doc .cover-feature-toggles {
@@ -448,15 +451,12 @@
             align-items: stretch;
             justify-content: flex-start;
             gap: 14px 20px;
-            padding: 20px 24px;
+            margin: 0 0 24px;
+            padding: 0;
             pointer-events: auto;
-        }
-
-        .tables-doc .cover-feature-note {
-            margin: 0;
-            font-size: 0.9375rem;
-            line-height: 1.5;
-            color: var(--tables-muted);
+            background: transparent;
+            border: none;
+            border-radius: 0;
         }
 
         .tables-doc .cover-feature-toggle {
@@ -820,7 +820,8 @@
 
         <main id="main" class="content">
             <section id="data-tables" class="section">
-                <h1 class="tagline-title">Table design guide</h1>
+                <h1 class="tagline-title">Table design system</h1>
+                <p class="tagline-subtitle">An advanced table design system and table features guide with patterns optimized for platform scale and usability.</p>
                 <div
                     id="cover-table-skeleton"
                     data-table-skeleton
@@ -1257,7 +1258,7 @@
     <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/@babel/standalone@7.26.9/babel.min.js" crossorigin="anonymous"></script>
-    <script type="text/babel" src="js/campaigns-table.jsx?v=15"></script>
-    <script type="text/babel" src="js/table-guide-demo.jsx?v=15"></script>
+    <script type="text/babel" src="js/campaigns-table.jsx?v=16"></script>
+    <script type="text/babel" src="js/table-guide-demo.jsx?v=16"></script>
 </body>
 </html>

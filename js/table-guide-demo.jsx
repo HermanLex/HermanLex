@@ -215,7 +215,7 @@ function RowActionsMenu({ rowName, open, onToggle, onClose, onSelect }) {
     );
 }
 
-function TableGuideDemo({ focus, title, subtitle, asHeading = false, onActivateRegion }) {
+function TableGuideDemo({ focus, title, subtitle, asHeading = false, onActivateRegion, leading }) {
     const searchId = useId();
     const pageInputId = useId();
     const defaults = getGuideDefaults(focus);
@@ -457,6 +457,7 @@ function TableGuideDemo({ focus, title, subtitle, asHeading = false, onActivateR
 
     return (
         <div className="ct-wrap ct-wrap--guide" data-focus={focusAttr} aria-label="Table guide demo">
+            {leading || null}
             {isGuideRegionActive(focus, 'title') || isGuideRegionActive(focus, 'primary') ? (
                 <div className={`ct-header${isGuideRegionActive(focus, 'title') || isGuideRegionActive(focus, 'primary') ? ' is-guide-active' : ''}`}>
                     {isGuideRegionActive(focus, 'title') ? (
@@ -1004,26 +1005,23 @@ function CoverTablePlayground({ label }) {
             <TableGuideDemo
                 focus={activeRegions}
                 title="Interactive table demo"
-                subtitle="Toggle various table features on/off below to activate interactive features"
+                subtitle="Use the toggles above or click skeleton areas to turn features on. Use toggles to turn them off."
                 asHeading
                 onActivateRegion={activateRegion}
+                leading={
+                    <ul className="callout-legend cover-feature-toggles" aria-label="Optional table features">
+                        {COVER_OPTIONAL_FEATURES.map((feature) => (
+                            <CoverFeatureToggle
+                                key={feature.id}
+                                id={feature.id}
+                                label={feature.label}
+                                checked={activeRegions.has(feature.id)}
+                                onToggle={toggleRegion}
+                            />
+                        ))}
+                    </ul>
+                }
             />
-            <p className="cover-feature-note">
-                Click skeleton areas in the table above to turn features on, or use the toggles below.
-                Once a feature is active, use the toggles to turn it off — live controls keep their own click
-                interactions.
-            </p>
-            <ul className="callout-legend cover-feature-toggles" aria-label="Optional table features">
-                {COVER_OPTIONAL_FEATURES.map((feature) => (
-                    <CoverFeatureToggle
-                        key={feature.id}
-                        id={feature.id}
-                        label={feature.label}
-                        checked={activeRegions.has(feature.id)}
-                        onToggle={toggleRegion}
-                    />
-                ))}
-            </ul>
         </div>
     );
 }
