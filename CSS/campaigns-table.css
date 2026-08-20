@@ -860,6 +860,66 @@ body.ct-is-resizing * {
     pointer-events: auto;
 }
 
+.ct-sk-activate {
+    pointer-events: auto;
+    cursor: pointer;
+    border: none;
+    background: none;
+    font: inherit;
+    color: inherit;
+    text-align: inherit;
+    box-sizing: border-box;
+}
+
+.ct-header > .ct-sk-activate.ct-sk-heading {
+    flex: 1;
+    min-width: 0;
+}
+
+.ct-header > .ct-sk-activate:not(.ct-sk-heading) {
+    flex-shrink: 0;
+}
+
+.ct-sk-activate.ct-filters {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.ct-sk-activate:hover .ct-sk-bone,
+.ct-sk-activate:focus-visible .ct-sk-bone {
+    background: #d4d4d4;
+}
+
+.ct-sk-activate:focus-visible {
+    outline: 2px solid #c45000;
+    outline-offset: 2px;
+    border-radius: 6px;
+}
+
+.ct-check-cell .ct-sk-activate,
+.ct-expand-cell .ct-sk-activate {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ct-sk-activate.ct-bulk {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.ct-sk-activate.ct-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
 .ct-sk-bone {
     display: block;
     border-radius: 999px;

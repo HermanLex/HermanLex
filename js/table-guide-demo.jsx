@@ -42,55 +42,109 @@ function isGuideRegionActive(focus, region) {
     return false;
 }
 
+function GuideSkActivate({ region, focus, onActivate, className = '', style, children, label }) {
+    const active = isGuideRegionActive(focus, region);
+    const interactive = typeof onActivate === 'function' && focus instanceof Set && !active;
+
+    if (!interactive) {
+        if (className || style) {
+            return (
+                <div className={className} style={style}>
+                    {children}
+                </div>
+            );
+        }
+        return <>{children}</>;
+    }
+
+    function handleKeyDown(event) {
+        if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            onActivate(region);
+        }
+    }
+
+    const regionLabel = label || `Turn on ${region.replace(/-/g, ' ')}`;
+
+    return (
+        <div
+            role="button"
+            tabIndex={0}
+            className={`ct-sk-activate${className ? ` ${className}` : ''}`}
+            style={style}
+            onClick={() => onActivate(region)}
+            onKeyDown={handleKeyDown}
+            aria-label={regionLabel}
+        >
+            {children}
+        </div>
+    );
+}
+
 function GuideSkBone({ className = '', style }) {
     return <span className={`ct-sk-bone ${className}`.trim()} style={style} aria-hidden="true" />;
 }
 
-function GuideSkHeading() {
-    return (
-        <div className="ct-sk-heading">
-            <GuideSkBone className="ct-sk-title" />
-            <GuideSkBone className="ct-sk-subtitle" />
-        </div>
-    );
-}
-
-function GuideSkHeader() {
+function GuideSkHeader({ focus, onActivate }) {
     return (
         <div className="ct-header ct-guide-sk">
-            <GuideSkHeading />
-            <GuideSkBone className="ct-sk-cta" />
+            <GuideSkActivate region="title" focus={focus} onActivate={onActivate} className="ct-sk-heading">
+                <GuideSkBone className="ct-sk-title" />
+                <GuideSkBone className="ct-sk-subtitle" />
+            </GuideSkActivate>
+            <GuideSkActivate region="primary" focus={focus} onActivate={onActivate}>
+                <GuideSkBone className="ct-sk-cta" />
+            </GuideSkActivate>
         </div>
     );
 }
 
-function GuideSkToolbar() {
+function GuideSkToolbar({ focus, onActivate }) {
     return (
         <div className="ct-toolbar ct-guide-sk">
-            <div className="ct-filters">
+            <GuideSkActivate region="filters" focus={focus} onActivate={onActivate} className="ct-filters">
                 <GuideSkBone className="ct-sk-pill-md" />
                 <GuideSkBone className="ct-sk-pill-md" style={{ width: 108 }} />
-            </div>
-            <GuideSkBone className="ct-sk-pill-lg" />
+            </GuideSkActivate>
+            <GuideSkActivate region="search" focus={focus} onActivate={onActivate}>
+                <GuideSkBone className="ct-sk-pill-lg" />
+            </GuideSkActivate>
         </div>
     );
 }
 
-function GuideSkBulkBar() {
+function GuideSkBulkBar({ focus, onActivate }) {
     return (
-        <div className="ct-bulk ct-guide-sk" aria-hidden="true">
+        <GuideSkActivate
+            region="bulk"
+            focus={focus}
+            onActivate={onActivate}
+            className="ct-bulk ct-guide-sk"
+            label="Turn on bulk action bar"
+        >
             <GuideSkBone className="ct-sk-pill-md" style={{ width: 120 }} />
             <GuideSkBone className="ct-sk-pill-md" style={{ width: 180 }} />
-        </div>
+        </GuideSkActivate>
     );
 }
 
-function GuideSkTableRows({ withActions = false }) {
+function GuideSkTableRows({ withActions = false, withExpand = false, focus, onActivate }) {
     return (
         <>
             {Array.from({ length: GUIDE_PAGE_SIZE }, (_, index) => (
                 <tr key={index} className="ct-guide-sk-row">
-                    <td><GuideSkBone className="ct-sk-sq" /></td>
+                    <td>
+                        <GuideSkActivate region="select" focus={focus} onActivate={onActivate} label="Turn on multi-select">
+                            <GuideSkBone className="ct-sk-sq" />
+                        </GuideSkActivate>
+                    </td>
+                    {withExpand ? (
+                        <td className="ct-expand-cell">
+                            <GuideSkActivate region="expand" focus={focus} onActivate={onActivate} label="Turn on expanding rows">
+                                <GuideSkBone className="ct-sk-sq" />
+                            </GuideSkActivate>
+                        </td>
+                    ) : null}
                     <td><GuideSkBone className="ct-sk-name" /></td>
                     <td className="ct-guide-sk-hide-sm"><GuideSkBone className="ct-sk-mid" /></td>
                     <td><GuideSkBone className="ct-sk-mid" /></td>
@@ -104,9 +158,15 @@ function GuideSkTableRows({ withActions = false }) {
     );
 }
 
-function GuideSkPagination() {
+function GuideSkPagination({ focus, onActivate }) {
     return (
-        <div className="ct-pagination ct-guide-sk" aria-hidden="true">
+        <GuideSkActivate
+            region="pagination"
+            focus={focus}
+            onActivate={onActivate}
+            className="ct-pagination ct-guide-sk"
+            label="Turn on pagination"
+        >
             <div className="ct-page-size">
                 <GuideSkBone className="ct-sk-pill-sm" />
                 <GuideSkBone className="ct-sk-pill-xs" />
@@ -117,7 +177,7 @@ function GuideSkPagination() {
                 <GuideSkBone className="ct-sk-sq-sm" />
                 <GuideSkBone className="ct-sk-sq-sm" />
             </div>
-        </div>
+        </GuideSkActivate>
     );
 }
 
@@ -155,7 +215,7 @@ function RowActionsMenu({ rowName, open, onToggle, onClose, onSelect }) {
     );
 }
 
-function TableGuideDemo({ focus, title, subtitle, asHeading = false }) {
+function TableGuideDemo({ focus, title, subtitle, asHeading = false, onActivateRegion }) {
     const searchId = useId();
     const pageInputId = useId();
     const defaults = getGuideDefaults(focus);
@@ -391,6 +451,7 @@ function TableGuideDemo({ focus, title, subtitle, asHeading = false }) {
     const TitleTag = asHeading ? 'h2' : 'h3';
     const showActionsCol = isGuideRegionActive(focus, 'actions');
     const showExpandCol = isGuideRegionActive(focus, 'expand');
+    const showExpandSk = Boolean(onActivateRegion) && !showExpandCol;
     const tableColSpan = (showExpandCol ? 2 : 1) + DATA_COLUMNS.length + (showActionsCol ? 1 : 0);
     const focusAttr = focus instanceof Set ? ([...focus].join(' ') || 'overview') : focus;
 
@@ -404,7 +465,10 @@ function TableGuideDemo({ focus, title, subtitle, asHeading = false }) {
                             <p className="ct-subtitle">{displaySubtitle}</p>
                         </div>
                     ) : (
-                        <GuideSkHeading />
+                        <GuideSkActivate region="title" focus={focus} onActivate={onActivateRegion} className="ct-sk-heading">
+                            <GuideSkBone className="ct-sk-title" />
+                            <GuideSkBone className="ct-sk-subtitle" />
+                        </GuideSkActivate>
                     )}
                     {isGuideRegionActive(focus, 'primary') ? (
                         <button
@@ -416,11 +480,13 @@ function TableGuideDemo({ focus, title, subtitle, asHeading = false }) {
                             Upload new
                         </button>
                     ) : (
-                        <GuideSkBone className="ct-sk-cta" />
+                        <GuideSkActivate region="primary" focus={focus} onActivate={onActivateRegion}>
+                            <GuideSkBone className="ct-sk-cta" />
+                        </GuideSkActivate>
                     )}
                 </div>
             ) : (
-                <GuideSkHeader />
+                <GuideSkHeader focus={focus} onActivate={onActivateRegion} />
             )}
 
             {isGuideRegionActive(focus, 'filters') || isGuideRegionActive(focus, 'search') ? (
@@ -445,9 +511,9 @@ function TableGuideDemo({ focus, title, subtitle, asHeading = false }) {
                             ) : null}
                         </div>
                     ) : (
-                        <div className="ct-filters ct-guide-sk">
+                        <GuideSkActivate region="filters" focus={focus} onActivate={onActivateRegion} className="ct-filters ct-guide-sk">
                             <GuideSkBone className="ct-sk-pill-md" />
-                        </div>
+                        </GuideSkActivate>
                     )}
 
                     {isGuideRegionActive(focus, 'search') ? (
@@ -468,11 +534,13 @@ function TableGuideDemo({ focus, title, subtitle, asHeading = false }) {
                             />
                         </div>
                     ) : (
-                        <GuideSkBone className="ct-sk-pill-lg" />
+                        <GuideSkActivate region="search" focus={focus} onActivate={onActivateRegion}>
+                            <GuideSkBone className="ct-sk-pill-lg" />
+                        </GuideSkActivate>
                     )}
                 </div>
             ) : (
-                <GuideSkToolbar />
+                <GuideSkToolbar focus={focus} onActivate={onActivateRegion} />
             )}
 
             {isGuideRegionActive(focus, 'bulk') || isGuideRegionActive(focus, 'select') ? (
@@ -533,14 +601,14 @@ function TableGuideDemo({ focus, title, subtitle, asHeading = false }) {
                     ) : null}
                 </div>
             ) : (
-                <GuideSkBulkBar />
+                <GuideSkBulkBar focus={focus} onActivate={onActivateRegion} />
             )}
 
             <div className={`ct-table-scroll${isGuideRegionActive(focus, 'expand') || isGuideRegionActive(focus, 'select') || isGuideRegionActive(focus, 'actions') || isGuideRegionActive(focus, 'sorting') ? ' is-guide-active' : ''}`}>
                 <table className="ct-table">
                     <colgroup>
                         <col className="ct-col-check" />
-                        {showExpandCol ? <col className="ct-col-expand" /> : null}
+                        {showExpandCol || showExpandSk ? <col className="ct-col-expand" /> : null}
                         {DATA_COLUMNS.map((col) => (
                             <col key={col.id} style={{ width: col.width, minWidth: col.minWidth }} />
                         ))}
@@ -551,7 +619,7 @@ function TableGuideDemo({ focus, title, subtitle, asHeading = false }) {
                             <th className="ct-check-cell" scope="col">
                                 <span className="visually-hidden">Select</span>
                             </th>
-                            {showExpandCol ? (
+                            {showExpandCol || showExpandSk ? (
                                 <th className="ct-expand-cell" scope="col">
                                     <span className="visually-hidden">Expand</span>
                                 </th>
@@ -593,10 +661,26 @@ function TableGuideDemo({ focus, title, subtitle, asHeading = false }) {
                                 })
                             ) : (
                                 <>
-                                    <th scope="col"><GuideSkBone className="ct-sk-mid" style={{ width: '56%' }} /></th>
-                                    <th scope="col" className="ct-guide-sk-hide-sm"><GuideSkBone className="ct-sk-mid" style={{ width: '48%' }} /></th>
-                                    <th scope="col"><GuideSkBone className="ct-sk-mid" style={{ width: '48%' }} /></th>
-                                    <th scope="col"><GuideSkBone className="ct-sk-mid" style={{ width: '48%' }} /></th>
+                                    <th scope="col">
+                                        <GuideSkActivate region="sorting" focus={focus} onActivate={onActivateRegion}>
+                                            <GuideSkBone className="ct-sk-mid" style={{ width: '56%' }} />
+                                        </GuideSkActivate>
+                                    </th>
+                                    <th scope="col" className="ct-guide-sk-hide-sm">
+                                        <GuideSkActivate region="sorting" focus={focus} onActivate={onActivateRegion}>
+                                            <GuideSkBone className="ct-sk-mid" style={{ width: '48%' }} />
+                                        </GuideSkActivate>
+                                    </th>
+                                    <th scope="col">
+                                        <GuideSkActivate region="sorting" focus={focus} onActivate={onActivateRegion}>
+                                            <GuideSkBone className="ct-sk-mid" style={{ width: '48%' }} />
+                                        </GuideSkActivate>
+                                    </th>
+                                    <th scope="col">
+                                        <GuideSkActivate region="sorting" focus={focus} onActivate={onActivateRegion}>
+                                            <GuideSkBone className="ct-sk-mid" style={{ width: '48%' }} />
+                                        </GuideSkActivate>
+                                    </th>
                                 </>
                             )}
                             {showActionsCol ? (
@@ -625,7 +709,14 @@ function TableGuideDemo({ focus, title, subtitle, asHeading = false }) {
                                                         aria-label={`Select ${row.name}`}
                                                     />
                                                 ) : (
-                                                    <GuideSkBone className="ct-sk-sq" />
+                                                    <GuideSkActivate
+                                                        region="select"
+                                                        focus={focus}
+                                                        onActivate={onActivateRegion}
+                                                        label="Turn on multi-select"
+                                                    >
+                                                        <GuideSkBone className="ct-sk-sq" />
+                                                    </GuideSkActivate>
                                                 )}
                                             </td>
                                             {showExpandCol ? (
@@ -680,7 +771,12 @@ function TableGuideDemo({ focus, title, subtitle, asHeading = false }) {
                                 );
                             })
                         ) : (
-                            <GuideSkTableRows withActions={showActionsCol} />
+                            <GuideSkTableRows
+                                withActions={showActionsCol}
+                                withExpand={showExpandSk}
+                                focus={focus}
+                                onActivate={onActivateRegion}
+                            />
                         )}
                     </tbody>
                 </table>
@@ -765,7 +861,7 @@ function TableGuideDemo({ focus, title, subtitle, asHeading = false }) {
                     </div>
                 </div>
             ) : (
-                <GuideSkPagination />
+                <GuideSkPagination focus={focus} onActivate={onActivateRegion} />
             )}
 
             <div className="ct-footer">
@@ -893,6 +989,16 @@ function CoverTablePlayground({ label }) {
         });
     }
 
+    function activateRegion(id) {
+        setActiveRegions((prev) => {
+            if (prev.has(id)) return prev;
+            const next = new Set(prev);
+            next.add(id);
+            if (id === 'select') next.add('bulk');
+            return next;
+        });
+    }
+
     return (
         <div className="cover-table-playground" aria-label={label || 'Interactive table skeleton'}>
             <TableGuideDemo
@@ -900,8 +1006,13 @@ function CoverTablePlayground({ label }) {
                 title="Interactive table demo"
                 subtitle="Toggle various table features on/off below to activate interactive features"
                 asHeading
+                onActivateRegion={activateRegion}
             />
-            <p className="cover-feature-note">Toggle the various features below to try them in the above table graphic</p>
+            <p className="cover-feature-note">
+                Click skeleton areas in the table above to turn features on, or use the toggles below.
+                Once a feature is active, use the toggles to turn it off — live controls keep their own click
+                interactions.
+            </p>
             <ul className="callout-legend cover-feature-toggles" aria-label="Optional table features">
                 {COVER_OPTIONAL_FEATURES.map((feature) => (
                     <CoverFeatureToggle
