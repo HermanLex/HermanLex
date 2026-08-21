@@ -85,6 +85,22 @@
         .okrmate-body p:last-child {
             margin-bottom: 0;
         }
+        .okrmate-body--section {
+            margin: 0 0 24px;
+            opacity: 1;
+            animation: none;
+            max-width: 1000px;
+        }
+        .tagline .presentation-image-full {
+            margin-top: 24px;
+            margin-bottom: 24px;
+        }
+        .okrmate-body--after-image {
+            margin-top: 0;
+            opacity: 0;
+            animation: fadeInUp 0.8s 0.6s forwards;
+            max-width: 1000px;
+        }
         .story {
             font-size: clamp(1rem, 2.5vw, 1.25rem);
             color: var(--color-text-muted);
@@ -122,7 +138,9 @@
                 <p class="tagline-subtitle tagline-subtitle--lead">(previously CareerJump.ai)</p>
                 <div class="okrmate-body">
                     <p>A solo-founder experiment in end-to-end product ownership and low-code AI building.</p>
-                    <p>After interviewing top OKR coaches on LinkedIn I designed an AI-native mobile-first UX for writing and tracking OKRs (a nested goals system). Then I used AI coding tools to build and launch a modern full-stack web application.</p>
+                </div>
+                <img src="images/cj-card4.png" alt="CareerJump card 4" class="presentation-image-full">
+                <div class="okrmate-body okrmate-body--after-image">
                     <p>The project became both a real product and a learning exercise: an opportunity to understand the technical architecture behind the experiences I design, while exploring a more AI-native approach to building software. <a class="okrmate-try-link" href="https://okrmate.com" target="_blank" rel="noopener noreferrer">Try it out<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a></p>
                 </div>
             </div>
@@ -136,12 +154,14 @@
                 <img src="images/cj-slide-1.png" alt="CareerJump slide 1" class="presentation-image-full">
                 <img src="images/cj-slide-2.png" alt="CareerJump slide 2" class="presentation-image-full">
                 <img src="images/cj-slide-3.png" alt="CareerJump slide 3" class="presentation-image-full">
-                <img src="images/cj-card4.png" alt="CareerJump card 4" class="presentation-image-full">
                 <p class="story"></p>
                 <div class="presentation-images">
                     <p class="story">Logo & brand design</p>
                     <img src="images/careerjump-ai-logo.gif" alt="CareerJump logo" class="presentation-image-full">
                     <img src="images/cj-hand.gif" alt="CareerJump branding design" class="presentation-image-full">
+                    <div class="okrmate-body okrmate-body--section">
+                        <p>After interviewing top OKR coaches on LinkedIn I designed an AI-native mobile-first UX for writing and tracking OKRs (a nested goals system). Then I used AI coding tools to build and launch a modern full-stack web application.</p>
+                    </div>
                     <p class="story">Landing page prototype</p>
                     <img src="images/careerjump-landing.png" alt="CareerJump landing page prototype" class="presentation-image-full">
                 </div>
