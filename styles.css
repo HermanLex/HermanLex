@@ -1672,7 +1672,7 @@ h1.section-title,
 .mission-image-wrapper {
     width: 100%;
     display: block;
-    padding-top: 20px;
+    padding-top: 0;
 }
 
 .mission-image {
@@ -1693,7 +1693,12 @@ h1.section-title,
     line-height: 1.6;
     color: var(--color-text-muted);
     width: 66.67%;
-    margin-top: 20px;
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+.mission-body:last-of-type {
+    margin-bottom: 20px;
 }
 
 .mission-quote {
@@ -2248,8 +2253,7 @@ h1.section-title,
     background-color: #c45000;
     border-color: #c45000;
     color: #fff;
-    text-decoration: underline;
-    text-underline-offset: 3px;
+    text-decoration: none;
 }
 
 .project-link-ghost .arrow {
