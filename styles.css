@@ -1673,6 +1673,7 @@ h1.section-title,
     width: 100%;
     display: block;
     padding-top: 0;
+    margin-bottom: 20px;
 }
 
 .mission-image {
@@ -1684,7 +1685,9 @@ h1.section-title,
 }
 
 .mission-tagline .tagline-subtitle {
+    font-size: 2rem;
     font-weight: 600;
+    padding-bottom: 0;
 }
 
 .mission-body {
@@ -1694,10 +1697,6 @@ h1.section-title,
     color: var(--color-text-muted);
     width: 66.67%;
     margin-top: 0;
-    margin-bottom: 1rem;
-}
-
-.mission-body:last-of-type {
     margin-bottom: 20px;
 }
 
