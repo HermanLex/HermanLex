@@ -157,7 +157,18 @@ ul {
     right: 0;
     z-index: 100;
     padding: var(--space-md);
+    padding-bottom: 0;
     background-color: transparent;
+    transform: translateY(0);
+    transition: transform var(--transition-fast), opacity var(--transition-fast);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.back-nav.is-hidden {
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
 }
 
 .back-nav-link {

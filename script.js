@@ -223,17 +223,31 @@ function initHeaderScroll() {
 }
 
 /**
- * Back-nav link: add a clearer border once the control overlays scrolled content.
+ * Back-nav: scroll-aware border, hide while scrolling down past 200px,
+ * and reveal again when scrolling up (or near the top).
  */
 function initBackNavScroll() {
+    const backNavs = document.querySelectorAll('.back-nav');
     const backNavLinks = document.querySelectorAll('.back-nav-link');
-    if (backNavLinks.length === 0) return;
+    if (backNavs.length === 0 && backNavLinks.length === 0) return;
+
+    let lastScrollY = window.scrollY;
 
     function updateBackNav() {
-        const isScrolled = window.scrollY > 10;
+        const currentScrollY = window.scrollY;
+        const isScrolled = currentScrollY > 10;
+        const scrollingDown = currentScrollY > lastScrollY;
+        const shouldHide = currentScrollY > 200 && scrollingDown;
+
         backNavLinks.forEach((link) => {
             link.classList.toggle('is-scrolled', isScrolled);
         });
+
+        backNavs.forEach((nav) => {
+            nav.classList.toggle('is-hidden', shouldHide);
+        });
+
+        lastScrollY = currentScrollY;
     }
 
     updateBackNav();
