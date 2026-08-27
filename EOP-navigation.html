@@ -198,6 +198,17 @@
             width: 16px;
             height: 16px;
         }
+
+        .slider-view-status {
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            line-height: 1.6;
+            color: var(--color-text-muted);
+        }
+
+        .slider-view-status-value {
+            font-weight: 600;
+            color: #CF4500;
+        }
         
         @media (max-width: 800px) {
             .image-slider-container {
@@ -244,21 +255,22 @@
                     <div class="image-slider">
                         <div class="slider-labels">
                             <button type="button" class="project-link-ghost" data-slider-jump="before" aria-label="Show before image">
-                                Before
                                 <svg class="slider-jump-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                                     <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                     <path d="M3 3v5h5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                     <path d="M12 7v5l3 1.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
+                                Before
                             </button>
                             <button type="button" class="project-link-ghost" data-slider-jump="after" aria-label="Show after image">
-                                After
                                 <svg class="slider-jump-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                                     <path d="M21 12a9 9 0 1 1-9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                     <path d="M21 3v5h-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                     <path d="M12 7v5l3 1.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
+                                After
                             </button>
+                            <span class="slider-view-status" aria-live="polite">(viewing: <span class="slider-view-status-value">before/after mix</span>)</span>
                         </div>
                         <div class="slider-wrapper">
                             <div class="slider-after-container">
@@ -319,6 +331,7 @@
             const sliderBeforeContainer = document.querySelector('.slider-before-container');
             const beforeJumpBtn = document.querySelector('[data-slider-jump="before"]');
             const afterJumpBtn = document.querySelector('[data-slider-jump="after"]');
+            const viewStatusValue = document.querySelector('.slider-view-status-value');
             
             if (!sliderInput || !sliderHandle || !sliderBeforeContainer) return;
 
@@ -327,6 +340,18 @@
                 button.disabled = disabled;
                 button.classList.toggle('project-link-ghost--disabled', disabled);
                 button.setAttribute('aria-disabled', String(disabled));
+            }
+
+            function updateViewStatus(percentage) {
+                if (!viewStatusValue) return;
+                const rounded = Math.round(percentage);
+                let status = 'before/after mix';
+                if (rounded <= 0) {
+                    status = 'after';
+                } else if (rounded >= 100) {
+                    status = 'before';
+                }
+                viewStatusValue.textContent = status;
             }
             
             function updateSlider(value) {
@@ -337,6 +362,7 @@
                 const rounded = Math.round(percentage);
                 setJumpButtonState(beforeJumpBtn, rounded >= 100);
                 setJumpButtonState(afterJumpBtn, rounded <= 0);
+                updateViewStatus(percentage);
             }
             
             // Handle input change

@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initAnalyticsClickTracking();
     initMobileNav();
     initHeaderScroll();
+    initBackNavScroll();
     initClientsTabOrder();
     initTestimonials();
     initScrollAnimations();
@@ -191,34 +192,52 @@ function initMobileNav() {
 function initHeaderScroll() {
     const header = document.querySelector('.header');
     if (!header) return;
-    
+
     let rafId = null;
     let lastUpdate = 0;
     const throttleDelay = 150; // Only update every 150ms
-    
+
     function updateHeader() {
         const currentScroll = window.pageYOffset;
-        
+
         // Add scrolled class for border
         if (currentScroll > 50) {
             header.classList.add('scrolled');
         } else {
             header.classList.remove('scrolled');
         }
-        
+
         lastUpdate = Date.now();
         rafId = null;
     }
-    
+
     window.addEventListener('scroll', () => {
         const now = Date.now();
         const timeSinceLastUpdate = now - lastUpdate;
-        
+
         // Only schedule update if enough time has passed and no update is pending
         if (timeSinceLastUpdate >= throttleDelay && !rafId) {
             rafId = window.requestAnimationFrame(updateHeader);
         }
     }, { passive: true });
+}
+
+/**
+ * Back-nav link: add a clearer border once the control overlays scrolled content.
+ */
+function initBackNavScroll() {
+    const backNavLinks = document.querySelectorAll('.back-nav-link');
+    if (backNavLinks.length === 0) return;
+
+    function updateBackNav() {
+        const isScrolled = window.scrollY > 10;
+        backNavLinks.forEach((link) => {
+            link.classList.toggle('is-scrolled', isScrolled);
+        });
+    }
+
+    updateBackNav();
+    window.addEventListener('scroll', updateBackNav, { passive: true });
 }
 
 /**

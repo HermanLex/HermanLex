@@ -59,8 +59,11 @@
             line-height: 1.6;
             color: var(--color-text-muted);
         }
-        .eop-nav-closing + .image-slider-container {
+        .section-title + .image-slider-container {
             margin-top: 40px;
+        }
+        .projects .section-title:has(+ .image-slider-container) {
+            margin-bottom: 0;
         }
         .tagline .feature-list {
             list-style: disc;
@@ -206,6 +209,7 @@
 
         .slider-view-status-value {
             font-weight: 600;
+            color: #CF4500;
         }
 
         @media (max-width: 800px) {
@@ -263,7 +267,6 @@
                     <h2 class="section-title">Show and Hide campaign selection</h2>
                     <img src="images/reporting-new-filter3.png" alt="Campaign selection table with show and hide control">
                     <h2 class="section-title">Interactive data visualizations and much more</h2>
-                    <p class="eop-nav-closing">Though this effort started as a simple fix to report settings, in close collaboration with the lead product manager we also won resources to add in interactive graph visualizations and even shipped an important navigation overhaul, all rooted in feedback from our user interviews.</p>
                     <div class="image-slider-container">
                         <div class="image-slider">
                             <div class="slider-labels">
@@ -305,6 +308,8 @@
                             </div>
                         </div>
                     </div>
+                    <h2 class="section-title">Impact</h2>
+                    <p class="eop-nav-closing">Though this effort started as a simple fix to report settings, in close collaboration with the lead product manager we also won resources to add interactive graph visualizations and even shipped an important navigation overhaul, all rooted in feedback from our user interviews.</p>
                 </div>
             </div>
         </section>
