@@ -59,26 +59,27 @@
             line-height: 1.6;
             color: var(--color-text-muted);
         }
+        .eop-nav-closing + .image-slider-container {
+            margin-top: 40px;
+        }
         .section-title + .image-slider-container {
             margin-top: 40px;
         }
         .projects .section-title:has(+ .image-slider-container) {
             margin-bottom: 0;
         }
-        .tagline .feature-list {
+        .feature-list {
             list-style: disc;
-            margin: var(--space-sm) 0 20px;
+            margin: 0 0 40px;
             padding-left: 1.25rem;
             font-size: clamp(1rem, 2.5vw, 1.25rem);
             color: var(--color-text-muted);
             line-height: 1.6;
-            opacity: 0;
-            animation: fadeInUp 0.8s 0.5s forwards;
         }
-        .tagline .feature-list li {
+        .feature-list li {
             margin-bottom: 0.25rem;
         }
-        .tagline .feature-list li::marker {
+        .feature-list li::marker {
             color: var(--color-text);
         }
 
@@ -245,12 +246,6 @@
             <div class="container">
                 <h1 class="tagline-title">Client reporting</h1>
                 <p class="tagline-subtitle">In 2023 I partnered with Product and Engineering teams to lead the re-design of <a class="tagline-link" href="https://commercemedia.mastercard.com/public/login?referral_path=%2Fportal%2Fhome" target="_blank" rel="noopener noreferrer">a self-service tool for merchant campaign tracking</a>. This reporting dashboard enables clients to monitor their offer redemptions performance, track key metrics, and gain insights into campaign effectiveness.</p>
-                <ul class="feature-list">
-                    <li>Filtering enhancements</li>
-                    <li>New report settings</li>
-                    <li>Data Visualizations</li>
-                    <li>Simplified navigation</li>
-                </ul>
             </div>
         </section>
 
@@ -258,15 +253,20 @@
         <section class="projects">
             <div class="container">
                 <img src="images/mpm-hero.png" alt="Client Reporting Cover" class="presentation-image-full">
+                <ul class="feature-list">
+                    <li>Filtering enhancements</li>
+                    <li>New report settings</li>
+                    <li>Data Visualizations</li>
+                    <li>Simplified navigation</li>
+                </ul>
                 <div class="presentation-images">
-                    <h2 class="section-title">New filter menus</h2>
+                    <h2 class="section-title">Filtering enhancements</h2>
                     <p class="story-subtitle">Customizable reporting with views based on merchants, campaigns, and custom date ranges.</p>
                     <img src="images/reporting-new.gif" alt="Client Reporting dashboard interaction demo">
                     <h2 class="section-title">New report settings</h2>
                     <img src="images/mpm-report-settings.png" alt="New report settings panel for merchant campaign tracking">
-                    <h2 class="section-title">Show and Hide campaign selection</h2>
-                    <img src="images/reporting-new-filter3.png" alt="Campaign selection table with show and hide control">
                     <h2 class="section-title">Interactive data visualizations and much more</h2>
+                    <p class="eop-nav-closing">Though this effort started as a simple fix to report settings, in close collaboration with the lead product manager we also won resources to add interactive graph visualizations and even shipped an big navigation overhaul - all rooted in feedback from our user interviews.</p>
                     <div class="image-slider-container">
                         <div class="image-slider">
                             <div class="slider-labels">
@@ -309,7 +309,7 @@
                         </div>
                     </div>
                     <h2 class="section-title">Impact</h2>
-                    <p class="eop-nav-closing">Though this effort started as a simple fix to report settings, in close collaboration with the lead product manager we also won resources to add interactive graph visualizations and even shipped an important navigation overhaul, all rooted in feedback from our user interviews.</p>
+                    <p class="eop-nav-closing">At the start, campaign managers had to email engineering support almost weekly for more granular campaign data. By elevating the campaign reports into true self-service we were able to reduce our client reporting turn around times from weeks to just minutes.</p>
                 </div>
             </div>
         </section>
