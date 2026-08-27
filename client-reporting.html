@@ -33,29 +33,194 @@
             text-underline-offset: 3px;
         }
         .presentation-image-full {
+            display: block;
+            width: 100%;
+            max-width: 1200px;
             margin-top: 0;
             margin-bottom: 40px;
         }
         .presentation-images img {
-            width: 80%;
-            max-width: 800px;
+            width: 100%;
+            max-width: 1200px;
             margin-bottom: 40px;
         }
-        .story {
-            font-size: clamp(1rem, 2.5vw, 1.25rem);
-            color: var(--color-text-muted);
-            font-weight: 600;
-            margin: 0;
+        .projects .section-title {
+            margin-bottom: 12px;
         }
         .story-subtitle {
             font-size: clamp(1rem, 2.5vw, 1.25rem);
             color: var(--color-text-muted);
             font-weight: 400;
+            margin: 0 0 12px;
+        }
+        .eop-nav-closing {
+            margin: 0;
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            line-height: 1.6;
+            color: var(--color-text-muted);
+        }
+        .eop-nav-closing + .image-slider-container {
+            margin-top: 40px;
+        }
+        .tagline .feature-list {
+            list-style: disc;
+            margin: var(--space-sm) 0 20px;
+            padding-left: 1.25rem;
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            color: var(--color-text-muted);
+            line-height: 1.6;
+            opacity: 0;
+            animation: fadeInUp 0.8s 0.5s forwards;
+        }
+        .tagline .feature-list li {
+            margin-bottom: 0.25rem;
+        }
+        .tagline .feature-list li::marker {
+            color: var(--color-text);
+        }
+
+        /* Before/After comparison slider */
+        .image-slider-container {
+            margin: 0 0 40px;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .image-slider {
+            position: relative;
+            width: 100%;
+        }
+
+        .slider-wrapper {
+            position: relative;
+            width: 100%;
+            overflow: visible;
+            display: block;
+        }
+
+        .slider-after-container {
+            position: relative;
+            width: 100%;
+            z-index: 1;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .slider-before-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            border-radius: 8px;
+            z-index: 2;
+            clip-path: inset(0 75% 0 0);
+        }
+
+        .slider-image {
+            display: block;
+            width: 100%;
+            height: auto;
+            max-width: none;
+            margin-bottom: 0;
+            user-select: none;
+            pointer-events: none;
+        }
+
+        .slider-handle {
+            position: absolute;
+            top: 0;
+            left: 25%;
+            width: 4px;
+            height: 100%;
+            background-color: #fff;
+            cursor: ew-resize;
+            transform: translateX(-50%);
+            z-index: 10;
+        }
+
+        .slider-line {
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+            box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .slider-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 48px;
+            height: 48px;
+            background-color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            color: #333;
+        }
+
+        .slider-button svg {
+            width: 20px;
+            height: 20px;
+            transform: rotate(90deg);
+        }
+
+        .slider-input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: ew-resize;
+            z-index: 20;
             margin: 0;
         }
+
+        .slider-labels {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .slider-labels .project-link-ghost .slider-jump-icon {
+            display: inline-block;
+            flex-shrink: 0;
+            width: 16px;
+            height: 16px;
+        }
+
+        .slider-view-status {
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            line-height: 1.6;
+            color: var(--color-text-muted);
+        }
+
+        .slider-view-status-value {
+            font-weight: 600;
+        }
+
         @media (max-width: 800px) {
             .presentation-images img {
                 width: 100%;
+            }
+
+            .slider-button {
+                width: 40px;
+                height: 40px;
+            }
+
+            .slider-button svg {
+                width: 16px;
+                height: 16px;
             }
         }
     </style>
@@ -75,7 +240,13 @@
         <section class="tagline">
             <div class="container">
                 <h1 class="tagline-title">Client reporting</h1>
-                <p class="tagline-subtitle">In 2023 I partnered with Product and Engineering teams to lead the re-design of a self-service tool for campaign tracking. This reporting dashboard enables clients to monitor their offer redemptions performance, track key metrics, and gain insights into campaign effectiveness.</p>
+                <p class="tagline-subtitle">In 2023 I partnered with Product and Engineering teams to lead the re-design of <a class="tagline-link" href="https://commercemedia.mastercard.com/public/login?referral_path=%2Fportal%2Fhome" target="_blank" rel="noopener noreferrer">a self-service tool for merchant campaign tracking</a>. This reporting dashboard enables clients to monitor their offer redemptions performance, track key metrics, and gain insights into campaign effectiveness.</p>
+                <ul class="feature-list">
+                    <li>Filtering enhancements</li>
+                    <li>New report settings</li>
+                    <li>Data Visualizations</li>
+                    <li>Simplified navigation</li>
+                </ul>
             </div>
         </section>
 
@@ -84,14 +255,56 @@
             <div class="container">
                 <img src="images/mpm-hero.png" alt="Client Reporting Cover" class="presentation-image-full">
                 <div class="presentation-images">
-                    <p class="story">New filter menus</p>
-                    <p class="story-subtitle">Customizable reporting and views based on merchants, campaigns, and custom date ranges.</p>
+                    <h2 class="section-title">New filter menus</h2>
+                    <p class="story-subtitle">Customizable reporting with views based on merchants, campaigns, and custom date ranges.</p>
                     <img src="images/reporting-new.gif" alt="Client Reporting dashboard interaction demo">
-                    <p class="story">Show and Hide campaign selection</p>
-                    <p class="story-subtitle">Some users requested a more detailed table preview with segmented campaign data.</p>
-                    <img src="images/reporting-new-filter2.png" alt="Campaign selection table with show and hide control">
-                    <p class="story">Interactive graphs and visualizations</p>
-                    <img src="images/reporting-graphs.png" alt="Client Reporting Slide 5">
+                    <h2 class="section-title">New report settings</h2>
+                    <img src="images/mpm-report-settings.png" alt="New report settings panel for merchant campaign tracking">
+                    <h2 class="section-title">Show and Hide campaign selection</h2>
+                    <img src="images/reporting-new-filter3.png" alt="Campaign selection table with show and hide control">
+                    <h2 class="section-title">Interactive data visualizations and much more</h2>
+                    <p class="eop-nav-closing">Though this effort started as a simple fix to report settings, in close collaboration with the lead product manager we also won resources to add in interactive graph visualizations and even shipped an important navigation overhaul, all rooted in feedback from our user interviews.</p>
+                    <div class="image-slider-container">
+                        <div class="image-slider">
+                            <div class="slider-labels">
+                                <button type="button" class="project-link-ghost" data-slider-jump="before" aria-label="Show before image">
+                                    <svg class="slider-jump-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                        <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M3 3v5h5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M12 7v5l3 1.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    Before
+                                </button>
+                                <button type="button" class="project-link-ghost" data-slider-jump="after" aria-label="Show after image">
+                                    <svg class="slider-jump-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                        <path d="M21 12a9 9 0 1 1-9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M21 3v5h-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M12 7v5l3 1.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    After
+                                </button>
+                                <span class="slider-view-status" aria-live="polite">(viewing: <span class="slider-view-status-value">before/after mix</span>)</span>
+                            </div>
+                            <div class="slider-wrapper">
+                                <div class="slider-after-container">
+                                    <img src="images/reporting-graphs.png" alt="After: interactive graphs and visualizations" class="slider-image slider-after">
+                                </div>
+                                <div class="slider-before-container">
+                                    <img src="images/original-mpm-nav.png" alt="Before: original results tracking tables" class="slider-image slider-before">
+                                </div>
+                                <div class="slider-handle">
+                                    <div class="slider-line"></div>
+                                    <div class="slider-button">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M8 9L12 5L16 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M8 15L12 19L16 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <input type="range" min="0" max="100" value="25" class="slider-input" aria-label="Adjust before and after comparison">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -122,5 +335,109 @@
     </footer>
 
     <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const sliderInput = document.querySelector('.slider-input');
+            const sliderHandle = document.querySelector('.slider-handle');
+            const sliderBeforeContainer = document.querySelector('.slider-before-container');
+            const beforeJumpBtn = document.querySelector('[data-slider-jump="before"]');
+            const afterJumpBtn = document.querySelector('[data-slider-jump="after"]');
+            const viewStatusValue = document.querySelector('.slider-view-status-value');
+
+            if (!sliderInput || !sliderHandle || !sliderBeforeContainer) return;
+
+            function setJumpButtonState(button, disabled) {
+                if (!button) return;
+                button.disabled = disabled;
+                button.classList.toggle('project-link-ghost--disabled', disabled);
+                button.setAttribute('aria-disabled', String(disabled));
+            }
+
+            function updateViewStatus(percentage) {
+                if (!viewStatusValue) return;
+                const rounded = Math.round(percentage);
+                let status = 'before/after mix';
+                if (rounded <= 0) {
+                    // Full after image (handle left, After button disabled)
+                    status = 'after';
+                } else if (rounded >= 100) {
+                    // Full before image (handle right, Before button disabled)
+                    status = 'before';
+                }
+                viewStatusValue.textContent = status;
+            }
+
+            function updateSlider(value) {
+                const percentage = Number(value);
+                sliderHandle.style.left = percentage + '%';
+                sliderBeforeContainer.style.clipPath = `inset(0 ${100 - percentage}% 0 0)`;
+
+                const rounded = Math.round(percentage);
+                setJumpButtonState(beforeJumpBtn, rounded >= 100);
+                setJumpButtonState(afterJumpBtn, rounded <= 0);
+                updateViewStatus(percentage);
+            }
+
+            sliderInput.addEventListener('input', (e) => {
+                updateSlider(e.target.value);
+            });
+
+            let isDragging = false;
+
+            sliderHandle.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                e.preventDefault();
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+
+                const sliderWrapper = sliderInput.closest('.slider-wrapper');
+                const rect = sliderWrapper.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
+
+                sliderInput.value = percentage;
+                updateSlider(percentage);
+            });
+
+            document.addEventListener('mouseup', () => {
+                isDragging = false;
+            });
+
+            sliderHandle.addEventListener('touchstart', (e) => {
+                isDragging = true;
+                e.preventDefault();
+            });
+
+            document.addEventListener('touchmove', (e) => {
+                if (!isDragging) return;
+
+                const sliderWrapper = sliderInput.closest('.slider-wrapper');
+                const rect = sliderWrapper.getBoundingClientRect();
+                const touch = e.touches[0];
+                const x = touch.clientX - rect.left;
+                const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
+
+                sliderInput.value = percentage;
+                updateSlider(percentage);
+            });
+
+            document.addEventListener('touchend', () => {
+                isDragging = false;
+            });
+
+            document.querySelectorAll('[data-slider-jump]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    if (button.disabled) return;
+                    const jumpTo = button.getAttribute('data-slider-jump') === 'before' ? 100 : 0;
+                    sliderInput.value = jumpTo;
+                    updateSlider(jumpTo);
+                });
+            });
+
+            updateSlider(25);
+        });
+    </script>
 </body>
 </html>

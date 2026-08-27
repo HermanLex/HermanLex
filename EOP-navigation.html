@@ -90,9 +90,7 @@
         .slider-wrapper {
             position: relative;
             width: 100%;
-            overflow: hidden;
-            border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            overflow: visible;
             display: block;
         }
         
@@ -100,6 +98,9 @@
             position: relative;
             width: 100%;
             z-index: 1;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         }
         
         .slider-before-container {
@@ -109,6 +110,7 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
+            border-radius: 8px;
             z-index: 2;
             clip-path: inset(0 75% 0 0);
         }
@@ -315,13 +317,26 @@
             const sliderInput = document.querySelector('.slider-input');
             const sliderHandle = document.querySelector('.slider-handle');
             const sliderBeforeContainer = document.querySelector('.slider-before-container');
+            const beforeJumpBtn = document.querySelector('[data-slider-jump="before"]');
+            const afterJumpBtn = document.querySelector('[data-slider-jump="after"]');
             
             if (!sliderInput || !sliderHandle || !sliderBeforeContainer) return;
+
+            function setJumpButtonState(button, disabled) {
+                if (!button) return;
+                button.disabled = disabled;
+                button.classList.toggle('project-link-ghost--disabled', disabled);
+                button.setAttribute('aria-disabled', String(disabled));
+            }
             
             function updateSlider(value) {
-                const percentage = value;
+                const percentage = Number(value);
                 sliderHandle.style.left = percentage + '%';
                 sliderBeforeContainer.style.clipPath = `inset(0 ${100 - percentage}% 0 0)`;
+
+                const rounded = Math.round(percentage);
+                setJumpButtonState(beforeJumpBtn, rounded >= 100);
+                setJumpButtonState(afterJumpBtn, rounded <= 0);
             }
             
             // Handle input change
@@ -379,6 +394,7 @@
             // Jump buttons: Before → slider right (expose before); After → slider left (expose after)
             document.querySelectorAll('[data-slider-jump]').forEach((button) => {
                 button.addEventListener('click', () => {
+                    if (button.disabled) return;
                     const jumpTo = button.getAttribute('data-slider-jump') === 'before' ? 100 : 0;
                     sliderInput.value = jumpTo;
                     updateSlider(jumpTo);
