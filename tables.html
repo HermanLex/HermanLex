@@ -446,17 +446,33 @@
 
         .tables-doc .cover-feature-toggles {
             display: grid;
-            grid-template-columns: repeat(3, minmax(0, 200px));
+            grid-template-columns: minmax(0, 180px) repeat(3, minmax(0, 200px));
             align-items: stretch;
             justify-content: flex-start;
             gap: 14px 20px;
             margin: 0 0 24px;
             padding: 20px;
-            max-width: 680px;
+            max-width: 880px;
             pointer-events: auto;
             background: #f8f8f8;
             border: none;
             border-radius: 24px;
+        }
+
+        .tables-doc .cover-feature-master {
+            grid-column: 1;
+            grid-row: 1 / span 3;
+            align-self: stretch;
+            display: flex;
+            align-items: center;
+            margin: 0;
+            padding-right: 20px;
+            border-right: 1px solid #e0e0e0;
+        }
+
+        .tables-doc .cover-feature-master .cover-feature-toggle {
+            width: 100%;
+            font-size: 1rem;
         }
 
         .tables-doc .cover-feature-toggle {
@@ -469,6 +485,11 @@
             width: 32px;
             height: 18px;
             flex-shrink: 0;
+        }
+
+        .tables-doc .cover-toggle--master {
+            width: 40px;
+            height: 22px;
         }
 
         .tables-doc .cover-toggle input {
@@ -502,12 +523,33 @@
             transition: transform 0.15s ease;
         }
 
+        .tables-doc .cover-toggle--master .cover-toggle-ui::after {
+            width: 18px;
+            height: 18px;
+        }
+
         .tables-doc .cover-toggle input:checked + .cover-toggle-ui {
             background: #c45000;
         }
 
         .tables-doc .cover-toggle input:checked + .cover-toggle-ui::after {
             transform: translateX(14px);
+        }
+
+        .tables-doc .cover-toggle--master input:checked + .cover-toggle-ui::after {
+            transform: translateX(18px);
+        }
+
+        .tables-doc .cover-toggle input:indeterminate + .cover-toggle-ui {
+            background: #c45000;
+        }
+
+        .tables-doc .cover-toggle input:indeterminate + .cover-toggle-ui::after {
+            transform: translateX(7px);
+        }
+
+        .tables-doc .cover-toggle--master input:indeterminate + .cover-toggle-ui::after {
+            transform: translateX(9px);
         }
 
         .tables-doc .cover-toggle input:focus-visible + .cover-toggle-ui {
@@ -733,6 +775,17 @@
 
             .tables-doc .cover-feature-toggles {
                 grid-template-columns: repeat(2, minmax(0, 200px));
+                max-width: 100%;
+            }
+
+            .tables-doc .cover-feature-master {
+                grid-column: 1 / -1;
+                grid-row: auto;
+                padding-right: 0;
+                padding-bottom: 14px;
+                border-right: none;
+                border-bottom: 1px solid #e0e0e0;
+                align-self: stretch;
             }
 
             .tables-doc .header-inner {
@@ -831,7 +884,7 @@
         <main id="main" class="content">
             <section id="data-tables" class="section">
                 <h1 class="tagline-title">Table design system</h1>
-                <p class="tagline-subtitle">Advanced table features guide with patterns optimized for platform scale and usability.</p>
+                <p class="tagline-subtitle">Advanced table features guide with patterns optimized for platform scale and usability. Test features here in the playground and navigate to each section of the guide for more details.</p>
                 <div
                     id="cover-table-skeleton"
                     data-table-skeleton
@@ -1268,7 +1321,7 @@
     <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/@babel/standalone@7.26.9/babel.min.js" crossorigin="anonymous"></script>
-    <script type="text/babel" src="js/campaigns-table.jsx?v=19"></script>
-    <script type="text/babel" src="js/table-guide-demo.jsx?v=19"></script>
+    <script type="text/babel" src="js/campaigns-table.jsx?v=20"></script>
+    <script type="text/babel" src="js/table-guide-demo.jsx?v=20"></script>
 </body>
 </html>

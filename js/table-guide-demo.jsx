@@ -969,8 +969,50 @@ function CoverFeatureToggle({ id, label, checked, onToggle }) {
     );
 }
 
+function CoverMasterToggle({ mode, onToggle }) {
+    const inputId = useId();
+    const inputRef = useRef(null);
+    const label = mode === 'all' ? 'All on' : mode === 'none' ? 'All off' : 'Some on';
+
+    useEffect(() => {
+        if (inputRef.current) {
+            inputRef.current.indeterminate = mode === 'some';
+        }
+    }, [mode]);
+
+    return (
+        <li className="cover-feature-master">
+            <label className="callout-legend-item cover-feature-toggle" htmlFor={inputId}>
+                <span className="cover-toggle cover-toggle--master">
+                    <input
+                        ref={inputRef}
+                        id={inputId}
+                        type="checkbox"
+                        checked={mode === 'all'}
+                        onChange={onToggle}
+                        aria-checked={mode === 'some' ? 'mixed' : mode === 'all'}
+                        aria-label={`Toggle all optional features (${label})`}
+                    />
+                    <span className="cover-toggle-ui" aria-hidden="true" />
+                </span>
+                <span>{label}</span>
+            </label>
+        </li>
+    );
+}
+
 function CoverTablePlayground({ label }) {
     const [activeRegions, setActiveRegions] = useState(() => new Set());
+
+    const enabledCount = COVER_OPTIONAL_FEATURES.filter((feature) =>
+        activeRegions.has(feature.id)
+    ).length;
+    const masterMode =
+        enabledCount === 0
+            ? 'none'
+            : enabledCount === COVER_OPTIONAL_FEATURES.length
+              ? 'all'
+              : 'some';
 
     function toggleRegion(id) {
         setActiveRegions((prev) => {
@@ -986,6 +1028,14 @@ function CoverTablePlayground({ label }) {
             }
 
             return next;
+        });
+    }
+
+    function toggleAllFeatures() {
+        setActiveRegions((prev) => {
+            const allOn = COVER_OPTIONAL_FEATURES.every((feature) => prev.has(feature.id));
+            if (allOn) return new Set();
+            return new Set(COVER_OPTIONAL_FEATURES.map((feature) => feature.id));
         });
     }
 
@@ -1009,6 +1059,7 @@ function CoverTablePlayground({ label }) {
                 onActivateRegion={activateRegion}
                 leading={
                     <ul className="callout-legend cover-feature-toggles" aria-label="Optional table features">
+                        <CoverMasterToggle mode={masterMode} onToggle={toggleAllFeatures} />
                         {COVER_OPTIONAL_FEATURES.map((feature) => (
                             <CoverFeatureToggle
                                 key={feature.id}
