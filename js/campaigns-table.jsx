@@ -160,6 +160,55 @@ function Icon({ name, size = 16 }) {
                     <line x1="21" y1="21" x2="16.65" y2="16.65" />
                 </svg>
             );
+        case 'search-plus':
+            return (
+                <svg {...props}>
+                    <circle cx="11" cy="11" r="7" />
+                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                    <line x1="11" y1="8" x2="11" y2="14" />
+                    <line x1="8" y1="11" x2="14" y2="11" />
+                </svg>
+            );
+        case 'clock':
+            return (
+                <svg {...props}>
+                    <circle cx="12" cy="12" r="9" />
+                    <polyline points="12 7 12 12 15 14" />
+                </svg>
+            );
+        case 'trending':
+            return (
+                <svg {...props}>
+                    <polyline points="3 17 9 11 13 15 21 7" />
+                    <polyline points="14 7 21 7 21 14" />
+                </svg>
+            );
+        case 'pencil':
+            return (
+                <svg {...props}>
+                    <path d="M12 20h9" />
+                    <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" />
+                </svg>
+            );
+        case 'trash':
+            return (
+                <svg {...props}>
+                    <polyline points="3 6 5 6 21 6" />
+                    <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                    <path d="M10 11v6" />
+                    <path d="M14 11v6" />
+                    <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+                </svg>
+            );
+        case 'refresh':
+            return (
+                <svg {...props}>
+                    <polyline points="23 4 23 10 17 10" />
+                    <polyline points="1 20 1 14 7 14" />
+                    <path d="M3.5 9a9 9 0 0 1 14.1-3.4L23 10" />
+                    <path d="M20.5 15a9 9 0 0 1-14.1 3.4L1 14" />
+                </svg>
+            );
         case 'x':
             return (
                 <svg {...props}>
@@ -395,6 +444,552 @@ function filterHasValue(filterId, values) {
     if (filterId === 'status' || filterId === 'program') return value.length > 0;
     if (filterId === 'startDate' || filterId === 'endDate') return Boolean(value.from || value.to);
     return false;
+}
+
+const SMART_SEARCH_SAVED_KEY = 'hermanlex-table-saved-searches';
+const SMART_SEARCH_PREVIOUS_KEY = 'hermanlex-table-previous-searches';
+const POPULAR_SEARCHES = ['loyalty', 'cashback', 'Priceless', 'merchant', 'weekend'];
+const DEFAULT_PREVIOUS_SEARCHES = ['loyalty', 'cashback', 'Spring'];
+
+const DEFAULT_SAVED_SEARCHES = [
+    {
+        id: 'ss-1',
+        name: 'Example Search Name 1',
+        search: 'priceless',
+        enabledFilters: ['status', 'program'],
+        filterValues: {
+            ...EMPTY_FILTER_VALUES,
+            status: ['Live', 'Scheduled'],
+            program: ['Enterprise']
+        },
+        lastRun: '2024-12-31'
+    },
+    {
+        id: 'ss-2',
+        name: 'Example Search Name 2',
+        search: 'cashback',
+        enabledFilters: ['status', 'program'],
+        filterValues: {
+            ...EMPTY_FILTER_VALUES,
+            status: ['Live'],
+            program: ['Consumer', 'SMB']
+        },
+        lastRun: '2024-11-18'
+    },
+    {
+        id: 'ss-3',
+        name: 'Example Search Name 3',
+        search: 'loyalty',
+        enabledFilters: ['status'],
+        filterValues: {
+            ...EMPTY_FILTER_VALUES,
+            status: ['Draft', 'Paused']
+        },
+        lastRun: '2024-10-02'
+    }
+];
+
+function cloneFilterValues(values = EMPTY_FILTER_VALUES) {
+    return {
+        status: [...(values.status || [])],
+        program: [...(values.program || [])],
+        startDate: { from: values.startDate?.from || '', to: values.startDate?.to || '' },
+        endDate: { from: values.endDate?.from || '', to: values.endDate?.to || '' }
+    };
+}
+
+function countActiveFilters(enabledFilters, filterValues) {
+    return (enabledFilters || []).filter((id) => filterHasValue(id, filterValues)).length;
+}
+
+function buildFilterChips(enabledFilters, filterValues) {
+    const chips = [];
+    (enabledFilters || []).forEach((id) => {
+        if (!filterHasValue(id, filterValues)) return;
+        const def = FILTER_DEFS.find((item) => item.id === id);
+        const label = def?.label || id;
+        if (id === 'status' || id === 'program') {
+            chips.push(`${label}: ${filterValues[id].join(', ')}`);
+        } else if (id === 'startDate' || id === 'endDate') {
+            const { from, to } = filterValues[id];
+            const range = [from, to].filter(Boolean).join(' → ');
+            chips.push(`${label}: ${range}`);
+        }
+    });
+    return chips;
+}
+
+function readJsonStorage(key, fallback) {
+    try {
+        const raw = window.localStorage.getItem(key);
+        if (!raw) return fallback;
+        const parsed = JSON.parse(raw);
+        return parsed ?? fallback;
+    } catch (error) {
+        return fallback;
+    }
+}
+
+function writeJsonStorage(key, value) {
+    try {
+        window.localStorage.setItem(key, JSON.stringify(value));
+    } catch (error) {
+        // Demo storage is best-effort only.
+    }
+}
+
+function loadSavedSearches() {
+    const stored = readJsonStorage(SMART_SEARCH_SAVED_KEY, null);
+    if (Array.isArray(stored) && stored.length > 0) return stored;
+    writeJsonStorage(SMART_SEARCH_SAVED_KEY, DEFAULT_SAVED_SEARCHES);
+    return DEFAULT_SAVED_SEARCHES.map((item) => ({
+        ...item,
+        enabledFilters: [...item.enabledFilters],
+        filterValues: cloneFilterValues(item.filterValues)
+    }));
+}
+
+function loadPreviousSearches() {
+    const stored = readJsonStorage(SMART_SEARCH_PREVIOUS_KEY, null);
+    if (Array.isArray(stored) && stored.length > 0) return stored;
+    writeJsonStorage(SMART_SEARCH_PREVIOUS_KEY, DEFAULT_PREVIOUS_SEARCHES);
+    return [...DEFAULT_PREVIOUS_SEARCHES];
+}
+
+function formatIsoDate(date = new Date()) {
+    return `${date.getFullYear()}-${padDate(date.getMonth() + 1)}-${padDate(date.getDate())}`;
+}
+
+function ManageSavedSearchesModal({ open, onClose, onRun }) {
+    const [savedSearches, setSavedSearches] = useState(() => loadSavedSearches());
+    const [expandedId, setExpandedId] = useState(null);
+    const [openActionId, setOpenActionId] = useState(null);
+    const [sortAsc, setSortAsc] = useState(true);
+    const actionMenuRef = useClickOutside(Boolean(openActionId), () => setOpenActionId(null));
+
+    useEffect(() => {
+        if (open) {
+            setSavedSearches(loadSavedSearches());
+            setExpandedId(null);
+            setOpenActionId(null);
+        }
+    }, [open]);
+
+    useEffect(() => {
+        if (!open) return undefined;
+        function onKey(event) {
+            if (event.key === 'Escape') onClose();
+        }
+        document.addEventListener('keydown', onKey);
+        return () => document.removeEventListener('keydown', onKey);
+    }, [open, onClose]);
+
+    if (!open) return null;
+
+    const sorted = [...savedSearches].sort((a, b) => {
+        const left = a.name.toLowerCase();
+        const right = b.name.toLowerCase();
+        if (left < right) return sortAsc ? -1 : 1;
+        if (left > right) return sortAsc ? 1 : -1;
+        return 0;
+    });
+
+    function persist(next) {
+        setSavedSearches(next);
+        writeJsonStorage(SMART_SEARCH_SAVED_KEY, next);
+    }
+
+    function runSearch(item) {
+        const next = savedSearches.map((entry) =>
+            entry.id === item.id ? { ...entry, lastRun: formatIsoDate() } : entry
+        );
+        persist(next);
+        onRun({
+            name: item.name,
+            search: item.search || '',
+            enabledFilters: [...(item.enabledFilters || [])],
+            filterValues: cloneFilterValues(item.filterValues)
+        });
+        onClose();
+    }
+
+    function renameSearch(item) {
+        const nextName = window.prompt('Rename saved search', item.name);
+        if (!nextName || !nextName.trim()) return;
+        persist(
+            savedSearches.map((entry) =>
+                entry.id === item.id ? { ...entry, name: nextName.trim() } : entry
+            )
+        );
+        setOpenActionId(null);
+    }
+
+    function deleteSearch(item) {
+        persist(savedSearches.filter((entry) => entry.id !== item.id));
+        setOpenActionId(null);
+        if (expandedId === item.id) setExpandedId(null);
+    }
+
+    return (
+        <div className="ct-saved-overlay" role="presentation" onMouseDown={(event) => {
+            if (event.target === event.currentTarget) onClose();
+        }}>
+            <div
+                className="ct-saved-modal"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="ct-saved-title"
+            >
+                <button type="button" className="ct-saved-back" onClick={onClose}>
+                    <span className="back-arrow" aria-hidden="true">←</span>
+                    <span className="back-text">Back to primary table search</span>
+                </button>
+                <h2 id="ct-saved-title" className="ct-saved-title">
+                    Manage saved searches
+                </h2>
+                <p className="ct-saved-subtitle">
+                    Manage your saved searches for quick access to repeatable search terms and applied
+                    filtering configurations
+                </p>
+
+                <div className="ct-saved-table-wrap">
+                    <table className="ct-saved-table">
+                        <thead>
+                            <tr>
+                                <th scope="col" className="ct-saved-col-expand">
+                                    <span className="visually-hidden">Expand</span>
+                                </th>
+                                <th scope="col" aria-sort={sortAsc ? 'ascending' : 'descending'}>
+                                    <button
+                                        type="button"
+                                        className="ct-saved-sort"
+                                        onClick={() => setSortAsc((prev) => !prev)}
+                                    >
+                                        Saved search name
+                                        <Icon name={sortAsc ? 'sort-asc' : 'sort-desc'} size={14} />
+                                    </button>
+                                </th>
+                                <th scope="col">Search term</th>
+                                <th scope="col">Filters</th>
+                                <th scope="col">Last run</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {sorted.length === 0 ? (
+                                <tr>
+                                    <td colSpan={6} className="ct-saved-empty">
+                                        No saved searches yet. Run a search, then use Save in the search menu.
+                                    </td>
+                                </tr>
+                            ) : (
+                                sorted.map((item) => {
+                                    const expanded = expandedId === item.id;
+                                    const chips = buildFilterChips(item.enabledFilters, item.filterValues);
+                                    const filterCount = countActiveFilters(
+                                        item.enabledFilters,
+                                        item.filterValues
+                                    );
+                                    return (
+                                        <React.Fragment key={item.id}>
+                                            <tr className={expanded ? 'is-expanded' : undefined}>
+                                                <td>
+                                                    <button
+                                                        type="button"
+                                                        className="ct-icon-btn"
+                                                        aria-expanded={expanded}
+                                                        aria-label={`${expanded ? 'Collapse' : 'Expand'} filters for ${item.name}`}
+                                                        onClick={() =>
+                                                            setExpandedId((prev) =>
+                                                                prev === item.id ? null : item.id
+                                                            )
+                                                        }
+                                                    >
+                                                        <span
+                                                            className={`ct-saved-chevron${expanded ? ' is-open' : ''}`}
+                                                            aria-hidden="true"
+                                                        >
+                                                            <Icon name="chevron" size={16} />
+                                                        </span>
+                                                    </button>
+                                                </td>
+                                                <td className="ct-saved-name">{item.name}</td>
+                                                <td>
+                                                    {item.search ? (
+                                                        <span className="ct-saved-term">
+                                                            &quot;{item.search}&quot;
+                                                        </span>
+                                                    ) : (
+                                                        <span className="ct-muted">—</span>
+                                                    )}
+                                                </td>
+                                                <td>{filterCount}</td>
+                                                <td>{item.lastRun || '—'}</td>
+                                                <td>
+                                                    <div className="ct-saved-actions">
+                                                        <button
+                                                            type="button"
+                                                            className="ct-saved-run"
+                                                            onClick={() => runSearch(item)}
+                                                        >
+                                                            <Icon name="refresh" size={14} />
+                                                            Run
+                                                        </button>
+                                                        <div
+                                                            className="ct-saved-more-wrap"
+                                                            ref={openActionId === item.id ? actionMenuRef : null}
+                                                        >
+                                                            <button
+                                                                type="button"
+                                                                className="ct-icon-btn"
+                                                                aria-label={`More actions for ${item.name}`}
+                                                                aria-expanded={openActionId === item.id}
+                                                                onClick={() =>
+                                                                    setOpenActionId((prev) =>
+                                                                        prev === item.id ? null : item.id
+                                                                    )
+                                                                }
+                                                            >
+                                                                <Icon name="more" size={16} />
+                                                            </button>
+                                                            {openActionId === item.id ? (
+                                                                <div className="ct-saved-menu" role="menu">
+                                                                    <button
+                                                                        type="button"
+                                                                        role="menuitem"
+                                                                        onClick={() => renameSearch(item)}
+                                                                    >
+                                                                        <Icon name="pencil" size={14} />
+                                                                        Rename
+                                                                    </button>
+                                                                    <button
+                                                                        type="button"
+                                                                        role="menuitem"
+                                                                        onClick={() => runSearch(item)}
+                                                                    >
+                                                                        <Icon name="refresh" size={14} />
+                                                                        Run query
+                                                                    </button>
+                                                                    <button
+                                                                        type="button"
+                                                                        role="menuitem"
+                                                                        className="is-danger"
+                                                                        onClick={() => deleteSearch(item)}
+                                                                    >
+                                                                        <Icon name="trash" size={14} />
+                                                                        Delete
+                                                                    </button>
+                                                                </div>
+                                                            ) : null}
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            {expanded ? (
+                                                <tr className="ct-saved-detail-row">
+                                                    <td colSpan={6}>
+                                                        <div className="ct-saved-detail">
+                                                            <p className="ct-saved-detail-label">Filters</p>
+                                                            {chips.length > 0 ? (
+                                                                <div className="ct-saved-chips">
+                                                                    {chips.map((chip) => (
+                                                                        <span key={chip} className="ct-saved-chip">
+                                                                            {chip}
+                                                                        </span>
+                                                                    ))}
+                                                                </div>
+                                                            ) : (
+                                                                <p className="ct-muted">No filters saved with this search.</p>
+                                                            )}
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            ) : null}
+                                        </React.Fragment>
+                                    );
+                                })
+                            )}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+function SmartSearch({
+    id,
+    value,
+    onChange,
+    enabledFilters = [],
+    filterValues = EMPTY_FILTER_VALUES,
+    onApplySaved,
+    callout
+}) {
+    const [menuOpen, setMenuOpen] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [previousSearches, setPreviousSearches] = useState(() => loadPreviousSearches());
+    const rootRef = useClickOutside(menuOpen && !modalOpen, () => setMenuOpen(false));
+
+    const canSave =
+        value.trim().length > 0 ||
+        enabledFilters.some((filterId) => filterHasValue(filterId, filterValues));
+
+    const query = value.trim().toLowerCase();
+    const visiblePrevious = previousSearches.filter(
+        (term) => !query || term.toLowerCase().includes(query)
+    );
+    const visiblePopular = POPULAR_SEARCHES.filter(
+        (term) => !query || term.toLowerCase().includes(query)
+    );
+
+    function rememberPrevious(term) {
+        const cleaned = term.trim();
+        if (!cleaned) return;
+        setPreviousSearches((prev) => {
+            const next = [cleaned, ...prev.filter((item) => item.toLowerCase() !== cleaned.toLowerCase())].slice(
+                0,
+                8
+            );
+            writeJsonStorage(SMART_SEARCH_PREVIOUS_KEY, next);
+            return next;
+        });
+    }
+
+    function applyTerm(term) {
+        onChange(term);
+        rememberPrevious(term);
+        setMenuOpen(false);
+    }
+
+    function handleSave() {
+        if (!canSave) return;
+        const defaultName = value.trim() ? `Search: ${value.trim()}` : 'Filtered view';
+        const name = window.prompt('Name this saved search', defaultName);
+        if (!name || !name.trim()) return;
+
+        const entry = {
+            id: `ss-${Date.now()}`,
+            name: name.trim(),
+            search: value.trim(),
+            enabledFilters: [...enabledFilters],
+            filterValues: cloneFilterValues(filterValues),
+            lastRun: formatIsoDate()
+        };
+        const next = [entry, ...loadSavedSearches()];
+        writeJsonStorage(SMART_SEARCH_SAVED_KEY, next);
+        if (value.trim()) rememberPrevious(value.trim());
+        setMenuOpen(false);
+    }
+
+    function handleKeyDown(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            if (value.trim()) rememberPrevious(value.trim());
+            setMenuOpen(false);
+        } else if (event.key === 'Escape') {
+            setMenuOpen(false);
+        }
+    }
+
+    return (
+        <>
+            <div
+                className="ct-search"
+                ref={rootRef}
+                {...(callout ? { 'data-callout': callout } : {})}
+            >
+                <span className="ct-search-icon">
+                    <Icon name="search" size={20} />
+                </span>
+                <label className="visually-hidden" htmlFor={id}>
+                    Search table
+                </label>
+                <input
+                    id={id}
+                    className="ct-search-input"
+                    type="search"
+                    placeholder="Type to search..."
+                    value={value}
+                    autoComplete="off"
+                    aria-expanded={menuOpen}
+                    aria-controls={`${id}-menu`}
+                    aria-haspopup="listbox"
+                    onFocus={() => setMenuOpen(true)}
+                    onClick={() => setMenuOpen(true)}
+                    onChange={(event) => {
+                        onChange(event.target.value);
+                        setMenuOpen(true);
+                    }}
+                    onKeyDown={handleKeyDown}
+                />
+
+                {menuOpen ? (
+                    <div className="ct-smart-menu" id={`${id}-menu`} role="listbox" aria-label="Smart search">
+                        <div className="ct-smart-actions">
+                            <button
+                                type="button"
+                                className="ct-smart-action is-accent"
+                                onClick={() => {
+                                    setMenuOpen(false);
+                                    setModalOpen(true);
+                                }}
+                            >
+                                <Icon name="upload" size={14} />
+                                Load
+                            </button>
+                            <span className="ct-smart-divider" aria-hidden="true" />
+                            <button
+                                type="button"
+                                className="ct-smart-action"
+                                disabled={!canSave}
+                                onClick={handleSave}
+                            >
+                                <Icon name="search-plus" size={14} />
+                                Save
+                            </button>
+                        </div>
+
+                        <div className="ct-smart-list">
+                            {visiblePrevious.map((term) => (
+                                <button
+                                    key={`prev-${term}`}
+                                    type="button"
+                                    className="ct-smart-item"
+                                    role="option"
+                                    onClick={() => applyTerm(term)}
+                                >
+                                    <Icon name="clock" size={16} />
+                                    <span>{term}</span>
+                                </button>
+                            ))}
+                            {visiblePopular.map((term) => (
+                                <button
+                                    key={`pop-${term}`}
+                                    type="button"
+                                    className="ct-smart-item"
+                                    role="option"
+                                    onClick={() => applyTerm(term)}
+                                >
+                                    <Icon name="trending" size={16} />
+                                    <span>{term}</span>
+                                </button>
+                            ))}
+                            {visiblePrevious.length === 0 && visiblePopular.length === 0 ? (
+                                <p className="ct-smart-empty">No matching previous or popular searches.</p>
+                            ) : null}
+                        </div>
+                    </div>
+                ) : null}
+            </div>
+
+            <ManageSavedSearchesModal
+                open={modalOpen}
+                onClose={() => setModalOpen(false)}
+                onRun={onApplySaved}
+            />
+        </>
+    );
 }
 
 const CALLOUT_TIP_RADIUS = 4;
@@ -673,6 +1268,14 @@ function CampaignsTable({ showCallouts = false }) {
         setOpenMenu(null);
     }
 
+    function applySavedSearch(config) {
+        setSearch(config.search || '');
+        setEnabledFilters([...(config.enabledFilters || [])]);
+        setFilterValues(cloneFilterValues(config.filterValues));
+        setOpenMenu(null);
+        flash(`Loaded “${config.name || 'saved search'}”`);
+    }
+
     function goToPage(page) {
         const next = Math.min(totalPages, Math.max(1, page));
         setCurrentPage(next);
@@ -836,22 +1439,15 @@ function CampaignsTable({ showCallouts = false }) {
                     ) : null}
                 </div>
 
-                <div className="ct-search" {...(showCallouts ? { 'data-callout': '7' } : {})}>
-                    <span className="ct-search-icon">
-                        <Icon name="search" size={20} />
-                    </span>
-                    <label className="visually-hidden" htmlFor={searchId}>
-                        Search table
-                    </label>
-                    <input
-                        id={searchId}
-                        className="ct-search-input"
-                        type="search"
-                        placeholder="Search table"
-                        value={search}
-                        onChange={(event) => setSearch(event.target.value)}
-                    />
-                </div>
+                <SmartSearch
+                    id={searchId}
+                    value={search}
+                    onChange={setSearch}
+                    enabledFilters={enabledFilters}
+                    filterValues={filterValues}
+                    onApplySaved={applySavedSearch}
+                    callout={showCallouts ? '7' : undefined}
+                />
             </div>
 
             <div

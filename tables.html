@@ -8,7 +8,7 @@
     <link rel="shortcut icon" href="/images/H-favi.png" type="image/png">
     <link rel="apple-touch-icon" href="/images/H-favi.png">
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="CSS/campaigns-table.css?v=19">
+    <link rel="stylesheet" href="CSS/campaigns-table.css?v=23">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -251,9 +251,11 @@
         }
 
         .tables-doc .sidebar-link {
-            display: block;
-            padding: 8px 12px;
-            border-radius: 8px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 8px 12px 8px 14px;
+            border-radius: 20px;
             color: var(--tables-text);
             text-decoration: none;
             font-size: 0.9375rem;
@@ -261,9 +263,24 @@
             transition: background-color 0.15s ease, color 0.15s ease;
         }
 
+        .tables-doc .sidebar-link::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            margin-top: 0.45em;
+            border-radius: 50%;
+            background: transparent;
+            flex-shrink: 0;
+            transition: background-color 0.15s ease;
+        }
+
         .tables-doc .sidebar-link:hover {
             background: rgba(196, 80, 0, 0.08);
             color: var(--tables-text);
+        }
+
+        .tables-doc .sidebar-link:hover::before {
+            background: rgba(26, 26, 26, 0.28);
         }
 
         .tables-doc .sidebar-link.is-parent {
@@ -274,10 +291,20 @@
             color: #c45000;
         }
 
+        .tables-doc .sidebar-link.is-ancestor-active:not(.is-active)::before,
+        .tables-doc .sidebar-link.is-ancestor-active:not(.is-active):hover::before {
+            background: transparent;
+        }
+
         .tables-doc .sidebar-link.is-active {
             background: rgba(196, 80, 0, 0.14);
             color: #c45000;
             font-weight: 600;
+        }
+
+        .tables-doc .sidebar-link.is-active::before,
+        .tables-doc .sidebar-link.is-active:hover::before {
+            background: #c45000;
         }
 
         .tables-doc .sidebar-link.is-active:hover {
@@ -292,7 +319,7 @@
         .tables-doc .sidebar-group {
             list-style: none;
             margin: 0 0 8px;
-            padding: 0 0 0 16px;
+            padding: 0;
         }
 
         .tables-doc .sidebar-group .sidebar-link {
@@ -303,7 +330,6 @@
         .tables-doc .sidebar-group .sidebar-link.is-parent {
             font-weight: 600;
             color: var(--tables-text);
-            padding-left: 12px;
         }
 
         .tables-doc .sidebar-backdrop {
@@ -757,6 +783,10 @@
                 background: transparent;
                 color: var(--tables-text);
                 font-weight: inherit;
+            }
+
+            .tables-doc .sidebar-link.is-active::before {
+                background: #c45000;
             }
 
             .tables-doc .sidebar-group .sidebar-link.is-active {
@@ -1321,7 +1351,7 @@
     <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/@babel/standalone@7.26.9/babel.min.js" crossorigin="anonymous"></script>
-    <script type="text/babel" src="js/campaigns-table.jsx?v=20"></script>
-    <script type="text/babel" src="js/table-guide-demo.jsx?v=20"></script>
+    <script type="text/babel" src="js/campaigns-table.jsx?v=22"></script>
+    <script type="text/babel" src="js/table-guide-demo.jsx?v=22"></script>
 </body>
 </html>

@@ -360,6 +360,18 @@ function TableGuideDemo({ focus, title, subtitle, asHeading = false, onActivateR
         setOpenMenu(null);
     }
 
+    function applySavedSearch(config) {
+        setSearch(config.search || '');
+        setEnabledFilters([...(config.enabledFilters || [])]);
+        setFilterValues(cloneFilterValues(config.filterValues));
+        setOpenMenu(null);
+        if (typeof onActivateRegion === 'function') {
+            onActivateRegion('search');
+            if ((config.enabledFilters || []).length > 0) onActivateRegion('filters');
+        }
+        flash(`Loaded “${config.name || 'saved search'}”`);
+    }
+
     function goToPage(page) {
         const next = Math.min(totalPages, Math.max(1, page));
         setCurrentPage(next);
@@ -517,22 +529,14 @@ function TableGuideDemo({ focus, title, subtitle, asHeading = false, onActivateR
                     )}
 
                     {isGuideRegionActive(focus, 'search') ? (
-                        <div className="ct-search">
-                            <span className="ct-search-icon">
-                                <Icon name="search" size={20} />
-                            </span>
-                            <label className="visually-hidden" htmlFor={searchId}>
-                                Search table
-                            </label>
-                            <input
-                                id={searchId}
-                                className="ct-search-input"
-                                type="search"
-                                placeholder="Search table"
-                                value={search}
-                                onChange={(event) => setSearch(event.target.value)}
-                            />
-                        </div>
+                        <SmartSearch
+                            id={searchId}
+                            value={search}
+                            onChange={setSearch}
+                            enabledFilters={enabledFilters}
+                            filterValues={filterValues}
+                            onApplySaved={applySavedSearch}
+                        />
                     ) : (
                         <GuideSkActivate region="search" focus={focus} onActivate={onActivateRegion}>
                             <GuideSkBone className="ct-sk-pill-lg" />
